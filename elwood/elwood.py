@@ -19,6 +19,7 @@ from .feature_scaling import scale_dataframe
 from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
 from .transformations.scaling import scale_time
 from .transformations.geo_utils import calculate_boundary_box
+from .transformations.temporal_utils import calculate_temporal_boundary
 
 if not sys.warnoptions:
     import warnings
@@ -214,6 +215,10 @@ def get_boundary_box(dataframe, geo_columns):
     return calculate_boundary_box(dataframe=dataframe, geo_columns=geo_columns)
 
 
+def get_temporal_boundary(dataframe, time_column):
+    return calculate_temporal_boundary(dataframe=dataframe, time_column=time_column)
+
+
 # File processing functions
 
 
@@ -294,73 +299,4 @@ def optimize_df_types(df: pd.DataFrame):
     ints = df.select_dtypes(include=["int64"]).columns.tolist()
     df[ints] = df[ints].apply(pd.to_numeric, downcast="integer")
 
-    # for col in df.select_dtypes(include=['object']):
-    #    num_unique_values = len(df[col].unique())
-    #    num_total_values = len(df[col])
-    #    if float(num_unique_values) / num_total_values < 0.5:
-    #        df[col] = df[col].astype('category')
-
     return df
-
-
-# Testing
-
-# iso testing:
-# mp = 'examples/causemosify-tests/mixmasta_ready_annotations_timestampfeature.json'
-# fp = 'examples/causemosify-tests/raw_excel_timestampfeature.xlsx'
-# build a date qualifier
-
-# mp = 'examples/causemosify-tests/build-a-date-qualifier.json'
-# fp = 'examples/causemosify-tests/build-a-date-qualifier_xyzz.csv'
-
-# fp = "examples/causemosify-tests/november_tests_atlasai_assetwealth_allyears_2km.tif"
-# mp = "examples/causemosify-tests/november_tests_atlasai_assetwealth_allyears_2km.json"
-
-# fp = "examples/causemosify-tests/flood_monthly.tif"
-# mp = "examples/causemosify-tests/flood_monthly.json"
-
-# fp = "examples/causemosify-tests/Kenya - Admin1_Pasture_NDVI_2019-2021 converted.csv"
-# mp = "examples/causemosify-tests/kenya_pasture.json"
-
-# fp = "examples/causemosify-tests/rainfall_error.xlsx"
-# mp = "examples/causemosify-tests/rainfall_error.json"
-# geo = 'admin2'
-# outf = 'examples/causemosify-tests/testing'
-
-# mp = 'tests/inputs/test3_qualifies.json'
-# fp = 'tests/inputs/test3_qualifies.csv'
-# geo = 'admin2'
-# outf = 'tests/outputs/unittests'
-
-# fp = "examples/causemosify-tests/hoa_conflict.csv"
-# mp = "examples/causemosify-tests/hoa_conflict.json"
-# geo = 'admin2'
-# outf = 'examples/causemosify-tests'
-
-# fp = "examples/causemosify-tests/maxent_Ethiopia_precipChange.0.8tempChange.-0.3.tif"
-# mp = "examples/causemosify-tests/maxent_Ethiopia_precipChange.0.8tempChange.-0.3.json"
-
-# fp = 'examples/causemosify-tests/SouthSudan_2017_Apr_hires_masked_malnut.tiff'
-# mp = 'examples/causemosify-tests/SouthSudan_2017_Apr_hires_masked_malnut.json'
-# geo = 'admin2'
-# outf = 'examples/causemosify-tests'
-
-# fp = "examples/causemosify-tests/example.csv"
-# mp = "examples/causemosify-tests/example.json"
-# geo = 'admin2'
-# outf = 'examples/causemosify-tests'
-
-# start_time = timeit.default_timer()
-# df = pd.DataFrame()
-# print('processing...')
-# df, dct = process(fp, mp, geo, outf)
-# print('process time', timeit.default_timer() - start_time)
-# cols = ['timestamp','country','admin1','admin2','admin3','lat','lng','feature','value']
-# df.sort_values(by=cols, inplace=True)
-# df.reset_index(drop=True, inplace=True)
-# df.to_csv("tests/outputs/test7_single_band_tif_output.csv", index = False)
-# print('\n', df.head())
-# print('\n', df.tail())
-# print('\n', df.shape)
-# print('\nrenamed column dictionary\n', dct)
-# print(f"shape\n{df.shape}\ninfo\n{df.info()}\nmemory usage\n{df.memory_usage(index=True, deep=True)}\n{df.memory_usage(index=True, deep=True).sum()}")

@@ -9,6 +9,11 @@ To use start using Elwood, simply run:
 
 Now you are able to use any of the dataset transformation, standardization, or normalization functions exposed through this library. To start, simply include `from elwood import elwood` in your python file. 
 
+## Standardization
+`elwood.process(args)`
+
+#TODO STUB
+
 ## Transformation
 
 The transformation functions include geographical extent clipping (latitude/longitude), geographical regridding (gridded data such as NetCDF or GeoTIFF), temporal clipping, and temporal scaling. 
@@ -52,11 +57,6 @@ This function will produce a dataframe that only includes rows with `time_column
 `elwood.rescale_dataframe_time(dataframe, time_column, time_bucket, aggregation_function_list)`
 
 This function will produce a dataframe who's rows are the aggregated data based on some time bucket and some aggregation function list provided. The `time_column` is the name of the column containing targeted time values for rescaling. The `time_bucket` is some DateOffset, Timedelta or str representing the desired time granularity, ex. `'M', 'A', '2H'`. The `aggregation_function_list` is a list of aggregation functions to apply to the data.  ex. `['sum']` or `['sum', 'min', 'max']`
-
-## Standardization
-`elwood.process(args)`
-
-#TODO STUB
 
 ## 0 to 1 Normalization
 

@@ -166,19 +166,19 @@ def normalizer(
 
     # TODO Cleanup geo standardization flow.
     for geo_dict in mapper["geo"]:
-        kk = geo_dict["name"]
-        if kk in primary_geo_cols:
+        geo_field_name = geo_dict["name"]
+        if geo_field_name in primary_geo_cols:
             if geo_dict["geo_type"] == "latitude":
                 staple_col_name = "lat"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [kk] # 7/2/2021 do not include primary cols
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
             elif geo_dict["geo_type"] == "longitude":
                 staple_col_name = "lng"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [kk] # 7/2/2021 do not include primary cols
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
             elif geo_dict["geo_type"] == "coordinates":
                 c_f = geo_dict["coord_format"]
-                coords = df[kk].values
+                coords = df[geo_field_name].values
                 if c_f == "lonlat":
                     lats = [x for x in coords.split(",")[1]]
                     longs = [x for x in coords.split(",")[0]]
@@ -187,37 +187,51 @@ def normalizer(
                     longs = [x for x in coords.split(",")[1]]
                 df["lng"] = longs
                 df["lat"] = lats
-                del df[kk]
-            elif geo_dict["geo_type"] == constants.GEO_TYPE_COUNTRY and kk != "country":
+                del df[geo_field_name]
+            elif (
+                geo_dict["geo_type"] == constants.GEO_TYPE_COUNTRY
+                and geo_field_name != "country"
+            ):
                 # force the country column to be named country
                 staple_col_name = "country"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [kk] # 7/2/2021 do not include primary cols
-            elif geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN1 and kk != "admin1":
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
+            elif (
+                geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN1
+                and geo_field_name != "admin1"
+            ):
                 # force the country column to be named country
                 staple_col_name = "admin1"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
-            elif geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN2 and kk != "admin2":
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+            elif (
+                geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN2
+                and geo_field_name != "admin2"
+            ):
                 # force the country column to be named country
                 staple_col_name = "admin2"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
-            elif geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN3 and kk != "admin2":
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+            elif (
+                geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN3
+                and geo_field_name != "admin2"
+            ):
                 # force the country column to be named country
                 staple_col_name = "admin3"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
 
             elif str(geo_dict["geo_type"]).lower() in ["iso2", "iso3"]:
                 # use the ISO2 or ISO3 column as country
 
                 # use ISO2/3 lookup dictionary to change ISO to country name.
-                iso_list = df[kk].unique().tolist()
+                iso_list = df[geo_field_name].unique().tolist()
                 dct = get_iso_country_dict(iso_list)
-                df.loc[:, kk] = df[kk].apply(lambda x: dct[x] if x in dct else x)
+                df.loc[:, geo_field_name] = df[geo_field_name].apply(
+                    lambda x: dct[x] if x in dct else x
+                )
 
                 # now rename that column as "country"
                 staple_col_name = "country"
-                df.rename(columns={kk: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [kk] # 7/2/2021 do not include primary cols
+                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
 
         elif "qualifies" in geo_dict and geo_dict["qualifies"]:
             # Note that any "qualifier" column that is not primary geo/date
@@ -231,32 +245,33 @@ def normalizer(
             # in a list as the value for both.
             for k in geo_dict["qualifies"]:
                 if k in qualified_col_dict:
-                    qualified_col_dict[k].append(kk)
+                    qualified_col_dict[k].append(geo_field_name)
                 else:
-                    qualified_col_dict[k] = [kk]
+                    qualified_col_dict[k] = [geo_field_name]
         else:
             # only push geo columns to the named columns
             # in the event there is no primary geo
             # otherwise they are features and we geocode lat/lng
             if len(primary_geo_cols) == 0:
                 if geo_dict["geo_type"] == constants.GEO_TYPE_COUNTRY:
-                    df["country"] = df[kk]
-                    renamed_col_dict["country"] = [kk]
+                    df["country"] = df[geo_field_name]
+                    renamed_col_dict["country"] = [geo_field_name]
                     continue
                 if geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN1:
-                    df["admin1"] = df[kk]
-                    renamed_col_dict["admin1"] = [kk]
+                    df["admin1"] = df[geo_field_name]
+                    renamed_col_dict["admin1"] = [geo_field_name]
                     continue
                 if geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN2:
-                    df["admin2"] = df[kk]
-                    renamed_col_dict["admin2"] = [kk]
+                    df["admin2"] = df[geo_field_name]
+                    renamed_col_dict["admin2"] = [geo_field_name]
                     continue
                 if geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN3:
-                    df["admin3"] = df[kk]
-                    renamed_col_dict["admin3"] = [kk]
+                    df["admin3"] = df[geo_field_name]
+                    renamed_col_dict["admin3"] = [geo_field_name]
                     continue
-            features.append(kk)
+            features.append(geo_field_name)
 
+    # TODO cleanup feature standardization flow.
     # Append columns annotated in feature dict to features list (if not a
     # qualifies column)
     # features.extend([k["name"] for k in mapper["feature"]])
@@ -273,12 +288,12 @@ def normalizer(
             # e.g. "name": "region", "qualifies": ["probability", "color"]
             # should produce two dict entries for prob and color, with region
             # in a list as the value for both.
-            for k in feature_dict["qualifies"]:
-                kk = feature_dict["name"]
-                if k in qualified_col_dict:
-                    qualified_col_dict[k].append(kk)
+            for column_qualified in feature_dict["qualifies"]:
+                feature_name = feature_dict["name"]
+                if column_qualified in qualified_col_dict:
+                    qualified_col_dict[column_qualified].append(feature_name)
                 else:
-                    qualified_col_dict[k] = [kk]
+                    qualified_col_dict[column_qualified] = [feature_name]
 
         # Convert aliases based on user annotations
         aliases = feature_dict.get("aliases", {})

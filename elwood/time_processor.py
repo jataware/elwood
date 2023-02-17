@@ -197,7 +197,11 @@ def add_date_to_dataframe_as_epoch(
         return rename_column_to_timestamp(
             dataframe=dataframe, original_date_column_name=original_date_column_name
         )
-    return dataframe
+
+    return dataframe.assign(
+        feature=original_date_column_name,
+        value=dataframe[original_date_column_name].values,
+    )
 
 
 def rename_column_to_timestamp(dataframe, original_date_column_name):
