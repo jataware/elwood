@@ -19,9 +19,9 @@ with open("HISTORY.md") as history_file:
 install_requirements = read_requirements("requirements.txt")
 
 setup(
-    author="Brandon Rose",
-    author_email="brandon@jataware.com",
-    python_requires=">=3.5",
+    author="Brandon Rose, Powell Fendley"
+    author_email="brandon@jataware.com, powell@jataware.com",
+    python_requires=">=3.8",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Intended Audience :: Developers",
@@ -33,7 +33,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    description="A library for common scientific model transforms",
+    description="An open source dataset transformation, standardization, and normalization python library.",
     entry_points={
         "console_scripts": [
             "elwood=elwood.cli:cli",
@@ -52,5 +52,4 @@ setup(
     test_suite="tests",
     url="https://github.com/jataware/elwood",
     version="0.1.0",
-    zip_safe=False,
 )
