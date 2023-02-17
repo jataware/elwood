@@ -19,8 +19,8 @@ with open("HISTORY.md") as history_file:
 install_requirements = read_requirements("requirements.txt")
 
 setup(
-    author="Brandon Rose, Powell Fendley"
-    author_email="brandon@jataware.com, powell@jataware.com",
+    author="Brandon Rose, Powell Fendley",
+    author_email="info@jataware.com",
     python_requires=">=3.8",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
@@ -51,5 +51,5 @@ setup(
     packages=find_packages(include=["elwood", "elwood.*"]),
     test_suite="tests",
     url="https://github.com/jataware/elwood",
-    version="0.1.0",
+    version="0.1.1",
 )
