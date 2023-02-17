@@ -61,6 +61,7 @@ This function will produce a dataframe who's rows are the aggregated data based 
 ## 0 to 1 Normalization
 
 `elwood.normalize_features(dataframe, output_file)`
+
 This function expects a dataframe with a "feature" column and a "value" column, or long data. Each entry for a feature has its own feature/value row.
 This function returns a dataframe in which all numerical values under the "value" column for each "feature" have been 0 to 1 scaled.
 Optionally you may specify an `output_file` name to generate a parquet file of the dataframe.
