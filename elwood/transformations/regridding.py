@@ -3,15 +3,16 @@ import xarray
 import numpy
 
 
-def regrid_dataframe(dataframe, geo_columns):
+def regrid_dataframe(dataframe, geo_columns, scale_multi):
     """Uses xarray interpolation to regrid geography in a dataframe.
 
     Args:
-        dataframe (_type_): _description_
-        geo_columns (_type_): _description_
+        dataframe (pandas.Dataframe): Dataframe of a dataset that has detectable gridden geographical resolution ie. points that represent 1sqkm areas
+        geo_columns (List[str]): The geo_columns for the latitude and longitude pairs.
+        scale_multi (int): The number by which to divide to geographical scale to regrid larger.
 
     Returns:
-        _type_: _description_
+        pandas.Dataframe: Dataframe with geographical extend regridded to
     """
 
     ds = xarray.Dataset.from_dataframe(dataframe)
@@ -26,12 +27,6 @@ def regrid_dataframe(dataframe, geo_columns):
 
     ds = ds.assign_coords(**coord_dict)
 
-    print(f"Xarray DS: {ds}")
-
-    print(
-        f"SCALE VALUES: {ds[geo_columns[0]][0]} , {ds[geo_columns[1]][0]} , {ds[geo_columns[0]][1]} , {ds[geo_columns[1]][1]}"
-    )
-
     ds_scale = getScale(
         ds[geo_columns[0]][0],
         ds[geo_columns[1]][0],
@@ -39,10 +34,7 @@ def regrid_dataframe(dataframe, geo_columns):
         ds[geo_columns[1]][1],
     )
 
-    print(f"SCALE {ds_scale}")
-
-    multiplier = ds_scale / 500
-    print(f"MULTIPLIER {multiplier}")
+    multiplier = ds_scale / scale_multi
 
     new_0 = numpy.linspace(
         ds[geo_columns[0]][0],

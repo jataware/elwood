@@ -18,6 +18,7 @@ from .normalizer import normalizer
 from .feature_scaling import scale_dataframe
 from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
 from .transformations.scaling import scale_time
+from .transformations.regridding import regrid_dataframe
 from .transformations.geo_utils import calculate_boundary_box
 from .transformations.temporal_utils import calculate_temporal_boundary
 
@@ -198,6 +199,20 @@ def rescale_dataframe_time(
         time_column=time_column,
         time_bucket=time_bucket,
         aggregation_function_list=aggregation_function_list,
+    )
+
+
+def regrid_dataframe_geo(dataframe, geo_columns, scale_multi):
+    """Regrids a dataframe with detectable geo-resolution
+
+    Args:
+        dataframe (_type_): _description_
+        geo_columns (_type_): _description_
+        scale_multi (_type_): _description_
+    """
+
+    return regrid_dataframe(
+        dataframe=dataframe, geo_columns=geo_columns, scale_multi=scale_multi
     )
 
 
