@@ -14,13 +14,14 @@ from .file_processor import (
     raster2df_processor,
     netcdf2df_processor,
 )
-from .normalizer import normalizer
+from .standardizer import standardizer
 from .feature_scaling import scale_dataframe
 from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
 from .transformations.scaling import scale_time
 from .transformations.regridding import regrid_dataframe
 from .transformations.geo_utils import calculate_boundary_box
 from .transformations.temporal_utils import calculate_temporal_boundary
+from .schema.dataset_annotation_schema import DatasetAnnotation
 
 if not sys.warnoptions:
     import warnings
@@ -34,7 +35,12 @@ logger = logging.getLogger(__name__)
 
 
 def process(
-    fp: str, mp: str, admin: str, output_file: str, write_output=True, gadm=None
+    fp: str,
+    input_mapper: str,
+    admin: str,
+    output_file: str,
+    write_output=True,
+    gadm=None,
 ):
     """
     Parameters
@@ -50,9 +56,13 @@ def process(
     """
 
     # Read JSON schema to be mapper.
-    mapper = dict
-    with open(mp) as f:
-        mapper = json.loads(f.read())
+    mapper_file = dict
+    with open(input_mapper) as f:
+        mapper_file = json.loads(f.read())
+
+    mapper = DatasetAnnotation(**mapper_file)
+
+    mapper = mapper.dict()
 
     # Validate JSON mapper schema against SpaceTag schema.py model.
     # model = SpaceModel(geo=mapper['geo'], date=mapper['date'], feature=mapper['feature'], meta=mapper['meta'])
@@ -69,17 +79,14 @@ def process(
         filepath=fp, file_type=ftype, transformation_metadata=transform
     )
 
-    ## Make mapper contain only keys for date, geo, and feature.
-    mapper = {k: mapper[k] for k in mapper.keys() & {"date", "geo", "feature"}}
-
     ## To speed up normalize(), reduce the memory size of the dataframe by:
     # 1. Optimize the dataframe types.
     # 2. Reset the index so it is a RangeIndex instead of Int64Index.
     df = optimize_df_types(df)
     df.reset_index(inplace=True, drop=True)
 
-    ## Run normalizer.
-    norm, renamed_col_dict = normalizer(df, mapper, admin, gadm=gadm)
+    ## Run standardizer.
+    norm, renamed_col_dict = standardizer(df, mapper, admin, gadm=gadm)
 
     # Normalizer will add NaN for missing values, e.g. when appending
     # dataframes with different columns. GADM will return None when geocoding

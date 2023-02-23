@@ -14,11 +14,12 @@ from distutils.util import strtobool
 from . import constants
 from .geo_processor import geocode, get_iso_country_dict, match_geo_names
 from .time_helpers import date_type_handler, build_a_date_handler
+from .schema.dataset_annotation_schema import DatasetAnnotation
 
 
-def normalizer(
+def standardizer(
     df: pandas.DataFrame,
-    mapper: dict,
+    mapper: DatasetAnnotation,
     admin: str,
     gadm: gpd.GeoDataFrame = None,
     df_geocode: pandas.DataFrame = pandas.DataFrame(),
@@ -33,22 +34,7 @@ def normalizer(
     df: pandas.DataFrame
         a pandas dataframe containing point data
     mapper: dict
-        a schema mapping (JSON) for the dataframe
-        a dict where keys will be geo, feaure, date, and values will be lists of dict
-        example:
-        { 'geo': [
-             {'name': 'country', 'type': 'geo', 'geo_type': 'country', 'primary_geo': False},
-             {'name': 'state', 'type': 'geo', 'geo_type': 'state/territory', 'primary_geo': False}
-           ],
-           'feature': [
-              {'name': 'probabilty', 'type': 'feature', 'feature_type': 'float'},
-              {'name': 'color', 'type': 'feature', 'feature_type': 'str'}
-            ],
-            'date': [
-               {'name': 'date_2', 'type': 'date', 'date_type': 'date', 'primary_date': False, 'time_format': '%m/%d/%y'},
-               {'name': 'date', 'type': 'date', 'date_type': 'date', 'primary_date': True, 'time_format': '%m/%d/%y'}
-            ]
-        }
+        a schema mapping for the dataframe annotations to tell the standardizer what to do.
     admin: str, default 'admin2'
         the level to geocode to. Either 'admin2' or 'admin3'
     gadm: gpd.GeoDataFrame, default None
@@ -124,11 +110,21 @@ def normalizer(
     # value: list of columns that qualify key column
     qualified_col_dict = {}
 
-    # subset dataframe for only columns specified in mapper schema.
-    # get all named objects in the date, feature, geo schema lists.
+    # Removes all unannotated field from the original dataset.
     mapper_keys = []
-    for k in mapper.items():
-        mapper_keys.extend([l["name"] for l in k[1] if "name" in l])
+    print(mapper)
+    for header in mapper:
+        iterate_list = mapper[header]
+        if iterate_list:
+            mapper_keys.extend(
+                [
+                    annotation["name"]
+                    for annotation in iterate_list
+                    if "name" in annotation
+                ]
+            )
+
+    print(f"MAPPER KEYS {mapper_keys}")
 
     df = df[mapper_keys]
 
@@ -167,73 +163,75 @@ def normalizer(
     # TODO Cleanup geo standardization flow.
     for geo_dict in mapper["geo"]:
         geo_field_name = geo_dict["name"]
-        if geo_field_name in primary_geo_cols:
-            if geo_dict["geo_type"] == "latitude":
-                staple_col_name = "lat"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
-            elif geo_dict["geo_type"] == "longitude":
-                staple_col_name = "lng"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
-            elif geo_dict["geo_type"] == "coordinates":
-                c_f = geo_dict["coord_format"]
-                coords = df[geo_field_name].values
-                if c_f == "lonlat":
-                    lats = [x for x in coords.split(",")[1]]
-                    longs = [x for x in coords.split(",")[0]]
-                else:
-                    lats = [x for x in coords.split(",")[0]]
-                    longs = [x for x in coords.split(",")[1]]
-                df["lng"] = longs
-                df["lat"] = lats
-                del df[geo_field_name]
-            elif (
-                geo_dict["geo_type"] == constants.GEO_TYPE_COUNTRY
-                and geo_field_name != "country"
-            ):
-                # force the country column to be named country
-                staple_col_name = "country"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
-            elif (
-                geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN1
-                and geo_field_name != "admin1"
-            ):
-                # force the country column to be named country
-                staple_col_name = "admin1"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
-            elif (
-                geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN2
-                and geo_field_name != "admin2"
-            ):
-                # force the country column to be named country
-                staple_col_name = "admin2"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
-            elif (
-                geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN3
-                and geo_field_name != "admin2"
-            ):
-                # force the country column to be named country
-                staple_col_name = "admin3"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+        gtype = geo_dict["geo_type"]
+        print(f"GEOFIELD NAME: {geo_field_name}, GEO TYPE: {gtype}")
+        check_bool = geo_dict["geo_type"] in ["iso2", "iso3"]
+        print(f"BOOLEAN CHECKER: {check_bool}")
+        if geo_dict["geo_type"] == "latitude":
+            staple_col_name = "lat"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+            # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
+        if geo_dict["geo_type"] == "longitude":
+            staple_col_name = "lng"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+            # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
+        if geo_dict["geo_type"] == "coordinates":
+            c_f = geo_dict["coord_format"]
+            coords = df[geo_field_name].values
+            if c_f == "lonlat":
+                lats = [x for x in coords.split(",")[1]]
+                longs = [x for x in coords.split(",")[0]]
+            else:
+                lats = [x for x in coords.split(",")[0]]
+                longs = [x for x in coords.split(",")[1]]
+            df["lng"] = longs
+            df["lat"] = lats
+            del df[geo_field_name]
+        if (
+            geo_dict["geo_type"] == constants.GEO_TYPE_COUNTRY
+            and geo_field_name != "country"
+        ):
+            # force the country column to be named country
+            staple_col_name = "country"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+            # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
+        if (
+            geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN1
+            and geo_field_name != "admin1"
+        ):
+            # force the country column to be named country
+            staple_col_name = "admin1"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+        if (
+            geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN2
+            and geo_field_name != "admin2"
+        ):
+            # force the country column to be named country
+            staple_col_name = "admin2"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
+        if (
+            geo_dict["geo_type"] == constants.GEO_TYPE_ADMIN3
+            and geo_field_name != "admin2"
+        ):
+            # force the country column to be named country
+            staple_col_name = "admin3"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
 
-            elif str(geo_dict["geo_type"]).lower() in ["iso2", "iso3"]:
-                # use the ISO2 or ISO3 column as country
+        if geo_dict["geo_type"].lower() in ["iso2", "iso3"]:
+            # use the ISO2 or ISO3 column as country
 
-                # use ISO2/3 lookup dictionary to change ISO to country name.
-                iso_list = df[geo_field_name].unique().tolist()
-                dct = get_iso_country_dict(iso_list)
-                df.loc[:, geo_field_name] = df[geo_field_name].apply(
-                    lambda x: dct[x] if x in dct else x
-                )
+            # use ISO2/3 lookup dictionary to change ISO to country name.
+            iso_list = df[geo_field_name].unique().tolist()
+            dct = get_iso_country_dict(iso_list)
+            df.loc[:, geo_field_name] = df[geo_field_name].apply(
+                lambda x: dct[x] if x in dct else x
+            )
 
-                # now rename that column as "country"
-                staple_col_name = "country"
-                df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
-                # renamed_col_dict[staple_col_name] = [geo_field_name] # 7/2/2021 do not include primary cols
+            # now rename that column as "country"
+            staple_col_name = "country"
+            df.rename(columns={geo_field_name: staple_col_name}, inplace=True)
 
-        elif "qualifies" in geo_dict and geo_dict["qualifies"]:
+        if "qualifies" in geo_dict and geo_dict["qualifies"]:
             # Note that any "qualifier" column that is not primary geo/date
             # will just be lopped on to the right as its own column. It'’'s
             # column name will just be the name and Uncharted will deal with
@@ -271,82 +269,6 @@ def normalizer(
                     continue
             features.append(geo_field_name)
 
-    # TODO cleanup feature standardization flow.
-    # Append columns annotated in feature dict to features list (if not a
-    # qualifies column)
-    # features.extend([k["name"] for k in mapper["feature"]])
-    for feature_dict in mapper["feature"]:
-        if "qualifies" not in feature_dict or not feature_dict["qualifies"]:
-            features.append(feature_dict["name"])
-        elif "qualifies" in feature_dict and feature_dict["qualifies"]:
-            # Note that any "qualifier" column that is not primary geo/date
-            # will just be lopped on to the right as its own column. It's
-            # column name will just be the name and Uncharted will deal with
-            # it. The key takeaway is that qualifier columns grow the width,
-            # not the length of the dataset.
-            # Want to add the qualified col as the dictionary key.
-            # e.g. "name": "region", "qualifies": ["probability", "color"]
-            # should produce two dict entries for prob and color, with region
-            # in a list as the value for both.
-            for column_qualified in feature_dict["qualifies"]:
-                feature_name = feature_dict["name"]
-                if column_qualified in qualified_col_dict:
-                    qualified_col_dict[column_qualified].append(feature_name)
-                else:
-                    qualified_col_dict[column_qualified] = [feature_name]
-
-        # Convert aliases based on user annotations
-        aliases = feature_dict.get("aliases", {})
-        if aliases:
-            click.echo(f"Pre-processed aliases are: {aliases}")
-            type_ = df[feature_dict["name"]].dtype.type
-            click.echo(f"Detected column type is: {type_}")
-            aliases_ = {}
-            # The goal below is to identify the data type and then to cast the
-            # alias key from string into that type so that it will match
-            # if that fails, just cast it as a string
-            for kk, vv in aliases.items():
-                try:
-                    if issubclass(type_, (int, numpy.integer)):
-                        click.echo("Aliasing: integer detected")
-                        aliases_[int(kk)] = vv
-                    elif issubclass(
-                        type_,
-                        (
-                            float,
-                            numpy.float16,
-                            numpy.float32,
-                            numpy.float64,
-                            numpy.float128,
-                        ),
-                    ):
-                        click.echo("Aliasing: float detected")
-                        aliases_[float(kk)] = vv
-                    elif issubclass(type_, (bool, numpy.bool, numpy.bool_)):
-                        click.echo("Aliasing: boolean detected")
-                        if strtobool(kk) == 1:
-                            aliases_[True] = vv
-                            click.echo("Converted true string to boolean")
-                        else:
-                            click.echo("Converted false string to boolean")
-                            aliases_[False] = vv
-                    # Fall back on string
-                    else:
-                        click.echo("Aliasing: string detected")
-                        aliases_[kk] = vv
-                except ValueError as e:
-                    # Fall back on string
-                    click.echo(f"Error: {e}")
-                    aliases_[kk] = vv
-            click.echo(f"Aliases for {feature_dict['name']} are {aliases_}.")
-            df[[feature_dict["name"]]] = df[[feature_dict["name"]]].replace(aliases_)
-
-            # Since the user has decided to apply categorical aliases to this feature, we must coerce
-            # the entire feature to a string, even if they did not alias every value within the feature
-            # the reason for this is to avoid mixed types within the feature (e.g. half int/half string)
-            # since this makes it difficult to visualize
-            df[[feature_dict["name"]]] = df[[feature_dict["name"]]].astype(str)
-
     # perform geocoding if lat/lng are present
     if "lat" in df and "lng" in df:
         df = geocode(admin, df, x="lng", y="lat", gadm=gadm, df_geocode=df_geocode)
@@ -371,6 +293,19 @@ def normalizer(
     for c in df_geo_cols:
         df.rename(columns={c: c.replace("_mixmasta_geocoded", "")}, inplace=True)
 
+    print(f"DATAFRAME POST GEO: {df}")
+
+    # TODO cleanup feature standardization flow.
+    # Get all feature names to melt, and all columns that aren't features to keep stable in the melt.
+    features_names = [field["name"] for field in mapper["features"]]
+    id_variables = df.columns.difference(features_names, sort=False)
+    df = df.melt(
+        id_vars=id_variables,
+        value_vars=features_names,
+        var_name="feature",
+        value_name="value",
+    )
+
     # protected_cols are the required_cols present in the submitted dataframe.
     protected_cols = list(set(required_cols) & set(df.columns))
 
@@ -389,56 +324,59 @@ def normalizer(
     # Prepare output by
     # 1. if there are no features, simply reduce the dataframe.
     # or, 2.iterating features to add to feature adn value columns.
-    if not features:
-        df_out = df[protected_cols]
-    else:
-        df_out = pandas.DataFrame()
-        for feat in features:
-            using_cols = protected_cols.copy()
+    # if not features:
+    #     df_out = df[protected_cols]
+    # else:
+    #     df_out = pandas.DataFrame()
+    #     for feat in features:
+    #         using_cols = protected_cols.copy()
 
-            if feat in qualified_col_dict:
-                # dict value is a list, so extend.
-                using_cols.extend(qualified_col_dict[feat])
+    #         if feat in qualified_col_dict:
+    #             # dict value is a list, so extend.
+    #             using_cols.extend(qualified_col_dict[feat])
 
-                # add a qualifying column name only if not in col_order already
-                for c in qualified_col_dict[feat]:
-                    if c not in col_order:
-                        col_order.append(c)
+    #             # add a qualifying column name only if not in col_order already
+    #             for c in qualified_col_dict[feat]:
+    #                 if c not in col_order:
+    #                     col_order.append(c)
 
-            join_overlap = False
-            try:
-                df_ = df[using_cols + [feat + "_mixmasta_left"]].copy()
-                join_overlap = True
-            except:
-                df_ = df[using_cols + [feat]].copy()
+    #         join_overlap = False
+    #         try:
+    #             df_ = df[using_cols + [feat + "_mixmasta_left"]].copy()
+    #             join_overlap = True
+    #         except:
+    #             df_ = df[using_cols + [feat]].copy()
 
-            try:
-                if mapper[feat]["new_col_name"] == None:
-                    df_["feature"] = feat
-                else:
-                    df_["feature"] = mapper[feat]["new_col_name"]
-            except:
-                df_["feature"] = feat
+    #         try:
+    #             if mapper[feat]["new_col_name"] == None:
+    #                 df_["feature"] = feat
+    #             else:
+    #                 df_["feature"] = mapper[feat]["new_col_name"]
+    #         except:
+    #             df_["feature"] = feat
 
-            if join_overlap:
-                df_.rename(columns={f"{feat}_mixmasta_left": "value"}, inplace=True)
-            else:
-                df_.rename(columns={feat: "value"}, inplace=True)
+    #         if join_overlap:
+    #             df_.rename(columns={f"{feat}_mixmasta_left": "value"}, inplace=True)
+    #         else:
+    #             df_.rename(columns={feat: "value"}, inplace=True)
 
-            # Add feature/value for epochtime as object adds it without decimal
-            # places, but it is still saved as a double in the parquet file.
-            if len(df_out) == 0:
-                if feat in other_time_cols:
-                    df_out = df_.astype({"value": object})
-                else:
-                    df_out = df_
-            else:
-                if feat in other_time_cols:
-                    df_out = df_out.append(df_.astype({"value": object}))
-                else:
-                    print(f"DF OUT: {df_out}")
-                    print(f"DF PRIME: {df_}")
-                    df_out = df_out.append(df_.reset_index(drop=True))
+    #         # Add feature/value for epochtime as object adds it without decimal
+    #         # places, but it is still saved as a double in the parquet file.
+    #         if len(df_out) == 0:
+    #             if feat in other_time_cols:
+    #                 df_out = df_.astype({"value": object})
+    #             else:
+    #                 df_out = df_
+    #         else:
+    #             if feat in other_time_cols:
+    #                 df_out = df_out.append(df_.astype({"value": object}))
+    #             else:
+    #                 print(f"DF OUT: {df_out}")
+    #                 print(f"DF PRIME: {df_}")
+    #                 df_out = df_out.append(df_.reset_index(drop=True))
+
+    df_out = df
+    print(f"DF OUT: {df_out}")
 
     for c in col_order:
         if c not in df_out:
@@ -456,7 +394,7 @@ def normalizer(
 
 
 def handle_colname_collisions(
-    df: pandas.DataFrame, mapper: dict, protected_cols: list
+    df: pandas.DataFrame, mapper: DatasetAnnotation, protected_cols: list
 ) -> (pandas.DataFrame, dict, dict):
     """
     Description
@@ -505,7 +443,7 @@ def handle_colname_collisions(
     # and therefore will be appended as a column to the output.
     feature_cols = [
         d["name"]
-        for d in mapper["feature"]
+        for d in mapper["features"]
         if d["name"] in protected_cols and "qualifies" in d and d["qualifies"]
     ]
 

@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Enum, Field
+from enum import Enum
 from typing import Optional, List, Dict, Any
+
+from pydantic import BaseModel, Field
 
 
 class ColumnType(str, Enum):
@@ -36,45 +38,58 @@ class DateType(str, Enum):
     DATE = "date"
 
 
+class FileType(str, Enum):
+    CSV = "csv"
+    GEOTIFF = "geotiff"
+    EXCEL = "excel"
+    NETCDF = "netcdf"
+
+
 class PrimaryGeography(BaseModel):
     name: str
-    display_name: str
-    description: str
+    display_name: Optional[str]
+    description: Optional[str]
     geo_type: GeoType
-    is_geo_pair: str
+    is_geo_pair: Optional[str]
 
 
 class PrimaryDatetime(BaseModel):
     name: str
-    display_name: str
-    description: str
+    display_name: Optional[str]
+    description: Optional[str]
     date_type: DateType
     time_format: str = Field(
         title="Time Format",
         description="The strftime formatter for this field",
         example="%y",
     )
+    associated_columns: Optional[Dict]
+    dateassociation: bool
 
 
 class Features(BaseModel):
     name: str
-    display_name: str
-    description: str
+    display_name: Optional[str]
+    description: Optional[str]
     type: ColumnType
     feature_type: FeatureType
-    units: str
-    units_description: str
+    units: Optional[str]
+    units_description: Optional[str]
 
 
 class Qualifiers(BaseModel):
     name: str
-    display_name: str
-    description: str
+    display_name: Optional[str]
+    description: Optional[str]
     type: ColumnType
     feature_type: FeatureType
-    units: str
-    units_description: str
-    qualifies: list[str]
+    units: Optional[str]
+    units_description: Optional[str]
+    qualifies: List[str]
+
+
+class Meta(BaseModel):
+    ftype: FileType
 
 
 class DatasetAnnotation(BaseModel):
@@ -82,3 +97,4 @@ class DatasetAnnotation(BaseModel):
     geo: List[PrimaryGeography]
     features: List[Features]
     qualifiers: Optional[List[Qualifiers]]
+    meta: Optional[Meta]

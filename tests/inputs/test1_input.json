@@ -1,17 +1,14 @@
 {
-    "geo":
-    [
+    "geo": [
         {
             "name": "iso2",
             "display_name": "iso2",
             "description": "pri geo",
             "type": "geo",
-            "geo_type": "iso2",
-            "primary_geo": true
+            "geo_type": "iso2"
         }
     ],
-    "date":
-    [
+    "date": [
         {
             "name": "month_column",
             "display_name": "month_column",
@@ -20,16 +17,10 @@
             "date_type": "month",
             "dateassociation": true,
             "time_format": "%m",
-            "associated_columns":
-            {
+            "associated_columns": {
                 "Year": "year_column",
-				"Day": "day_column"
-            },
-            "qualifies":
-            [
-
-            ],
-            "primary_date": false
+                "Day": "day_column"
+            }
         },
         {
             "name": "day_column",
@@ -39,16 +30,10 @@
             "date_type": "day",
             "dateassociation": true,
             "time_format": "%d",
-            "associated_columns":
-            {
-                 "Month": "month_column",
-				 "Year": "year_column"
-            },
-            "qualifies":
-            [
-
-            ],
-            "primary_date": false
+            "associated_columns": {
+                "Month": "month_column",
+                "Year": "year_column"
+            }
         },
         {
             "name": "year_column",
@@ -57,21 +42,14 @@
             "type": "date",
             "date_type": "year",
             "dateassociation": true,
-            "qualifies":
-            [
-
-            ],
-            "associated_columns":
-            {
+            "associated_columns": {
                 "Month": "month_column",
-				"Day": "day_column"
-
+                "Day": "day_column"
             },
             "time_format": "%Y"
         }
     ],
-    "feature":
-    [
+    "features": [
         {
             "name": "pop",
             "display_name": "Pop",
@@ -89,14 +67,10 @@
             "feature_type": "int",
             "units": "asdc",
             "units_description": "asdc",
-            "qualifies":
-            [
-
-            ]
+            "qualifies": []
         }
     ],
-    "meta":
-    {
+    "meta": {
         "ftype": "csv"
     }
 }

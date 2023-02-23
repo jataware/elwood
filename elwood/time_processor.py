@@ -93,6 +93,7 @@ def generate_timestamp_column(
     # value, then assign that to the day/month/year var. If the dataframe has
     # the date value, assign day/month/year to it after casting as a str.
     if dayCol:
+        print(f"DATAFRAME: {df}")
         day = df[dayCol].astype(str)
     else:
         df.loc[:, "day_generate_timestamp_column"] = "1"
