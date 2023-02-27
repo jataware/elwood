@@ -3,7 +3,7 @@ import xarray
 import numpy
 
 
-def regrid_dataframe(dataframe, geo_columns, scale_multi):
+def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
     """Uses xarray interpolation to regrid geography in a dataframe.
 
     Args:
@@ -27,12 +27,16 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi):
 
     ds = ds.assign_coords(**coord_dict)
 
-    ds_scale = getScale(
-        ds[geo_columns[0]][0],
-        ds[geo_columns[1]][0],
-        ds[geo_columns[0]][1],
-        ds[geo_columns[1]][1],
-    )
+    ds_scale = 0
+    if scale:
+        ds_scale = scale
+    else:
+        ds_scale = getScale(
+            ds[geo_columns[0]][0],
+            ds[geo_columns[1]][0],
+            ds[geo_columns[0]][1],
+            ds[geo_columns[1]][1],
+        )
 
     multiplier = ds_scale / scale_multi
 

@@ -202,7 +202,7 @@ def rescale_dataframe_time(
     )
 
 
-def regrid_dataframe_geo(dataframe, geo_columns, scale_multi):
+def regrid_dataframe_geo(dataframe, geo_columns, scale_multi, scale=None):
     """Regrids a dataframe with detectable geo-resolution
 
     Args:
@@ -212,7 +212,10 @@ def regrid_dataframe_geo(dataframe, geo_columns, scale_multi):
     """
 
     return regrid_dataframe(
-        dataframe=dataframe, geo_columns=geo_columns, scale_multi=scale_multi
+        dataframe=dataframe,
+        geo_columns=geo_columns,
+        scale_multi=scale_multi,
+        scale=scale,
     )
 
 
