@@ -1,27 +1,23 @@
 {
-    "geo":
-    [
+    "geo": [
         {
-			"name": "longitude",
-			"display_name": "longitude",
-			"description": "pri geo",
-			"type": "geo",
-			"geo_type": "longitude",
-			"primary_geo": true,
-			"is_geo_pair": "latitude"
-		},
-		{
-			"name": "latitude",
-			"display_name": "Latitude",
-			"description": "pri geo",
-			"type": "geo",
-			"geo_type": "latitude",
-			"primary_geo": true,
-			"is_geo_pair": "longitude"
-		}
+            "name": "longitude",
+            "display_name": "longitude",
+            "description": "pri geo",
+            "type": "geo",
+            "geo_type": "longitude",
+            "is_geo_pair": "latitude"
+        },
+        {
+            "name": "latitude",
+            "display_name": "Latitude",
+            "description": "pri geo",
+            "type": "geo",
+            "geo_type": "latitude",
+            "is_geo_pair": "longitude"
+        }
     ],
-    "date":
-    [
+    "date": [
         {
             "name": "date",
             "display_name": "date",
@@ -30,19 +26,10 @@
             "date_type": "year",
             "dateassociation": false,
             "time_format": "%Y",
-            "associated_columns":
-            {
-
-            },
-            "qualifies":
-            [
-
-            ],
-            "primary_date": true
+            "associated_columns": {}
         }
     ],
-    "feature":
-    [
+    "features": [
         {
             "name": "asset wealth",
             "display_name": "asset wealth",
@@ -53,19 +40,18 @@
             "units_description": "dollars"
         }
     ],
-    "meta":
-    {
+    "meta": {
         "ftype": "geotiff",
         "feature_name": "asset wealth",
         "band": "",
         "null_val": 0,
-		"band_name": "date",
+        "band_name": "date",
         "band_type": "datetime",
-		"bands":{
-			"1": 2018,
-			"2": 2019,
-			"3": 2020,
-			"4": 2021
-		}
+        "bands": {
+            "1": 2018,
+            "2": 2019,
+            "3": 2020,
+            "4": 2021
+        }
     }
 }

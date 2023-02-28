@@ -114,6 +114,8 @@ def standardizer(
     mapper_keys = []
     print(mapper)
     for header in mapper:
+        if header == "meta":
+            continue
         iterate_list = mapper[header]
         if iterate_list:
             mapper_keys.extend(
@@ -136,29 +138,26 @@ def standardizer(
 
     # next((primary for primary in mapper["date"] if primary["primary_date"] == true), None)
     mapper_date_list = mapper["date"]
-    # For every annotated date
-    for date_dict in mapper_date_list:
-        # Determine type of date and how to proceed, sometimes this spits out a full dataframe.
-        result = date_type_handler(date_dict=date_dict, dataframe=df)
-        print(f"date type results: {result}")
-        if result is None:
-            # Special case to handle triplet date of day, month, year column.
-            mapper_date_list.remove(date_dict)
-            build_date_components = {
-                date_assoc["name"]: date_assoc
-                for date_assoc in mapper_date_list
-                if date_assoc["name"]
-                in [value for value in date_dict["associated_columns"].values()]
-            }
-            print(f"BUILD COMPONENTS: {build_date_components}")
-            for item in build_date_components.values():
-                mapper_date_list.remove(item)
-            build_date_components[date_dict["name"]] = date_dict
-            result = build_a_date_handler(
-                date_mapper=build_date_components, dataframe=df
-            )
-            print(f"date type results after build a date: {result}")
-        df = result
+
+    date_dict = mapper_date_list[0]
+    result = date_type_handler(date_dict=date_dict, dataframe=df)
+    print(f"date type results: {result}")
+    if result is None:
+        # Special case to handle triplet date of day, month, year column.
+        print("IN BUILD DATE")
+        build_date_components = {
+            date_assoc["name"]: date_assoc
+            for date_assoc in mapper_date_list
+            if date_assoc["name"]
+            in [value for value in date_dict["associated_columns"].values()]
+        }
+        print(f"BUILD COMPONENTS: {build_date_components}")
+        build_date_components[date_dict["name"]] = date_dict
+        result = build_a_date_handler(date_mapper=build_date_components, dataframe=df)
+        print(f"date type results after build a date: {result}")
+    df = result
+
+    print(f"DF AFTER DATE TIME: {df}")
 
     # TODO Cleanup geo standardization flow.
     for geo_dict in mapper["geo"]:

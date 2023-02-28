@@ -3,7 +3,7 @@ import xarray
 import numpy
 
 
-def regrid_dataframe(dataframe, geo_columns, scale_multi):
+def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
     """Uses xarray interpolation to regrid geography in a dataframe.
 
     Args:
@@ -27,12 +27,17 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi):
 
     ds = ds.assign_coords(**coord_dict)
 
-    ds_scale = getScale(
-        ds[geo_columns[0]][0],
-        ds[geo_columns[1]][0],
-        ds[geo_columns[0]][1],
-        ds[geo_columns[1]][1],
-    )
+    if scale:
+        ds_scale = scale
+    else:
+        ds_scale = getScale(
+            ds[geo_columns[0]][0],
+            ds[geo_columns[1]][0],
+            ds[geo_columns[0]][1],
+            ds[geo_columns[1]][1],
+        )
+
+    print(f"Values Log: scale: {ds_scale}, multi: {scale_multi}")
 
     multiplier = ds_scale / scale_multi
 
@@ -47,14 +52,21 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi):
         round(ds.dims[geo_dim_1] * multiplier),
     )
 
+    print(f"linspace results: {new_0}, {new_1}")
+
     interpolation = {geo_dim_0: new_0, geo_dim_1: new_1}
 
     ds2 = ds.interp(**interpolation)
     print(ds2)
 
-    p_dataframe = ds2.to_dataframe()
+    try:
 
-    return p_dataframe
+        p_dataframe = ds2.to_dataframe()
+
+        return p_dataframe
+    except numpy.core._exceptions._ArrayMemoryError as error:
+        print("Memory error")
+        return dataframe
 
 
 def getScale(lat0, lon0, lat1, lon1):

@@ -19,6 +19,7 @@ import xarray
 def process_file_by_filetype(filepath, file_type, transformation_metadata):
     dataframe = None
     if file_type == "geotiff":
+        print(f"GEOTIFF META: {transformation_metadata}")
         dataframe = raster2df_processor(
             InRaster=filepath,
             feature_name=transformation_metadata["feature_name"],

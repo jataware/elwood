@@ -57,4 +57,8 @@ def build_a_date_handler(date_mapper, dataframe):
     result["timestamp"] = result["timestamp"].apply(
         lambda x: format_time(str(x), time_formatter, validate=False)
     )
+    drop_columns = [
+        date_ann_dict["name"] for mapper_name, date_ann_dict in date_mapper.items()
+    ]
+    result = result.drop(columns=drop_columns)
     return result

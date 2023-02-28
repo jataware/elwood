@@ -149,6 +149,8 @@ class TestMixmaster(unittest.TestCase):
     def test_003_process(self):
         """Test qualifies, lat/lng primary geo."""
 
+        print("TEST 3 START")
+
         # Define elwood inputs:
         mp = f"inputs{sep}test3_qualifies.json"
         fp = f"inputs{sep}test3_qualifies.csv"

@@ -16,6 +16,20 @@ class FeatureType(str, Enum):
     STR = "str"
     BINARY = "binary"
     BOOLEAN = "boolean"
+    LATITUDE = "latitude"
+    LONGITUDE = "longitude"
+    COORDINATES = "coordinates"
+    COUNTRY = "country"
+    ISO2 = "iso2"
+    ISO3 = "iso3"
+    STATE = "state/territory"
+    COUNTY = "county/district"
+    CITY = "municipality/town"
+    YEAR = "year"
+    MONTH = "month"
+    DAY = "day"
+    EPOCH = "epoch"
+    DATE = "date"
 
 
 class GeoType(str, Enum):
@@ -64,7 +78,7 @@ class PrimaryDatetime(BaseModel):
         example="%y",
     )
     associated_columns: Optional[Dict]
-    dateassociation: bool
+    dateassociation: Optional[bool]
 
 
 class Features(BaseModel):
@@ -90,6 +104,12 @@ class Qualifiers(BaseModel):
 
 class Meta(BaseModel):
     ftype: FileType
+    feature_name: Optional[str]
+    band: Optional[str]
+    null_val: Optional[int]
+    band_name: Optional[str]
+    band_type: Optional[str]
+    bands: Optional[Dict]
 
 
 class DatasetAnnotation(BaseModel):
