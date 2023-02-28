@@ -15,17 +15,7 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
 
-    ds = xarray.Dataset.from_dataframe(dataframe)
-
-    geo_dim_0 = geo_columns[0] + "_dim"
-    geo_dim_1 = geo_columns[1] + "_dim"
-
-    coord_dict = {
-        geo_columns[0]: (geo_dim_0, ds[geo_columns[0]].data),
-        geo_columns[1]: (geo_dim_1, ds[geo_columns[1]].data),
-    }
-
-    ds = ds.assign_coords(**coord_dict)
+    ds = xarray.Dataset.from_dataframe(dataframe.set_index(geo_columns))
 
     ds_scale = 0
     if scale:
@@ -43,15 +33,15 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
     new_0 = numpy.linspace(
         ds[geo_columns[0]][0],
         ds[geo_columns[0]][-1],
-        round(ds.dims[geo_dim_0] * multiplier),
+        round(ds.dims[geo_columns[0]] * multiplier),
     )
     new_1 = numpy.linspace(
         ds[geo_columns[1]][0],
         ds[geo_columns[1]][-1],
-        round(ds.dims[geo_dim_1] * multiplier),
+        round(ds.dims[geo_columns[1]] * multiplier),
     )
 
-    interpolation = {geo_dim_0: new_0, geo_dim_1: new_1}
+    interpolation = {geo_columns[0]: new_0, geo_columns[1]: new_1}
 
     ds2 = ds.interp(**interpolation)
     print(ds2)
