@@ -13,14 +13,11 @@ def scale_time(dataframe, time_column, time_bucket, aggregation_function_list):
 
     dataframe[time_column] = pandas.to_datetime(dataframe[time_column])
 
-    print(f"dataframe after datetime: {dataframe}")
-    print(dataframe.dtypes)
-
     # dataframe.set_index(time_column).resample(time_bucket).agg(
     # aggregation_function_list
     # )
     scaled_frame = dataframe.resample(time_bucket, on=time_column).agg(
-        aggregation_function_list
+        aggregation_function_list[0]
     )
 
     return scaled_frame

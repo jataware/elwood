@@ -239,7 +239,6 @@ def day_month_year_converter(other_date_group_mapper):
 
     # Pop the first item in the mapper and begin building that date set.
     date_field_tuple = other_date_group_mapper.popitem()
-    print(f"DEBUG: {date_field_tuple}")
 
     # Build a list of column names associated with the the popped date field.
     assoc_fields = [k[1] for k in date_field_tuple[1]["associated_columns"].items()]

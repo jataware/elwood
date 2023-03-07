@@ -3,7 +3,7 @@ import xarray
 import numpy
 
 
-def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
+def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=None):
     """Uses xarray interpolation to regrid geography in a dataframe.
 
     Args:
@@ -15,7 +15,14 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
 
-    ds = xarray.Dataset.from_dataframe(dataframe.set_index(geo_columns))
+    geo_columns = geo_columns.extend(time_column)
+
+    try:
+
+        ds = xarray.Dataset.from_dataframe(dataframe.set_index(geo_columns))
+
+    except KeyError as error:
+        print(error)
 
     ds_scale = 0
     if scale:
@@ -44,7 +51,6 @@ def regrid_dataframe(dataframe, geo_columns, scale_multi, scale=None):
     interpolation = {geo_columns[0]: new_0, geo_columns[1]: new_1}
 
     ds2 = ds.interp(**interpolation)
-    print(ds2)
 
     p_dataframe = ds2.to_dataframe()
 

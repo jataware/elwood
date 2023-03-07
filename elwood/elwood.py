@@ -156,8 +156,6 @@ def clip_geo(dataframe, geo_columns, polygons_list):
         pandas.Dataframe: A pandas dataframe only containing the clipped data.
     """
 
-    print(f"POLY LIST {polygons_list}")
-
     mask = construct_multipolygon(polygons_list=polygons_list)
 
     return clip_dataframe(dataframe=dataframe, geo_columns=geo_columns, mask=mask)
@@ -202,7 +200,7 @@ def rescale_dataframe_time(
     )
 
 
-def regrid_dataframe_geo(dataframe, geo_columns, scale_multi, scale=None):
+def regrid_dataframe_geo(dataframe, geo_columns, time_column, scale_multi, scale=None):
     """Regrids a dataframe with detectable geo-resolution
 
     Args:
@@ -214,6 +212,7 @@ def regrid_dataframe_geo(dataframe, geo_columns, scale_multi, scale=None):
     return regrid_dataframe(
         dataframe=dataframe,
         geo_columns=geo_columns,
+        time_column=time_column,
         scale_multi=scale_multi,
         scale=scale,
     )

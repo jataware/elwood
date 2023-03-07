@@ -13,7 +13,7 @@ def construct_multipolygon(polygons_list):
     final_multipolygon_list = []
     for polygon_list in polygons_list:
         intermediate_list = Polygon(
-            [edge.get("lat"), edge.get("lng")] for edge in polygon_list
+            [edge.get("lng"), edge.get("lat")] for edge in polygon_list
         )
         final_multipolygon_list.append(intermediate_list)
 
@@ -29,7 +29,9 @@ def clip_dataframe(dataframe, geo_columns, mask):
         dataframe, geometry=geopandas.points_from_xy(x_geo, y_geo)
     )
 
-    return pandas.DataFrame(geopandas.clip(geo_dataframe, mask))
+    clipped_gpd = geopandas.clip(gdf=geo_dataframe, mask=mask)
+
+    return pandas.DataFrame(clipped_gpd)
 
 
 def clip_time(dataframe, time_column, time_ranges):
