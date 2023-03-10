@@ -24,10 +24,11 @@ RUN add-apt-repository ppa:ubuntugis/ubuntugis-unstable && apt-get update && \
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
-COPY . /elwood
-
+COPY requirements.txt /elwood/requirements.txt
 WORKDIR /elwood
 
 RUN pip3 install numpy==1.22 && \
-      pip3 install -r requirements.txt && \
-      python3 setup.py install
+      pip3 install -r requirements.txt
+
+COPY . /elwood
+RUN python3 setup.py install
