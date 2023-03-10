@@ -32,3 +32,4 @@ RUN pip3 install numpy==1.22 && \
 
 COPY . /elwood
 RUN python3 setup.py install
+ENTRYPOINT ["elwood"]
