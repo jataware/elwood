@@ -5,7 +5,7 @@ import pandas as pd
 
 from .download import download_and_clean
 from .elwood import normalizer, optimize_df_types, mixdata
-from .file_processor import netcdf2df, raster2df
+from .file_processor import netcdf2df_processor, raster2df_processor
 from .geo_processor import geocode
 
 from glob import glob
@@ -78,7 +78,7 @@ def chunk_normalize(
         else:
             d = transform["date"]
 
-        df = raster2df(
+        df = raster2df_processor(
             InRaster=input_file,
             feature_name=transform["feature_name"],
             band=int(
@@ -94,7 +94,7 @@ def chunk_normalize(
     elif ftype == "excel":
         df = pd.read_excel(input_file, transform["sheet"])
     elif ftype != "csv":
-        df = netcdf2df(input_file)
+        df = netcdf2df_processor(input_file)
     else:
         df = pd.read_csv(input_file)
 
@@ -120,7 +120,7 @@ def chunk_normalize(
 
         ## Run normalizer.
         norm_start_time = timeit.default_timer()
-        norm, result_dict, df_geocode = normalizer(
+        norm, result_dict = normalizer(
             df_temp, mapper, geo, gadm=gadm, df_geocode=df_geocode
         )
 
@@ -445,7 +445,7 @@ def mix(xform, geo, input_file, output_file, feature_name, band, nodataval, date
     if xform == "netcdf":
 
         print(f"Transforming {input_file} netcdf to csv")
-        df = netcdf2df(input_file)
+        df = netcdf2df_processor(input_file)
 
         if geo != None:
             print(f"Geocoding {input_file} to {geo}")
@@ -461,7 +461,7 @@ def mix(xform, geo, input_file, output_file, feature_name, band, nodataval, date
     elif xform == "geotiff":
 
         print(f"Transforming {input_file} geotiff to csv")
-        df = raster2df(input_file, feature_name, band, nodataval, date)
+        df = raster2df_processor(input_file, feature_name, band, nodataval, date)
 
         if geo != None:
 

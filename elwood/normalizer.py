@@ -163,6 +163,10 @@ def normalizer(
             )
             print(f"date type results after build a date: {result}")
         df = result
+    for date_dict in mapper_date_list:
+        primary = date_dict.get("primary_date", False)
+        if not primary:
+            features.append(date_dict["name"])
 
     # TODO Cleanup geo standardization flow.
     for geo_dict in mapper["geo"]:
