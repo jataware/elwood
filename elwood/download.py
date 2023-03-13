@@ -49,7 +49,7 @@ def download_and_clean(
     admin,
     version=1,
     url="https://jataware-world-modelers.s3.amazonaws.com",
-    dirname="mixmasta_data",
+    dirname="elwood_data",
 ):
     """Download elwood and prep the GADM directory.
     This downloads the zip file from the source, extracts it, renames the

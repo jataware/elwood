@@ -264,7 +264,7 @@ def netcdf2df(netcdf):
 class mixdata:
     def load_gadm2(self):
         cdir = os.path.expanduser("~")
-        download_data_folder = f"{cdir}/mixmasta_data"
+        download_data_folder = f"{cdir}/elwood_data"
 
         # Admin 0 - 2
         gadm_fn = f"gadm36_2.feather"
@@ -287,7 +287,7 @@ class mixdata:
     def load_gadm3(self):
         # Admin 3
         cdir = os.path.expanduser("~")
-        download_data_folder = f"{cdir}/mixmasta_data"
+        download_data_folder = f"{cdir}/elwood_data"
         gadm_fn = f"gadm36_3.feather"
         gadmDir = f"{download_data_folder}/{gadm_fn}"
         gadm3 = gf.from_geofeather(gadmDir)

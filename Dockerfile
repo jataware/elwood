@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN wget https://jataware-world-modelers.s3.amazonaws.com/gadm/gadm36_2.feather.zip && \
       wget https://jataware-world-modelers.s3.amazonaws.com/gadm/gadm36_3.feather.zip && \
-      mkdir ~/mixmasta_data && \
-      unzip gadm36_2.feather.zip -d ~/mixmasta_data/ && \
-      unzip gadm36_3.feather.zip -d ~/mixmasta_data/ && \
+      mkdir ~/elwood_data && \
+      unzip gadm36_2.feather.zip -d ~/elwood_data/ && \
+      unzip gadm36_3.feather.zip -d ~/elwood_data/ && \
       rm gadm36_?.feather.zip
 
 RUN add-apt-repository ppa:ubuntugis/ubuntugis-unstable && apt-get update && \

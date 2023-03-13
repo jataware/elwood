@@ -50,7 +50,7 @@ def match_geo_names(
         speedups.enable()
 
     cdir = os.path.expanduser("~")
-    download_data_folder = f"{cdir}/mixmasta_data"
+    download_data_folder = f"{cdir}/elwood_data"
 
     # only load GADM if it wasn't explicitly passed to the function.
     if gadm is not None:
@@ -202,7 +202,7 @@ def geocode(
         speedups.enable()
 
     cdir = os.path.expanduser("~")
-    download_data_folder = f"{cdir}/mixmasta_data"
+    download_data_folder = f"{cdir}/elwood_data"
 
     # Only load GADM if it wasn't explicitly passed to the function.
     if gadm is not None:
