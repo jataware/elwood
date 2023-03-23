@@ -179,7 +179,7 @@ def clip_dataframe_time(dataframe, time_column, time_ranges):
 
 
 def rescale_dataframe_time(
-    dataframe, time_column, time_bucket, aggregation_function_list
+    dataframe, time_column, time_bucket, aggregation_function_list, geo_columns=None
 ):
     """Rescales a dataframes time periodicity using aggregation functions.
 
@@ -197,6 +197,7 @@ def rescale_dataframe_time(
         time_column=time_column,
         time_bucket=time_bucket,
         aggregation_function_list=aggregation_function_list,
+        geo_columns=geo_columns,
     )
 
 
