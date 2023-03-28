@@ -98,7 +98,6 @@ def z_score_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
     std = np.std(X, axis=0)
     return np.abs(X - mean) > threshold * std
 
-
 def IQR_outlier_detection(X:np.ndarray, threshold:float=1.5) -> BoolMask:
     """
     Detect outliers in a dataset using the interquartile range method.
@@ -106,7 +105,9 @@ def IQR_outlier_detection(X:np.ndarray, threshold:float=1.5) -> BoolMask:
     """
     q1, q3 = np.percentile(X, [25, 75], axis=0)
     iqr = q3 - q1
-    return np.abs(X - np.median(X, axis=0)) > threshold * iqr
+    lower_bound = q1 - threshold * iqr
+    upper_bound = q3 + threshold * iqr
+    return np.logical_or(X < lower_bound, X > upper_bound)
 
 
 def MAD_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
@@ -256,6 +257,7 @@ if __name__ == "__main__":
 
         outliers = IQR_outlier_detection(data)
         # outliers = z_score_outlier_detection(data)
+        # outliers = MAD_outlier_detection(data)
 
         #make a copy of the data and set outliers to the mean of the non-outliers
         no_outliers_y = min_max_clip(data, outliers)[~outliers]
@@ -279,18 +281,15 @@ if __name__ == "__main__":
 
         to_plot = [
             (no_outliers_x, no_outliers_y, 'Data without outliers'),
-            (n_data, 'min-max normalized data'),
-            (n_yj_data, 'Yeo-Johnson Data'),
-            (n_log_data, 'Symmetric Log'),
-            # (n_log_data, 'Log Data'),
-            # (nn_log_data, 'Negative Log Data'),
-            # ((n_log_data + nn_log_data)/2, 'Mean of Log Data'),
+            # (n_data, 'min-max normalized data'),
+            # (n_yj_data, 'Yeo-Johnson Data'),
             (mmc_data, 'Min-Max Clip'),
             (mms_data, 'Min-Max Sigmoid'),
-            (iqr_data, 'IQR Sigmoid'),
-            (z_data, 'Z-Score Sigmoid'),
-            (ranks, 'Percentiles'),
             (lll, 'Log-Linear-Log'),
+            (n_log_data, 'Symmetric Log'),
+            # (iqr_data, 'IQR Sigmoid'),
+            # (z_data, 'Z-Score Sigmoid'),
+            # (ranks, 'Percentiles'),
         ]
 
         #plot each of the transformations as a curve
@@ -316,9 +315,9 @@ if __name__ == "__main__":
                 data = data[1]
             #plot points vertically and semi-transparently
             ax[0].scatter(np.ones_like(data) * i, data, label=label, alpha=0.25, s=100)
-        leg = ax[0].legend()
-        for lh in leg.legendHandles: 
-            lh.set_alpha(1)
+        # leg = ax[0].legend()
+        # for lh in leg.legendHandles: 
+        #     lh.set_alpha(1)
         ax[0].set_xticks([])
         
         #set to tight layout
