@@ -2,7 +2,7 @@ import pandas
 
 
 def scale_time(
-    dataframe, time_column, time_bucket, aggregation_function_list, geo_columns=None
+    dataframe, time_column, time_bucket, aggregation_functions, geo_columns=None
 ):
     """Scales timestamp data in a dataframe to a less granular time frequency
 
@@ -10,7 +10,8 @@ def scale_time(
         dataframe (pandas.Dataframe): pandas dataframe with a timestamp field.
         time_column (string): Name of the time column to scale in the dataframe.
         time_bucket (DateOffset, Timedelta or str): The offset string or object representing target conversion. ex. "2H", "M"
-        aggregation_function (List[string]): A list of aggregation functions like sum, average, median, mean, mode, etc. Example: ['sum'], or ['min', 'max', 'sum']
+        aggregation_functions (List[string] or Dict{str:str}): A list containing one aggregation function, or a Dict containing column
+            names and aggregation functions like sum, average, median, mean, mode, etc. Example: ['sum'], or {'temp': 'min', 'rainfall': 'max', 'visitors': 'sum'}
         geo_columns (List[string]): A list of the geographical columns that should not be modified by the transformation.
     """
 
@@ -21,12 +22,10 @@ def scale_time(
 
         dataframe = dataframe.groupby(geo_columns)
 
-    # dataframe.set_index(time_column).resample(time_bucket).agg(
-    # aggregation_function_list
-    # )
-    scaled_frame = dataframe.resample(time_bucket, on=time_column).agg(
-        aggregation_function_list[0]
-    )
+    aggregator = aggregation_functions
+    if isinstance(aggregation_functions, list):
+        aggregator = aggregation_functions[0]
+    scaled_frame = dataframe.resample(time_bucket, on=time_column).agg(aggregator)
 
     # scaled_frame.columns = scaled_frame.columns.get_level_values(0)
     scaled_frame.reset_index(inplace=True)

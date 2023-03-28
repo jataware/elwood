@@ -15,7 +15,7 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
 
-    geo_columns = geo_columns.extend(time_column)
+    geo_columns.extend(time_column)
 
     try:
 
@@ -52,9 +52,10 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
 
     ds2 = ds.interp(**interpolation)
 
-    p_dataframe = ds2.to_dataframe()
+    intermediate_dataframe = ds2.to_dataframe()
+    final_dataframe = intermediate_dataframe.reset_index(inplace=True)
 
-    return p_dataframe
+    return final_dataframe
 
 
 def getScale(lat0, lon0, lat1, lon1):
