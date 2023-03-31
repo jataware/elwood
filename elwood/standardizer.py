@@ -16,7 +16,7 @@ from .geo_processor import geocode, get_iso_country_dict, match_geo_names
 from .time_helpers import date_type_handler, build_a_date_handler
 
 
-def normalizer(
+def standardizer(
     df: pandas.DataFrame,
     mapper: dict,
     admin: str,

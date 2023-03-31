@@ -14,8 +14,8 @@ from .file_processor import (
     raster2df_processor,
     netcdf2df_processor,
 )
-from .normalizer import normalizer
-from .feature_scaling import scale_dataframe
+from .standardizer import standardizer
+from .feature_normalization import zero_to_one_normalization
 from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
 from .transformations.scaling import scale_time
 from .transformations.regridding import regrid_dataframe
@@ -79,7 +79,7 @@ def process(
     df.reset_index(inplace=True, drop=True)
 
     ## Run normalizer.
-    norm, renamed_col_dict = normalizer(df, mapper, admin, gadm=gadm)
+    norm, renamed_col_dict = standardizer(df, mapper, admin, gadm=gadm)
 
     # Normalizer will add NaN for missing values, e.g. when appending
     # dataframes with different columns. GADM will return None when geocoding
@@ -137,7 +137,7 @@ def normalize_features(dataframe, output_file: str = None):
     Returns:
         pandas.Dataframe: Returns a pandas Dataframe with numerical features scaled from 0 to 1.
     """
-    df = scale_dataframe(dataframe)
+    df = zero_to_one_normalization(dataframe)
 
     if output_file:
         df.to_parquet(f"{output_file}_normalized.parquet.gzip", compression="gzip")
