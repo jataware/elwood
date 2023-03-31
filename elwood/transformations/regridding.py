@@ -8,7 +8,8 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
 
     Args:
         dataframe (pandas.Dataframe): Dataframe of a dataset that has detectable gridden geographical resolution ie. points that represent 1sqkm areas
-        geo_columns (List[str]): The geo_columns for the latitude and longitude pairs.
+        geo_columns (List[str]): A list containing the geo_columns for the latitude and longitude pairs.
+        time_column (List[str]): A list containing the name of the datetime column(s) in the dataset.
         scale_multi (int): The number by which to divide to geographical scale to regrid larger.
 
     Returns:
@@ -16,6 +17,7 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
     """
 
     geo_columns.extend(time_column)
+    ds = None
 
     try:
 
@@ -52,8 +54,8 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
 
     ds2 = ds.interp(**interpolation)
 
-    intermediate_dataframe = ds2.to_dataframe()
-    final_dataframe = intermediate_dataframe.reset_index(inplace=True)
+    final_dataframe = ds2.to_dataframe()
+    final_dataframe.reset_index(inplace=True)
 
     return final_dataframe
 
