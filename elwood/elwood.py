@@ -15,7 +15,7 @@ from .file_processor import (
     netcdf2df_processor,
 )
 from .standardizer import standardizer
-from .feature_normalization import zero_to_one_normalization
+from .feature_normalization import zero_to_one_normalization, robust_normalization
 from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
 from .transformations.scaling import scale_time
 from .transformations.regridding import regrid_dataframe
@@ -141,6 +141,16 @@ def normalize_features(dataframe, output_file: str = None):
 
     if output_file:
         df.to_parquet(f"{output_file}_normalized.parquet.gzip", compression="gzip")
+    return df
+
+
+def normalize_features_robust(dataframe, output_file: str = None):
+    df = robust_normalization(dataframe, method="min_max")
+
+    if output_file:
+        df.to_parquet(
+            f"{output_file}_normalized_robust.parquet.gzip", compression="gzip"
+        )
     return df
 
 

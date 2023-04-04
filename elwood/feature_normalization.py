@@ -87,3 +87,48 @@ def symmetric_log(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray
     n_log_X = min_max_clip(n_log_X)
 
     return n_log_X
+
+
+# Outlier Detection Methods
+
+
+def IQR_outlier_detection(X: np.ndarray, threshold: float = 1.5) -> BoolMask:
+    """
+    Detect outliers in a dataset using the interquartile range method.
+    Data need not be time-series.
+    """
+    q1, q3 = np.percentile(X, [25, 75], axis=0)
+    iqr = q3 - q1
+    lower_bound = q1 - threshold * iqr
+    upper_bound = q3 + threshold * iqr
+    return np.logical_or(X < lower_bound, X > upper_bound)
+
+
+# Outlier Robust Main Call
+
+
+def robust_normalization(dataframe, method=None):
+    """Runs outlier robust normalization on a pandas dataframe.
+
+    Args:
+        dataframe (pandas.Datafrme): _description_
+        method (string, optional): The method to run for outlier
+            normalization. Can be "min_max", "log_lin_log", or "symmetric_log". Defaults to None.
+
+    Returns:
+        pandas.Dataframe: Dataframe with normalized value.
+    """
+    dfs = []
+    features = dataframe.feature.unique()
+
+    for f in features:
+        feat = dataframe[dataframe["feature"] == f].copy()
+        outliers = IQR_outlier_detection(feat["value"])
+        if method == "min_max" or not method:
+            feat["value"] = min_max_clip(feat["value"], outliers)
+        if method == "log_lin_log":
+            feat["value"] = log_lin_log(feat["value"], outliers)
+        if method == "symmetric_log":
+            feat["value"] = symmetric_log(feat["value"], outliers)
+        dfs.append(feat)
+    return pandas.concat(dfs)
