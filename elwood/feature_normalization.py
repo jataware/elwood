@@ -34,16 +34,18 @@ def process_zero_to_one(data):
 BoolMask = NDArray[np.bool_]  # type alias for boolean mask
 
 
-def min_max_clip(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
+def min_max_clip(X: np.ndarray, outliers: BoolMask = None) -> np.ndarray:
     """Scale data to [0-1] range using min and max from non-outlier data. Outliers are clamped to range."""
     masked_X = X[~outliers] if outliers is not None else X
     min_value, max_value = np.min(masked_X, axis=0), np.max(masked_X, axis=0)
-    assert max_value > min_value, "max_value must be greater than min_value"
+    assert (
+        max_value > min_value
+    ), f"max_value {max_value} must be greater than min_value {min_value}"
     min_bound, max_bound = 0.0, 1.0
     return np.clip((X - min_value) / (max_value - min_value), min_bound, max_bound)
 
 
-def log_lin_log(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
+def log_lin_log(X: np.ndarray, outliers: BoolMask = None) -> np.ndarray:
     """all non-outlier data is spaced linearly, while more extreme data is spaced logarithmically"""
 
     # allocate the output array
@@ -74,7 +76,7 @@ def log_lin_log(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
     return output
 
 
-def symmetric_log(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
+def symmetric_log(X: np.ndarray, outliers: BoolMask = None) -> np.ndarray:
 
     # center the data around the mean of the non-outlier data
     masked_X = X[~outliers] if outliers is not None else X
@@ -97,7 +99,7 @@ def IQR_outlier_detection(X: np.ndarray, threshold: float = 1.5) -> BoolMask:
     Detect outliers in a dataset using the interquartile range method.
     Data need not be time-series.
     """
-    q1, q3 = np.percentile(X, [25, 75], axis=0)
+    q1, q3 = np.percentile(X, [1, 99], axis=0)
     iqr = q3 - q1
     lower_bound = q1 - threshold * iqr
     upper_bound = q3 + threshold * iqr
