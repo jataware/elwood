@@ -4,7 +4,7 @@ import click
 import pandas as pd
 
 from .download import download_and_clean
-from .elwood import normalizer, optimize_df_types, mixdata
+from .elwood import standardizer, optimize_df_types, mixdata
 from .file_processor import netcdf2df_processor, raster2df_processor
 from .geo_processor import geocode
 
@@ -120,7 +120,7 @@ def chunk_normalize(
 
         ## Run normalizer.
         norm_start_time = timeit.default_timer()
-        norm, result_dict = normalizer(
+        norm, result_dict = standardizer(
             df_temp, mapper, geo, gadm=gadm, df_geocode=df_geocode
         )
 
