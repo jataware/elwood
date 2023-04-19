@@ -6,8 +6,8 @@ from matplotlib import pyplot as plt
 from scipy.stats import rankdata
 
 
-
-
+# Collection of different normalization methods, not part of core functionality.
+# Left in just in case any of these need to be used in the future.
 
 
 """
@@ -18,19 +18,15 @@ stuff that doesn't work:
 """
 
 
-
-
-
-
-
-def get_random_dataset(num_points: int = 100, 
-                       outlier_prob: float = 0.05,
-                       mean_range: tuple[int, int] = (-1, 1), 
-                       std_range: tuple[int, int] = (0.5, 1.5),
-                       num_dimensions: int = 1,
-                       outlier_scale: float = 1.0,
-                       outlier_decay: float = 2.0
-                      ) -> np.ndarray:
+def get_random_dataset(
+    num_points: int = 100,
+    outlier_prob: float = 0.05,
+    mean_range: tuple[int, int] = (-1, 1),
+    std_range: tuple[int, int] = (0.5, 1.5),
+    num_dimensions: int = 1,
+    outlier_scale: float = 1.0,
+    outlier_decay: float = 2.0,
+) -> np.ndarray:
     """
     Generates a random dataset with outliers.
 
@@ -48,7 +44,7 @@ def get_random_dataset(num_points: int = 100,
     """
     mean_min, mean_max = mean_range
     std_min, std_max = std_range
-    
+
     # Generate random mean and standard deviation
     mean = np.random.uniform(mean_min, mean_max, num_dimensions)
     std = np.random.uniform(std_min, std_max, num_dimensions)
@@ -63,21 +59,24 @@ def get_random_dataset(num_points: int = 100,
     outlier_scale = outlier_scale[:, np.newaxis]
     outlier_decay = outlier_decay ** np.arange(num_dimensions)
     outlier_decay = outlier_decay[np.newaxis, :]
-    outlier_mean = np.random.uniform(mean_min - 5, mean_max + 5, (num_outliers, num_dimensions))
+    outlier_mean = np.random.uniform(
+        mean_min - 5, mean_max + 5, (num_outliers, num_dimensions)
+    )
     outlier_std = np.random.uniform(std_min, std_max, (num_outliers, num_dimensions))
-    data[outlier_indices] = np.random.normal(outlier_mean, outlier_std * outlier_scale * outlier_decay)
+    data[outlier_indices] = np.random.normal(
+        outlier_mean, outlier_std * outlier_scale * outlier_decay
+    )
 
     return data
 
 
-
-
-BoolMask = NDArray[np.bool_] # type alias for boolean mask
+BoolMask = NDArray[np.bool_]  # type alias for boolean mask
 
 
 ####################### Outlier Detection Functions #######################
 
-def mahalanobis_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
+
+def mahalanobis_outlier_detection(X: np.ndarray, threshold: float = 3.0) -> BoolMask:
     """
     Detect outliers in a dataset using the Mahalanobis distance method.
     Data need not be time-series. Nor do features need to be independent.
@@ -89,7 +88,7 @@ def mahalanobis_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask
     return dist > threshold
 
 
-def z_score_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
+def z_score_outlier_detection(X: np.ndarray, threshold: float = 3.0) -> BoolMask:
     """
     Detect outliers in a dataset using the z-score method.
     Data need not be time-series. Assumes features are independent.
@@ -98,7 +97,8 @@ def z_score_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
     std = np.std(X, axis=0)
     return np.abs(X - mean) > threshold * std
 
-def IQR_outlier_detection(X:np.ndarray, threshold:float=1.5) -> BoolMask:
+
+def IQR_outlier_detection(X: np.ndarray, threshold: float = 1.5) -> BoolMask:
     """
     Detect outliers in a dataset using the interquartile range method.
     Data need not be time-series.
@@ -110,7 +110,7 @@ def IQR_outlier_detection(X:np.ndarray, threshold:float=1.5) -> BoolMask:
     return np.logical_or(X < lower_bound, X > upper_bound)
 
 
-def MAD_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
+def MAD_outlier_detection(X: np.ndarray, threshold: float = 3.0) -> BoolMask:
     """
     Detect outliers in a dataset using the median absolute deviation method.
     Data need not be time-series.
@@ -120,15 +120,15 @@ def MAD_outlier_detection(X:np.ndarray, threshold:float=3.0) -> BoolMask:
     return np.abs(X - median) > threshold * mad
 
 
-
 ####################### Normalization Functions #######################
 
-def sigmoid(x:np.ndarray) -> np.ndarray:
+
+def sigmoid(x: np.ndarray) -> np.ndarray:
     """Sigmoid function"""
-    return 1/(1 + np.exp(-x))
+    return 1 / (1 + np.exp(-x))
 
 
-def min_max_clip(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
+def min_max_clip(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
     """Scale data to [0-1] range using min and max from non-outlier data. Outliers are clamped to range."""
     masked_X = X[~outliers] if outliers is not None else X
     min_value, max_value = np.min(masked_X, axis=0), np.max(masked_X, axis=0)
@@ -136,7 +136,8 @@ def min_max_clip(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
     min_bound, max_bound = 0.0, 1.0
     return np.clip((X - min_value) / (max_value - min_value), min_bound, max_bound)
 
-def min_max_sigmoid(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
+
+def min_max_sigmoid(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
     """Scale data to [-1,1] range using min and max from non-outlier data. Then squashes data including outliers to [0-1] range using sigmoid function."""
     masked_X = X[~outliers] if outliers is not None else X
     min_value, max_value = np.min(masked_X, axis=0), np.max(masked_X, axis=0)
@@ -144,14 +145,20 @@ def min_max_sigmoid(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
     X = (X - min_value) / (max_value - min_value) * 2 - 1
     return sigmoid(X)
 
-def IQR_sigmoid(X:np.ndarray, outliers:BoolMask|None=None, threshold:float=1.5) -> np.ndarray:
+
+def IQR_sigmoid(
+    X: np.ndarray, outliers: BoolMask | None = None, threshold: float = 1.5
+) -> np.ndarray:
     """Scale/center data using IQR+median from non-outlier data. Then squashes data including outliers to [0-1] range using sigmoid function."""
     masked_X = X[~outliers] if outliers is not None else X
     q1, q3 = np.percentile(masked_X, [25, 75], axis=0)
     iqr = q3 - q1
     return sigmoid((X - np.median(masked_X, axis=0)) / (threshold * iqr))
 
-def z_score_sigmoid(X:np.ndarray, outliers:BoolMask|None=None, threshold:float=3.0) -> np.ndarray:
+
+def z_score_sigmoid(
+    X: np.ndarray, outliers: BoolMask | None = None, threshold: float = 3.0
+) -> np.ndarray:
     """Scale data to [-1,1] range using z-score from non-outlier data. Then squashes data including outliers to [0-1] range using sigmoid function."""
     masked_X = X[~outliers] if outliers is not None else X
     mean = np.mean(masked_X, axis=0)
@@ -159,12 +166,12 @@ def z_score_sigmoid(X:np.ndarray, outliers:BoolMask|None=None, threshold:float=3
     return sigmoid((X - mean) / (threshold * std))
 
 
-def ranker(X:np.ndarray) -> np.ndarray:
+def ranker(X: np.ndarray) -> np.ndarray:
     """use rankdata to scale data to [0-1] range"""
-    return rankdata(X, method='min') / len(X)
+    return rankdata(X, method="min") / len(X)
 
 
-def symmetric_log(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
+def symmetric_log(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
 
     # center the data around the mean of the non-outlier data
     masked_X = X[~outliers] if outliers is not None else X
@@ -179,36 +186,35 @@ def symmetric_log(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
     return n_log_X
 
 
-def log_lin_log(X:np.ndarray, outliers:BoolMask|None=None) -> np.ndarray:
+def log_lin_log(X: np.ndarray, outliers: BoolMask | None = None) -> np.ndarray:
     """all non-outlier data is spaced linearly, while more extreme data is spaced logarithmically"""
-    
-    #allocate the output array
+
+    # allocate the output array
     output = np.zeros_like(X)
 
-    #center the data around the mean of the non-outlier data
+    # center the data around the mean of the non-outlier data
     masked_X = X[~outliers] if outliers is not None else X
     mean = np.mean(masked_X, axis=0)
     X -= mean
     masked_X -= mean
-    
+
     # separate the positive outliers from the negative outliers
     min_value, max_value = np.min(masked_X, axis=0), np.max(masked_X, axis=0)
     neg_outliers = X < min_value
     pos_outliers = X > max_value
-    
-    #center the data around the mean, and handle the pos and negative outliers separately
-    #negative is handled by taking the log of the absolute value, then negating the result
+
+    # center the data around the mean, and handle the pos and negative outliers separately
+    # negative is handled by taking the log of the absolute value, then negating the result
     output[~outliers] = X[~outliers]
     output[pos_outliers] = np.log(X[pos_outliers]) - np.log(max_value) + max_value
     output[neg_outliers] = -(np.log(-X[neg_outliers]) - np.log(-min_value) - min_value)
 
-
-    #scale the data to [0-1] range
-    output = (output - np.min(output, axis=0)) / (np.max(output, axis=0) - np.min(output, axis=0))
+    # scale the data to [0-1] range
+    output = (output - np.min(output, axis=0)) / (
+        np.max(output, axis=0) - np.min(output, axis=0)
+    )
 
     return output
-    
-
 
 
 # def log_min_max_scaling(data, epsilon=1e-8):
@@ -247,21 +253,23 @@ if __name__ == "__main__":
     np.random.seed(42)
     for _ in range(1):
         # data = np.array([10, 25, 12, 50, 75, 984, 5, 100, 95, -4567, 22, 30, -15, 0]).reshape(-1, 1)
-        data = get_random_dataset(100, mean_range=(-100, 100), std_range=(1, 10), outlier_scale=100)
+        data = get_random_dataset(
+            100, mean_range=(-100, 100), std_range=(1, 10), outlier_scale=100
+        )
 
-        #generate data with an exponential distribution
+        # generate data with an exponential distribution
         # data = np.random.exponential(1, 100)[:,None] - np.random.exponential(1, 100)[:,None]
 
-        #sort the data
+        # sort the data
         data = np.sort(data, axis=0)
 
         outliers = IQR_outlier_detection(data)
         # outliers = z_score_outlier_detection(data)
         # outliers = MAD_outlier_detection(data)
 
-        #make a copy of the data and set outliers to the mean of the non-outliers
+        # make a copy of the data and set outliers to the mean of the non-outliers
         no_outliers_y = min_max_clip(data, outliers)[~outliers]
-        no_outliers_x = np.arange(data.shape[0])[:,None][~outliers]
+        no_outliers_x = np.arange(data.shape[0])[:, None][~outliers]
 
         # Apply the transformations, and normalize the data
         yj_data, _ = yeojohnson(data)
@@ -270,8 +278,8 @@ if __name__ == "__main__":
         n_log_data = symmetric_log(data, outliers)
         n_yj_data = min_max_clip(yj_data)
         n_data = min_max_clip(data)
-        
-        #outlier aware approaches
+
+        # outlier aware approaches
         mmc_data = min_max_clip(data, outliers)
         mms_data = min_max_sigmoid(data, outliers)
         iqr_data = IQR_sigmoid(data, outliers)
@@ -280,32 +288,36 @@ if __name__ == "__main__":
         lll = log_lin_log(data, outliers)
 
         to_plot = [
-            (no_outliers_x, no_outliers_y, 'Data without outliers'),
+            (no_outliers_x, no_outliers_y, "Data without outliers"),
             # (n_data, 'min-max normalized data'),
             # (n_yj_data, 'Yeo-Johnson Data'),
-            (mmc_data, 'Min-Max Clip'),
-            (mms_data, 'Min-Max Sigmoid'),
-            (lll, 'Log-Linear-Log'),
-            (n_log_data, 'Symmetric Log'),
+            (mmc_data, "Min-Max Clip"),
+            (mms_data, "Min-Max Sigmoid"),
+            (lll, "Log-Linear-Log"),
+            (n_log_data, "Symmetric Log"),
             # (iqr_data, 'IQR Sigmoid'),
             # (z_data, 'Z-Score Sigmoid'),
             # (ranks, 'Percentiles'),
         ]
 
-        #plot each of the transformations as a curve
+        # plot each of the transformations as a curve
         fig, ax = plt.subplots(1, 2, sharey=True)
         for row in to_plot:
             data, label = row[:-1], row[-1]
             ax[1].plot(*data, label=label)
 
-        #draw circles around outliers
-        ax[1].scatter(np.where(outliers)[0], mmc_data[outliers], c='r', marker='o', label='outliers')
+        # draw circles around outliers
+        ax[1].scatter(
+            np.where(outliers)[0],
+            mmc_data[outliers],
+            c="r",
+            marker="o",
+            label="outliers",
+        )
 
         ax[1].legend()
 
-
-
-        #plot the data as a vertical scatter plot for each transformation
+        # plot the data as a vertical scatter plot for each transformation
         # plt.figure()
         for i, row in enumerate(to_plot):
             data, label = row[:-1], row[-1]
@@ -313,41 +325,31 @@ if __name__ == "__main__":
                 data = data[0]
             else:
                 data = data[1]
-            #plot points vertically and semi-transparently
+            # plot points vertically and semi-transparently
             ax[0].scatter(np.ones_like(data) * i, data, label=label, alpha=0.25, s=100)
         # leg = ax[0].legend()
-        # for lh in leg.legendHandles: 
+        # for lh in leg.legendHandles:
         #     lh.set_alpha(1)
         ax[0].set_xticks([])
-        
-        #set to tight layout
-        plt.tight_layout()
 
+        # set to tight layout
+        plt.tight_layout()
 
         plt.show()
 
-
-        #second plot where 
-
-        
-
-
-
-
-
-
+        # second plot where
 
 
 # def normalize_data(
 #         X:np.ndarray,
-#         outlier_fn:Callable[[np.ndarray], np.ndarray], 
+#         outlier_fn:Callable[[np.ndarray], np.ndarray],
 #         normalize_fn:Callable[[np.ndarray, NDArray[np.bool_]|None], np.ndarray],
 #         max_iter:int=10,
 #         include_outliers:bool=True
 # ) -> np.ndarray:
 #     """
-#     Normalize a dataset by removing outliers and then normalizing the data. 
-    
+#     Normalize a dataset by removing outliers and then normalizing the data.
+
 #     The ordering of points in the dataset is maintained (including if outliers are included in the final result).
 
 #     Parameters
@@ -385,7 +387,7 @@ if __name__ == "__main__":
 #         # if no new outliers were detected, break
 #         if not np.any(new_outliers):
 #             break
-    
+
 #     # normalize the dataset
 #     X = normalize_fn(X, outlier_mask)
 
@@ -396,24 +398,15 @@ if __name__ == "__main__":
 #     return X
 
 
-
-
-
-
 # def fast_data_normalization(X:np.ndarray, threshold=1.5) -> np.ndarray:
-
 
 
 # def correct_data_normalization(): ...
 
 
-
 # def get_covariance_matrix(X:np.ndarray) -> np.ndarray:
 #     """Compute the covariance matrix for a set of data points."""
 #     return np.cov(X.T)
-
-
-
 
 
 # def rolling_outlier_detection(y:np.ndarray, window:int=10, threshold:float=3.0):
@@ -425,10 +418,9 @@ if __name__ == "__main__":
 #     return np.abs(y - mean) > threshold * stdev
 
 
-
 # def stdev_outlier_detection(y:np.ndarray, threshold:float=3.0):
 #     """
-#     Detect outliers in a dataset using the standard deviation method. 
+#     Detect outliers in a dataset using the standard deviation method.
 #     Data need not be time-series.
 #     """
 #     mean = np.mean(y)
