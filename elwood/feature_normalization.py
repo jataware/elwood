@@ -38,9 +38,6 @@ def min_max_clip(X: np.ndarray, outliers: BoolMask = None) -> np.ndarray:
     """Scale data to [0-1] range using min and max from non-outlier data. Outliers are clamped to range."""
     masked_X = X[~outliers] if outliers is not None else X
     min_value, max_value = np.min(masked_X, axis=0), np.max(masked_X, axis=0)
-    assert (
-        max_value > min_value
-    ), f"max_value {max_value} must be greater than min_value {min_value}"
     min_bound, max_bound = 0.0, 1.0
     return np.clip((X - min_value) / (max_value - min_value), min_bound, max_bound)
 
