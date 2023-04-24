@@ -1,9 +1,6 @@
 import numpy as np
 import pandas
 from numpy.typing import NDArray
-from scipy.stats import yeojohnson, gaussian_kde
-from matplotlib import pyplot as plt
-from scipy.stats import rankdata
 
 
 def zero_to_one_normalization(dataframe):
