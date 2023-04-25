@@ -439,7 +439,7 @@ def mix(xform, geo, input_file, output_file, feature_name, band, nodataval, date
     """Console script to flexibly run elwood."""
     click.echo("Mixing...")
     # If geocoding: check if gadm feather file exists; if not, download it
-    if geo != None:
+    if geo is not None:
         download_and_clean(geo)
 
     if xform == "netcdf":
@@ -447,7 +447,7 @@ def mix(xform, geo, input_file, output_file, feature_name, band, nodataval, date
         print(f"Transforming {input_file} netcdf to csv")
         df = netcdf2df_processor(input_file)
 
-        if geo != None:
+        if geo is not None:
             print(f"Geocoding {input_file} to {geo}")
             df_geo = geocode(geo, df, x, y)
             df_geo.to_csv(output_file, index=False)
@@ -463,7 +463,7 @@ def mix(xform, geo, input_file, output_file, feature_name, band, nodataval, date
         print(f"Transforming {input_file} geotiff to csv")
         df = raster2df_processor(input_file, feature_name, band, nodataval, date)
 
-        if geo != None:
+        if geo is not None:
 
             print(f"Geocoding {input_file} to {geo}")
             df_geo = geocode(geo, df, x, y)
@@ -479,7 +479,7 @@ def mix(xform, geo, input_file, output_file, feature_name, band, nodataval, date
 
         df = pd.read_csv(input_file)
 
-        if geo != None:
+        if geo is not None:
             print(f"Geocoding {input_file} to {geo}")
             df_geo = geocode(geo, df, x, y)
             df_geo.to_csv(output_file, index=False)

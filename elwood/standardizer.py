@@ -152,7 +152,7 @@ def standardizer(
                 date_assoc["name"]: date_assoc
                 for date_assoc in mapper_date_list
                 if date_assoc["name"]
-                in [value for value in date_dict["associated_columns"].values()]
+                in [value for value in date_dict.get("associated_columns", {}).values()]
             }
             print(f"BUILD COMPONENTS: {build_date_components}")
             for item in build_date_components.values():
@@ -240,7 +240,7 @@ def standardizer(
         elif "qualifies" in geo_dict and geo_dict["qualifies"]:
             # Note that any "qualifier" column that is not primary geo/date
             # will just be lopped on to the right as its own column. It'’'s
-            # column name will just be the name and Uncharted will deal with
+            # column name will just be the name and the client will deal with
             # it. The key takeaway is that qualifier columns grow the width,
             # not the length of the dataset.
             # Want to add the qualified col as the dictionary key.
@@ -467,7 +467,7 @@ def handle_colname_collisions(
     -----------
     Identify mapper columns that match protected column names. When found,
     update the mapper and dataframe, and keep a dict of these changes
-    to return to the caller e.g. SpaceTag.
+    to return to the caller e.g. Dojo.
 
     Parameters
     ----------
@@ -510,7 +510,7 @@ def handle_colname_collisions(
     feature_cols = [
         d["name"]
         for d in mapper["feature"]
-        if d["name"] in protected_cols and "qualifies" in d and d["qualifies"]
+        if d["name"] in protected_cols and d.get("qualifies")
     ]
 
     # Verbose build of the collision_list, could have combined above.
@@ -534,13 +534,13 @@ def handle_colname_collisions(
         for dct in vlist:
             if dct["name"] in collision_list:
                 dct["name"] = dct["name"] + suffix
-            elif "qualifies" in dct and dct["qualifies"]:
+            elif dct.get("qualifies"):
                 # change any instances of this column name qualified by another field
                 dct["qualifies"] = [
                     w.replace(w, w + suffix) if w in collision_list else w
                     for w in dct["qualifies"]
                 ]
-            elif "associated_columns" in dct and dct["associated_columns"]:
+            elif dct.get("associated_columns"):
                 # change any instances of this column name in an associated_columns dict
                 dct["associated_columns"] = {
                     k: v.replace(v, v + suffix) if v in collision_list else v
