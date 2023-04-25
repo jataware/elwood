@@ -11,26 +11,23 @@ import gc
 import os
 
 from pathlib import Path
+from os.path import join as path_join
 
 from elwood import elwood
 from pandas.util.testing import assert_frame_equal, assert_dict_equal
 import pandas as pd
 
+logger = logging.getLogger(__name__)
+
+
 def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
-logger = logging.getLogger(__name__)
-
-from os.path import join as path_join
-
-inputs_base_dir = path_join(get_project_root(), "tests", "inputs")
-outputs_base_dir = path_join(get_project_root(), "tests", "outputs")
-
 def input_path(filename):
-    return path_join(inputs_base_dir, filename)
+    return path_join(get_project_root(), "tests", "inputs", filename)
 
 def output_path(filename):
-    return path_join(outputs_base_dir, filename)
+    return path_join(get_project_root(), "tests", "outputs", filename)
 
 
 class TestMixmaster(unittest.TestCase):
@@ -49,13 +46,11 @@ class TestMixmaster(unittest.TestCase):
         try:
             os.remove(output_path("unittests.parquet.gzip"))
         except FileNotFoundError as e:
-            # print(f"tearDown: Exception caught while trying to empty test output files: {type(e)}")
             pass
 
         try:
             os.remove(output_path("unittests_str.parquet.gzip"))
         except FileNotFoundError as e:
-            # print(f"tearDown: Exception caught while trying to empty test output files: {type(e)}")
             pass
 
     def test_001_process(self):
