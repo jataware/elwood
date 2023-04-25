@@ -315,7 +315,7 @@ class mixdata:
 def optimize_df_types(df: pd.DataFrame):
     """
     Pandas will upcast essentially everything. This will use the built-in
-    Pandas function to_numeeric to downcast dataframe series to types that use
+    Pandas function to_numeric to downcast dataframe series to types that use
     less memory e.g. float64 to float32.
 
     For very large dataframes the memory reduction should translate into
