@@ -560,9 +560,16 @@ if __name__ == "__main__":
 """
 Test by: > /usr/bin/python3.8 -m unittest /workspaces/elwood/tests/test_mixmasta.py -v
 
-or
+============
+
+Or using pytest:
 
 $ python3 -m pip install pytest
-$ cd tests
-$ pytest -vs elwood_unit_test.py::TestMixmaster::test_optional_fields
+
+Run all tests (even on root dir):
+$ pytest -vs
+
+Run a specific test case:
+$ pytest -vs tests/elwood_unit_test.py::TestMixmaster::test_optional_fields
+
 """
