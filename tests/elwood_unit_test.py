@@ -524,10 +524,56 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df, check_categorical=False)
 
+    def test_optional_fields(self):
+
+        # File missing qualifies, associated_columns on some field annotations:
+        mapper_file = input_path("optional_fields_test_input.json")
+
+        data_input_file = input_path("test1_input.csv")
+
+        mp = mapper_file
+        fp=data_input_file
+        geo = "admin2"
+        outf = output_path("unittests")
+
+        # Process:
+        df, dct = elwood.process(fp, mp, geo, outf)
+
+        # Load expected output: # TODO change output to match out input
+        output_df = pd.read_csv(output_path("test1_output.csv"), index_col=False)
+        output_df = elwood.optimize_df_types(output_df)
+
+        # Sort both data frames and reindex for comparison,.
+        cols = [
+            "timestamp",
+            "country",
+            "admin1",
+            "admin2",
+            "admin3",
+            "lat",
+            "lng",
+            "feature",
+            "value",
+        ]
+        df.sort_values(by=cols, inplace=True)
+        output_df.sort_values(by=cols, inplace=True)
+        df.reset_index(drop=True, inplace=True)
+        output_df.reset_index(drop=True, inplace=True)
+
+        # Assertions
+        assert_frame_equal(df, output_df)
+
 
 if __name__ == "__main__":
     unittest.main()
 
+
 """
 Test by: > /usr/bin/python3.8 -m unittest /workspaces/elwood/tests/test_mixmasta.py -v
+
+or
+
+$ python3 -m pip install pytest
+$ cd tests
+$ pytest -vs elwood_unit_test.py::TestMixmaster::test_optional_fields
 """
