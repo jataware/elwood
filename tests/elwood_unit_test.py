@@ -533,10 +533,43 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df, check_categorical=False)
 
+    def test_optional_fields(self):
+        """
+        Before improvements, running this test would throw KeyError exceptions
+        if associated_columns was not present(even if there was no need for it)
+        """
+
+        # This file is missing `qualifies`, `associated_columns` on some fields:
+        mapper_file = input_path("optional_fields_test_input.json")
+
+        data_file = input_path("test1_input.csv")
+
+        geo = "admin2"
+        outf = output_path("unittests")
+
+        # Process:
+        df, dct = elwood.process(data_file, mapper_file, geo, outf)
+
+        assert 'pandas.core.frame.DataFrame' in str(type(df))
+
 
 if __name__ == "__main__":
     unittest.main()
 
+
 """
 Test by: > /usr/bin/python3.8 -m unittest /workspaces/elwood/tests/test_mixmasta.py -v
+
+============
+
+Or using pytest:
+
+$ python3 -m pip install pytest
+
+Run all tests (even on root dir):
+$ pytest -vs
+
+Run a specific test case:
+$ pytest -vs tests/elwood_unit_test.py::TestMixmaster::test_optional_fields
+
 """

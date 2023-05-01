@@ -261,7 +261,7 @@ def day_month_year_converter(other_date_group_mapper):
     # TODO: If day and year are associated to each other and month, but
     # month is not associated to those fields, then at this point assoc_fields
     # will be the three values, and assoc_columns will contain only day and
-    # year. This will error out below. It is assumed that SpaceTag will
+    # year. This will error out below. It is assumed that client will
     # control for this instance.
 
     # If there is no primary_time column for timestamp, which would have
