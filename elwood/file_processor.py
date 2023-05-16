@@ -187,7 +187,10 @@ def raster2df_processor(
                 # need to exclude NaN values since there is no nodataval
                 row_value = RowData[ThisCol]
 
-                if (row_value > nData) and not (numpy.isnan(row_value)):
+                # if the null data value is a straight up nan then we should only check if the row_value is nan
+                # however, if the null data value is not nan (e.g. a number) we should make sure that row_value
+                # does not equal that number
+                if (numpy.isnan(nData) and not (numpy.isnan(row_value))) or (row_value != nData):
 
                     # TODO: implement filters on valid pixels
                     # for example, the below would ensure pixel values are between -100 and 100
