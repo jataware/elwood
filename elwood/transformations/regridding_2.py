@@ -89,7 +89,7 @@ def test1():
 
 
     # Regrid the clipped population data using the remapsum method
-    regridded_data = regrid(gpw_c, 1.0, RegridMethod.SUM)
+    regridded_data = regrid(gpw_c, 1.0, RegridMethod.CONSERVATIVE)
     
     
     # save the variable that has the data for plotting
