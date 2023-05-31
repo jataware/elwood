@@ -1,5 +1,4 @@
 import xarray as xr
-from matplotlib import pyplot as plt
 
 from cdo import * 
 import os
@@ -14,15 +13,16 @@ from enum import Enum
 
 
 class RegridMethod(Enum):
-    CONSERVATIVE = ('remapcon', cdo.remapcon, 'Conservative remapping, suitable for preserving the total value of the field (e.g., mass, population, water fluxes)')
-    SUM = ('remapsum', cdo.remapsum, 'Sum remapping, suitable for fields representing accumulated quantities (e.g., precipitation, snowfall, radiation fluxes)')
+    SUM = ('remapsum', cdo.remapsum, 'Sum remapping, suitable for fields where the total quantity should be conserved (e.g., mass, population, water fluxes)')
     MINIMUM = ('remapmin', cdo.remapmin, 'Minimum remapping, suitable for fields where you want to preserve the minimum value within an area (e.g., minimum temperature, lowest pressure)')
     MAXIMUM = ('remapmax', cdo.remapmax, 'Maximum remapping, suitable for fields where you want to preserve the maximum value within an area (e.g., peak wind speeds, maximum temperature)')
     MEDIAN = ('remapmedian', cdo.remapmedian, 'Median remapping, suitable for fields where you want to preserve the central tendency of the data, while being less sensitive to extreme values (e.g., median income, median precipitation)')
     AVERAGE = ('remapavg', cdo.remapavg, 'Average remapping, suitable for fields representing average quantities (e.g., temperature, humidity, wind speed)')
     BILINEAR = ('remapbil', cdo.remapbil, 'Bilinear interpolation, suitable for smooth fields (e.g., temperature, pressure, geopotential height)')
     BICUBIC = ('remapbic', cdo.remapbic, 'Bicubic interpolation, suitable for smooth fields with higher-order accuracy (e.g., temperature, pressure, geopotential height)')
-    NEAREST_NEIGHBOR = ('remapnn', cdo.remapnn, 'Nearest neighbor remapping, suitable for categorical data (e.g., land use types, soil types, vegetation types)')
+    CONSERVATIVE = ('remapcon', cdo.remapcon, 'First-order conservative remapping. See: https://journals.ametsoc.org/view/journals/mwre/127/9/1520-0493_1999_127_2204_fasocr_2.0.co_2.xml')
+    CONSERVATIVE2 = ('remapcon2', cdo.remapcon2, 'Second-order conservative remapping. See: https://journals.ametsoc.org/view/journals/mwre/127/9/1520-0493_1999_127_2204_fasocr_2.0.co_2.xml')
+    NEAREST_NEIGHBOR = ('remapnn', cdo.remapnn, 'Nearest neighbor remapping, suitable for categorical data (e.g., land use types, biome type, election area winners)')
 
     def __init__(self, method_name, cdo_function, description):
         self.method_name = method_name
@@ -73,6 +73,8 @@ yinc      = {resolution}
 
 def test1():
     import geopandas as gpd
+    from matplotlib import pyplot as plt
+
 
     # Load population data
     gpw = xr.open_dataset('gpw_v4_2pt5_min.nc', decode_coords='all')
@@ -89,7 +91,7 @@ def test1():
 
 
     # Regrid the clipped population data using the remapsum method
-    regridded_data = regrid(gpw_c, 1.0, RegridMethod.CONSERVATIVE)
+    regridded_data = regrid(gpw_c, 1.0, RegridMethod.SUM)
     
     
     # save the variable that has the data for plotting
