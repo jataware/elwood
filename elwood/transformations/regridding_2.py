@@ -1,3 +1,4 @@
+from __future__ import annotations
 import xarray as xr
 
 from cdo import * 
@@ -29,8 +30,29 @@ class RegridMethod(Enum):
         self.cdo_function = cdo_function
         self.description = description
 
+    def __str__(self):
+        return f'<RegridMethod.{self.name}>'
 
-def regrid(data: xr.Dataset, resolution: float, method: RegridMethod) -> xr.Dataset:
+    def __repr__(self):
+        return f'<RegridMethod.{self.name}>'
+
+
+from dataclasses import dataclass
+@dataclass
+class Resolution:
+    dx: float
+    dy: float = None
+    def __init__(self, dx: float, dy: float|None=None):
+        """
+        dx (float): The target resolution in the x-direction (longitude)
+        dy (float, optional): The target resolution in the y-direction (latitude). If None, then sets dy=dx
+        """
+        self.dx = dx
+        self.dy = dy if dy is not None else dx
+
+
+
+def regrid(data: xr.Dataset, resolution: float|Resolution, method: RegridMethod) -> xr.Dataset:
     """
     Regrids the data to the target resolution using the specified aggregation method.
     """
@@ -50,25 +72,45 @@ def regrid(data: xr.Dataset, resolution: float, method: RegridMethod) -> xr.Data
     return regridded_data
 
 
-def create_target_grid(resolution: float) -> None:
+def create_target_grid(resolution: float|Resolution) -> None:
     """
     Creates a target grid with the specified resolution, and saves to tmp_gridfile.txt
     """
 
+    if not isinstance(resolution, Resolution):
+        resolution = Resolution(resolution)
+
     # create a grid file
     content = f"""
 gridtype  = latlon
-xsize     = {int(360/resolution)}
-ysize     = {int(180/resolution)}
-xfirst    = {-180 + resolution / 2}
-xinc      = {resolution}
-yfirst    = {-90 + resolution / 2}
-yinc      = {resolution}
+xsize     = {int(360/resolution.dx)}
+ysize     = {int(180/resolution.dy)}
+xfirst    = {-180 + resolution.dx / 2}
+xinc      = {resolution.dx}
+yfirst    = {-90 + resolution.dy / 2}
+yinc      = {resolution.dy}
 """
     gridfile = 'tmp_gridfile.txt'
     with open(gridfile, 'w') as f:
         f.write(content)
 
+def multi_feature_regrid(data: xr.Dataset, resolution: float|Resolution, methods: dict[str, RegridMethod]) -> xr.Dataset:
+    """
+    Regrids data with multiple features using specified aggregation methods per each feature.
+    """
+
+    # collect all features that use the same aggregation method
+    features_by_method = {}
+    for feature, method in methods.items():
+        if method not in features_by_method:
+            features_by_method[method] = []
+        features_by_method[method].append(feature)
+
+    # regrid each group of features using the specified aggregation method
+    results = [regrid(data[features], resolution, method) for method, features in features_by_method.items()]
+
+    # merge the results and return
+    return xr.merge(results)
 
 
 def test1():
@@ -104,9 +146,41 @@ def test1():
     plt.show()
 
 
+def test4():
+    from matplotlib import pyplot as plt
+    #testing multiple column regridding with different aggregation methods
 
+    # load climate data
+    data = xr.open_dataset('MERRA2_400.inst3_3d_asm_Np.20220101.nc4', decode_coords='all')
+
+    # need to set the spatial dimensions to x and y
+    data = data.rename({'lon': 'x', 'lat': 'y'})
+
+    # regrid the data with different aggregation methods per feature
+    r_data = multi_feature_regrid(data, Resolution(4.0, 4.8), {'SLP': RegridMethod.AVERAGE, 'T': RegridMethod.AVERAGE, 'U': RegridMethod.MAXIMUM, 'V': RegridMethod.MINIMUM})
+
+
+    #plot original and regridded data 4x1 vertically
+    var_names = ['sea_level_pressure', 'air_temperature', 'eastward_wind', 'northward_wind']
+    vars = ['SLP', 'T', 'U', 'V']
+
+    fig, axes = plt.subplots(4,1, figsize=(20,10))
+    for i, ax in enumerate(axes.flatten()):
+        data.isel(time=0, lev=0)[vars[i]].plot(ax=ax, robust=True)
+        ax.set_title(var_names[i])
+
+    plt.subplots_adjust(hspace=0.5)
+
+    fig, axes = plt.subplots(4,1, figsize=(20,10))
+    for i, ax in enumerate(axes.flatten()):
+        r_data.isel(time=0, lev=0)[vars[i]].plot(ax=ax, robust=True)
+        ax.set_title(var_names[i])
+
+    plt.subplots_adjust(hspace=0.5)
+    plt.show()
 
 
 
 if __name__ == '__main__':
     test1()
+    # test4()
