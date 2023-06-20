@@ -14,6 +14,7 @@ RUN wget https://jataware-world-modelers.s3.amazonaws.com/gadm/gadm36_2.feather.
 
 RUN add-apt-repository ppa:ubuntugis/ubuntugis-unstable && apt-get update && \
       apt-get install -y \
+      cdo \
       gdal-bin \
       libgdal-dev \
       python3-pip \
@@ -32,4 +33,4 @@ RUN pip3 install numpy==1.22 && \
 
 COPY . /elwood
 RUN python3 setup.py install
-ENTRYPOINT [ "elwood" ]
+ENTRYPOINT [ "tail", "-f", "/dev/null" ]

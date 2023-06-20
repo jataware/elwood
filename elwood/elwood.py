@@ -19,6 +19,7 @@ from .feature_normalization import zero_to_one_normalization, robust_normalizati
 from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
 from .transformations.scaling import scale_time
 from .transformations.regridding import regrid_dataframe
+from .transformations.regridding_2 import regridding_interface
 from .transformations.geo_utils import calculate_boundary_box
 from .transformations.temporal_utils import calculate_temporal_boundary
 
@@ -211,7 +212,14 @@ def rescale_dataframe_time(
     )
 
 
-def regrid_dataframe_geo(dataframe, geo_columns, time_column, scale_multi, scale=None):
+def regrid_dataframe_geo(
+    dataframe,
+    geo_columns,
+    time_column,
+    scale_multi,
+    scale=None,
+    aggregation_functions={},
+):
     """Regrids a dataframe with detectable geo-resolution
 
     Args:
@@ -226,6 +234,28 @@ def regrid_dataframe_geo(dataframe, geo_columns, time_column, scale_multi, scale
         time_column=time_column,
         scale_multi=scale_multi,
         scale=scale,
+    )
+
+
+def regrid_dataframe_geo_redux(
+    dataframe,
+    geo_columns,
+    scale_multi,
+    aggregation_functions={},
+):
+    """Regrids a dataframe with detectable geo-resolution
+
+    Args:
+        dataframe (_type_): _description_
+        geo_columns (_type_): _description_
+        scale_multi (_type_): _description_
+    """
+
+    return regridding_interface(
+        dataframe=dataframe,
+        geo_columns=geo_columns,
+        scale_multi=scale_multi,
+        aggregation_functions=aggregation_functions,
     )
 
 
