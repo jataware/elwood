@@ -14,11 +14,18 @@ from enum import Enum
 
 def regridding_interface(dataframe, geo_columns, scale_multi, aggregation_functions):
     # Construct renaming mapping for regridding:
-    renaming_map = {geo_columns[0]: "x", geo_columns[1]: "y"}
+    renaming_map = {geo_columns[1]: "x", geo_columns[0]: "y"}
 
     # Pandas dataframe to Xarray
-    dataframe.rename(renaming_map)
+    dataframe = dataframe.rename(columns=renaming_map)
+    print(dataframe.head())
     xr_dataframe = dataframe.to_xarray()
+    print(xr_dataframe)
+
+    # Get dataset resolution and change to new target resolution
+    old_res = get_resolution(xr_dataframe)
+    new_res = Resolution(old_res.dx * scale_multi, old_res.dy * scale_multi)
+    print(new_res)
 
     # Check if only one agg function was passed.
     aggregator = aggregation_functions
@@ -27,7 +34,7 @@ def regridding_interface(dataframe, geo_columns, scale_multi, aggregation_functi
 
         regridded_data = regrid(
             data=xr_dataframe,
-            resolution=scale_multi,
+            resolution=new_res,
             method=aggregation_value_mapping(aggregator),
         )
 
@@ -39,7 +46,7 @@ def regridding_interface(dataframe, geo_columns, scale_multi, aggregation_functi
             aggregator[key] = aggregation_value_mapping(value)
 
         regridded_data = multi_feature_regrid(
-            data=xr_dataframe, resolution=scale_multi, methods=aggregator
+            data=xr_dataframe, resolution=new_res, methods=aggregator
         )
 
         return regridded_data.to_dataframe()
@@ -133,6 +140,7 @@ def regrid(
     Regrids the data to the target resolution using the specified aggregation method.
     """
     data.to_netcdf("tmp_data.nc")
+    print(resolution)
     create_target_grid(resolution)  # creates tmp_gridfile.txt
 
     regridded_data = method.cdo_function(
@@ -218,6 +226,16 @@ def aggregation_value_mapping(value):
         return RegridMethod.NEAREST_NEIGHBOR
     if value == "conservative2":
         return RegridMethod.CONSERVATIVE2
+
+
+def get_resolution(data: xr.Dataset) -> Resolution:
+    """
+    Returns the resolution of the data in degrees.
+    """
+    dx = abs(data["x"][1] - data["x"][0]).item()
+    dy = abs(data["y"][1] - data["y"][0]).item()
+    print(dx, dy)
+    return Resolution(dx, dy)
 
 
 def test1():

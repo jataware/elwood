@@ -1,5 +1,9 @@
 FROM ubuntu:20.04
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      build-essential \
+      gcc \
+      g++ \
+      make \
       software-properties-common \
       sudo \
       unzip \
@@ -13,14 +17,24 @@ RUN wget https://jataware-world-modelers.s3.amazonaws.com/gadm/gadm36_2.feather.
       rm gadm36_?.feather.zip
 
 RUN add-apt-repository ppa:ubuntugis/ubuntugis-unstable && apt-get update && \
-      apt-get install -y \
-      cdo \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gdal-bin \
+      libcurl4-gnutls-dev \
+      libhdf5-dev \
+      libnetcdf-dev \
+      libudunits2-dev \
       libgdal-dev \
       python3-pip \
       python3-rtree \
       python3.8-dev && \
       apt-get -y autoremove && apt-get clean autoclean
+
+RUN wget https://code.mpimet.mpg.de/attachments/download/28013/cdo-2.2.0.tar.gz && \
+      tar xvf cdo-2.2.0.tar.gz && \
+      cd cdo-2.2.0 && \
+      ./configure --enable-netcdf4 --with-netcdf && \
+      make && \
+      sudo make install
 
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal

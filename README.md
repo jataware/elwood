@@ -1,6 +1,15 @@
 # Elwood
 An open source dataset transformation, standardization, and normalization python library.
 
+# Requirements
+
+This package requires the GDAL dev binaries to be installed as well as the CDO binaries. The version requirements are below:
+
+```
+cdo = 2.2.0
+gdal = 3.4.3
+```
+
 # Usage
 
 To use start using Elwood, simply run:
