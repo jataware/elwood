@@ -1,25 +1,41 @@
 from __future__ import annotations
-import xarray as xr
 
-from cdo import *
 import os
+
+import pandas
+import xarray as xr
+from cdo import *
 
 os.environ["HDF5_DISABLE_VERSION_CHECK"] = "1"
 
 cdo = Cdo()
-cdo.debug = False
+cdo.debug = True
 
 from enum import Enum
 
 
-def regridding_interface(dataframe, geo_columns, scale_multi, aggregation_functions):
+def regridding_interface(
+    dataframe, geo_columns, time_column, scale_multi, aggregation_functions
+):
     # Construct renaming mapping for regridding:
     renaming_map = {geo_columns[1]: "x", geo_columns[0]: "y"}
 
     # Pandas dataframe to Xarray
     dataframe = dataframe.rename(columns=renaming_map)
     print(dataframe.head())
+
+    # Convert the 'date' column to datetime
+    dataframe[time_column] = pandas.to_datetime(dataframe[time_column])
+
+    # Set 'longitude', 'latitude', and 'date' as multi-index
+    dataframe.set_index(["y", "x"], inplace=True)
+    dataframe = dataframe[~dataframe.index.duplicated()]
+
+    print(dataframe)
+    print(dataframe.columns.value_counts())
+
     xr_dataframe = dataframe.to_xarray()
+    xr_dataframe = xr_dataframe.transpose("x", "y")
     print(xr_dataframe)
 
     # Get dataset resolution and change to new target resolution
@@ -45,11 +61,16 @@ def regridding_interface(dataframe, geo_columns, scale_multi, aggregation_functi
         for key, value in aggregator.items():
             aggregator[key] = aggregation_value_mapping(value)
 
-        regridded_data = multi_feature_regrid(
-            data=xr_dataframe, resolution=new_res, methods=aggregator
-        )
+        print("Before regridding multi")
 
-        return regridded_data.to_dataframe()
+        try:
+            regridded_data = multi_feature_regrid(
+                data=xr_dataframe, resolution=new_res, methods=aggregator
+            )
+
+            return regridded_data.to_dataframe()
+        except Exception as error:
+            print(error)
 
 
 class RegridMethod(Enum):
@@ -140,12 +161,25 @@ def regrid(
     Regrids the data to the target resolution using the specified aggregation method.
     """
     data.to_netcdf("tmp_data.nc")
+    # f = open("tmp_result.nc", "x")
+    # f.close()
     print(resolution)
     create_target_grid(resolution)  # creates tmp_gridfile.txt
 
     regridded_data = method.cdo_function(
-        "tmp_gridfile.txt", input="tmp_data.nc", options="-f nc", returnXDataset=True
+        grid="tmp_gridfile.txt",
+        input="tmp_data.nc",
+        options="-f nc",
+        returnXDataset=True,
     )
+    # method.cdo_function(
+    #     grid="tmp_gridfile.txt",
+    #     input="tmp_data.nc",
+    #     output="tmp_result.nc",
+    #     options="-f nc",
+    # )
+
+    # regridded_data = xr.open_dataset("result.nc")
 
     # clip the regridded data to the maximum extent of the original data
     regridded_data = regridded_data.rio.write_crs(4326)
@@ -153,32 +187,10 @@ def regrid(
 
     # Clean up temporary files
     os.remove("tmp_data.nc")
+    os.remove("result.nc")
     os.remove("tmp_gridfile.txt")
 
     return regridded_data
-
-
-def create_target_grid(resolution: float | Resolution) -> None:
-    """
-    Creates a target grid with the specified resolution, and saves to tmp_gridfile.txt
-    """
-
-    if not isinstance(resolution, Resolution):
-        resolution = Resolution(resolution)
-
-    # create a grid file
-    content = f"""
-gridtype  = latlon
-xsize     = {int(360/resolution.dx)}
-ysize     = {int(180/resolution.dy)}
-xfirst    = {-180 + resolution.dx / 2}
-xinc      = {resolution.dx}
-yfirst    = {-90 + resolution.dy / 2}
-yinc      = {resolution.dy}
-"""
-    gridfile = "tmp_gridfile.txt"
-    with open(gridfile, "w") as f:
-        f.write(content)
 
 
 def multi_feature_regrid(
@@ -203,6 +215,29 @@ def multi_feature_regrid(
 
     # merge the results and return
     return xr.merge(results)
+
+
+def create_target_grid(resolution: float | Resolution) -> None:
+    """
+    Creates a target grid with the specified resolution, and saves to tmp_gridfile.txt
+    """
+
+    if not isinstance(resolution, Resolution):
+        resolution = Resolution(resolution)
+
+    # create a grid file
+    content = f"""
+gridtype  = latlon
+xsize     = {int(360/resolution.dx)}
+ysize     = {int(180/resolution.dy)}
+xfirst    = {-180 + resolution.dx / 2}
+xinc      = {resolution.dx}
+yfirst    = {-90 + resolution.dy / 2}
+yinc      = {resolution.dy}
+"""
+    gridfile = "tmp_gridfile.txt"
+    with open(gridfile, "w") as f:
+        f.write(content)
 
 
 def aggregation_value_mapping(value):
@@ -269,10 +304,9 @@ def test1():
 
 
 def test4():
-    from matplotlib import pyplot as plt
+    # from matplotlib import pyplot as plt
 
     # testing multiple column regridding with different aggregation methods
-
     # load climate data
     data = xr.open_dataset(
         "MERRA2_400.inst3_3d_asm_Np.20220101.nc4", decode_coords="all"

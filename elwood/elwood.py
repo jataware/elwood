@@ -240,6 +240,7 @@ def regrid_dataframe_geo(
 def regrid_dataframe_geo_redux(
     dataframe,
     geo_columns,
+    time_column,
     scale_multi,
     aggregation_functions={},
 ):
@@ -254,6 +255,7 @@ def regrid_dataframe_geo_redux(
     return regridding_interface(
         dataframe=dataframe,
         geo_columns=geo_columns,
+        time_column=time_column,
         scale_multi=scale_multi,
         aggregation_functions=aggregation_functions,
     )
