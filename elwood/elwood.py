@@ -9,18 +9,19 @@ import numpy as np
 import pandas as pd
 
 from . import constants
+from .feature_normalization import robust_normalization, zero_to_one_normalization
 from .file_processor import (
+    netcdf2df_processor,
     process_file_by_filetype,
     raster2df_processor,
-    netcdf2df_processor,
 )
 from .standardizer import standardizer
-from .feature_normalization import zero_to_one_normalization, robust_normalization
-from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
-from .transformations.scaling import scale_time
-from .transformations.regridding import regrid_dataframe
+from .transformations.clipping import clip_dataframe, clip_time, construct_multipolygon
 from .transformations.geo_utils import calculate_boundary_box
+from .transformations.regridding import regrid_dataframe
+from .transformations.scaling import scale_time
 from .transformations.temporal_utils import calculate_temporal_boundary
+from .utils import gadm_fuzzy_match
 
 if not sys.warnoptions:
     import warnings
@@ -328,3 +329,40 @@ def optimize_df_types(df: pd.DataFrame):
     df[ints] = df[ints].apply(pd.to_numeric, downcast="integer")
 
     return df
+
+
+def get_gadm_matches(dataframe, geo_column, admin_level):
+    # Get geofeather object
+    cdir = os.path.expanduser("~")
+    download_data_folder = f"{cdir}/elwood_data"
+    gadm_fn = f"gadm36_2.feather"
+    gadmDir = f"{download_data_folder}/{gadm_fn}"
+    gadm = gf.from_geofeather(gadmDir)
+
+    gadm["country"] = gadm["NAME_0"]
+    gadm["state"] = gadm["NAME_1"]
+    gadm["admin1"] = gadm["NAME_1"]
+    gadm["admin2"] = gadm["NAME_2"]
+
+    # Run match
+    matches_object = gadm_fuzzy_match(dataframe, geo_column, gadm, admin_level)
+
+    print(matches_object)
+
+    return matches_object
+
+
+def gadm_list_all(admin_level):
+    # Get geofeather object
+    cdir = os.path.expanduser("~")
+    download_data_folder = f"{cdir}/elwood_data"
+    gadm_fn = f"gadm36_2.feather"
+    gadmDir = f"{download_data_folder}/{gadm_fn}"
+    gadm = gf.from_geofeather(gadmDir)
+
+    gadm["country"] = gadm["NAME_0"]
+    gadm["state"] = gadm["NAME_1"]
+    gadm["admin1"] = gadm["NAME_1"]
+    gadm["admin2"] = gadm["NAME_2"]
+
+    return gadm[admin_level].unique()
