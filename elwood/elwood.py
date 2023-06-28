@@ -347,6 +347,9 @@ def get_gadm_matches(dataframe, geo_column, admin_level):
     # Run match
     matches_object = gadm_fuzzy_match(dataframe, geo_column, gadm, admin_level)
 
+    # Add in dataframe column
+    matches_object["field"] = geo_column
+
     print(matches_object)
 
     return matches_object
