@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 
 import pandas
 import xarray as xr
@@ -9,7 +10,7 @@ from cdo import *
 os.environ["HDF5_DISABLE_VERSION_CHECK"] = "1"
 
 cdo = Cdo()
-cdo.debug = True
+cdo.debug = False
 
 from enum import Enum
 
@@ -28,20 +29,24 @@ def regridding_interface(
     dataframe[time_column] = pandas.to_datetime(dataframe[time_column])
 
     # Set 'longitude', 'latitude', and 'date' as multi-index
-    dataframe.set_index(["y", "x"], inplace=True)
+    dataframe.set_index([time_column, "x", "y"], inplace=True)
     dataframe = dataframe[~dataframe.index.duplicated()]
 
     print(dataframe)
     print(dataframe.columns.value_counts())
 
     xr_dataframe = dataframe.to_xarray()
-    xr_dataframe = xr_dataframe.transpose("x", "y")
+    # xr_dataframe = xr_dataframe.transpose(time_column, "x", "y")
     print(xr_dataframe)
 
     # Get dataset resolution and change to new target resolution
     old_res = get_resolution(xr_dataframe)
     new_res = Resolution(old_res.dx * scale_multi, old_res.dy * scale_multi)
     print(new_res)
+
+    gridfile_name = generate_current_grid(
+        xarray_dataset=xr_dataframe, current_resolution=old_res
+    )
 
     # Check if only one agg function was passed.
     aggregator = aggregation_functions
@@ -54,7 +59,9 @@ def regridding_interface(
             method=aggregation_value_mapping(aggregator),
         )
 
-        return regridded_data.to_dataframe()
+        os.remove(gridfile_name)
+
+        return regridded_data.to_dataframe().reset_index()
 
     else:
         # Get methods and convert to RegridMethod
@@ -68,7 +75,9 @@ def regridding_interface(
                 data=xr_dataframe, resolution=new_res, methods=aggregator
             )
 
-            return regridded_data.to_dataframe()
+            os.remove(gridfile_name)
+
+            return regridded_data.to_dataframe().reset_index()
         except Exception as error:
             print(error)
 
@@ -166,20 +175,16 @@ def regrid(
     print(resolution)
     create_target_grid(resolution)  # creates tmp_gridfile.txt
 
+    cdo.setgrid(
+        "tmp_current_grid.txt", input="tmp_data.nc", output="tmp_gridded_data.nc"
+    )
+
     regridded_data = method.cdo_function(
-        grid="tmp_gridfile.txt",
-        input="tmp_data.nc",
+        "tmp_gridfile.txt",
+        input="tmp_gridded_data.nc",
         options="-f nc",
         returnXDataset=True,
     )
-    # method.cdo_function(
-    #     grid="tmp_gridfile.txt",
-    #     input="tmp_data.nc",
-    #     output="tmp_result.nc",
-    #     options="-f nc",
-    # )
-
-    # regridded_data = xr.open_dataset("result.nc")
 
     # clip the regridded data to the maximum extent of the original data
     regridded_data = regridded_data.rio.write_crs(4326)
@@ -187,7 +192,7 @@ def regrid(
 
     # Clean up temporary files
     os.remove("tmp_data.nc")
-    os.remove("result.nc")
+    os.remove("tmp_gridded_data.nc")
     os.remove("tmp_gridfile.txt")
 
     return regridded_data
@@ -271,6 +276,28 @@ def get_resolution(data: xr.Dataset) -> Resolution:
     dy = abs(data["y"][1] - data["y"][0]).item()
     print(dx, dy)
     return Resolution(dx, dy)
+
+
+def generate_current_grid(xarray_dataset, current_resolution):
+    gridfile = f"""gridtype = lonlat
+        xsize = {len(xarray_dataset.x)}
+        ysize = {len(xarray_dataset.y)}
+        xfirst = {xarray_dataset.x.min().values.item()}
+        yfirst = {xarray_dataset.y.min().values.item()}
+        xinc = {current_resolution.dx}
+        yinc = {current_resolution.dy}
+        xname = longitude
+        xlongname = "longitude"
+        xunits    = "degrees_east"
+        yname = latitude
+        ylongname = "latitude"
+        yunits    = "degrees_north"
+        """
+
+    with open("tmp_current_grid.txt", "w") as f:
+        f.write(gridfile)
+
+    return "tmp_current_grid.txt"
 
 
 def test1():
