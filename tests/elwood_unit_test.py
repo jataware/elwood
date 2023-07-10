@@ -14,7 +14,7 @@ from pathlib import Path
 from os.path import join as path_join
 
 from elwood import elwood
-from pandas.util.testing import assert_frame_equal, assert_dict_equal
+from pandas.util.testing import assert_frame_equal, assert_dict_equal, assert_series_equal
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -533,7 +533,7 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df, check_categorical=False)
 
-    def test_optional_fields(self):
+    def test_optional_fields_009(self):
         """
         Before improvements, running this test would throw KeyError exceptions
         if associated_columns was not present(even if there was no need for it)
@@ -552,6 +552,60 @@ class TestMixmaster(unittest.TestCase):
 
         assert 'pandas.core.frame.DataFrame' in str(type(df))
 
+    def test_gadm_overrides_process_010(self):
+        """Test Gadm-Resolve-Overrides for country.
+        With fields: multi primary_geo, resolve_to_gadm"""
+
+        # Define elwood inputs:
+        mp = input_path("test6_hoa_conflict_input.json")
+        fp = input_path("test10_hoa_conflict_input.csv")
+        geo = "admin2"
+        outf = output_path("unittests")
+
+        overrides = {
+            "gadm": {
+                "Djiboutiii": "DjiboutiMock"
+            }
+        }
+
+        # Process:
+        df, dct = elwood.process(fp, mp, geo, outf, overrides=overrides)
+
+        # Load expected output:
+        output_df = pd.read_csv(
+            output_path("test10_hoa_conflict_output.csv"), index_col=False
+        )
+        output_df = elwood.optimize_df_types(output_df)
+        with open(output_path("test6_hoa_conflict_dict.json")) as f:
+            output_dict = json.loads(f.read())
+
+        # Sort both data frames and reindex for comparison,.
+        cols = [
+            "timestamp",
+            "country",
+            "admin1",
+            "admin2",
+            "admin3",
+            "lat",
+            "lng",
+            "feature",
+            "value",
+        ]
+        df.sort_values(by=cols, inplace=True)
+        output_df.sort_values(by=cols, inplace=True)
+
+        df.reset_index(drop=True, inplace=True)
+        output_df.reset_index(drop=True, inplace=True)
+
+        # Make the datatypes the same for value/feature and qualifying columns.
+        df["value"] = df["value"].astype("str")
+        df["feature"] = df["feature"].astype("str")
+        output_df["value"] = output_df["value"].astype("str")
+        output_df["feature"] = output_df["feature"].astype("str")
+
+        # Assertions
+        assert_series_equal(df["country"], output_df["country"])
+        assert_dict_equal(dct, output_dict)
 
 if __name__ == "__main__":
     unittest.main()

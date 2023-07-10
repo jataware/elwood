@@ -35,7 +35,8 @@ logger = logging.getLogger(__name__)
 
 
 def process(
-    fp: str, mp: str, admin: str, output_file: str, write_output=True, gadm=None
+    fp: str, mp: str, admin: str,
+    output_file: str, write_output=True, gadm=None, overrides=None
 ):
     """
     Parameters
@@ -87,6 +88,11 @@ def process(
     # but not finding the entity (e.g. admin3 for United States).
     # Replace None with NaN for consistency.
     norm.fillna(value=np.nan, inplace=True)
+
+    # GADM Resolver - Apply manual user overrides
+    if type(overrides) == dict and overrides.get("gadm"):
+        updated_norm_country = norm["country"].replace(overrides["gadm"])
+        norm['country'].update(updated_norm_country)
 
     if write_output:
         # If any qualify columns were added, the feature_type must be enforced
