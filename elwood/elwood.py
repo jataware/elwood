@@ -90,7 +90,7 @@ def process(
     norm.fillna(value=np.nan, inplace=True)
 
     # GADM Resolver - Apply manual user overrides
-    if type(overrides) == dict and overrides.get("gadm"):
+    if type(overrides) == dict and len(overrides.get("gadm", {})) > 0:
         updated_norm_country = norm["country"].replace(overrides["gadm"])
         norm['country'].update(updated_norm_country)
 
