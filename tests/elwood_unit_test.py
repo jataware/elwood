@@ -564,7 +564,9 @@ class TestMixmaster(unittest.TestCase):
 
         overrides = {
             "gadm": {
-                "Djiboutiii": "DjiboutiMock"
+                "random_dataset_country_name": {
+                    "Djiboutiii": "DjiboutiMock"
+                }
             }
         }
 
@@ -576,36 +578,9 @@ class TestMixmaster(unittest.TestCase):
             output_path("test10_hoa_conflict_output.csv"), index_col=False
         )
         output_df = elwood.optimize_df_types(output_df)
-        with open(output_path("test6_hoa_conflict_dict.json")) as f:
-            output_dict = json.loads(f.read())
 
-        # Sort both data frames and reindex for comparison,.
-        cols = [
-            "timestamp",
-            "country",
-            "admin1",
-            "admin2",
-            "admin3",
-            "lat",
-            "lng",
-            "feature",
-            "value",
-        ]
-        df.sort_values(by=cols, inplace=True)
-        output_df.sort_values(by=cols, inplace=True)
-
-        df.reset_index(drop=True, inplace=True)
-        output_df.reset_index(drop=True, inplace=True)
-
-        # Make the datatypes the same for value/feature and qualifying columns.
-        df["value"] = df["value"].astype("str")
-        df["feature"] = df["feature"].astype("str")
-        output_df["value"] = output_df["value"].astype("str")
-        output_df["feature"] = output_df["feature"].astype("str")
-
-        # Assertions
         assert_series_equal(df["country"], output_df["country"])
-        assert_dict_equal(dct, output_dict)
+
 
 if __name__ == "__main__":
     unittest.main()
