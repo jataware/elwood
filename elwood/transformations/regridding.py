@@ -8,7 +8,7 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
 
     Args:
         dataframe (pandas.Dataframe): Dataframe of a dataset that has detectable gridden geographical resolution ie. points that represent 1sqkm areas
-        geo_columns (List[str]): A list containing the geo_columns for the latitude and longitude pairs.
+        geo_columns (Dict[str]): A dictionary containing the geo_columns for the latitude and longitude pairs, with keys 'lat_column' and 'lon_column'.
         time_column (List[str]): A list containing the name of the datetime column(s) in the dataset.
         scale_multi (int): The number by which to divide to geographical scale to regrid larger.
 
@@ -16,12 +16,13 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
 
-    geo_columns.extend(time_column)
+    geo_columns_list = [geo_columns['lat_column'], geo_columns['lon_column']]
+    geo_columns_list.extend(time_column)
     ds = None
 
     try:
 
-        ds = xarray.Dataset.from_dataframe(dataframe.set_index(geo_columns))
+        ds = xarray.Dataset.from_dataframe(dataframe.set_index(geo_columns_list))
 
     except KeyError as error:
         print(error)
@@ -31,26 +32,26 @@ def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=Non
         ds_scale = scale
     else:
         ds_scale = getScale(
-            ds[geo_columns[0]][0],
-            ds[geo_columns[1]][0],
-            ds[geo_columns[0]][1],
-            ds[geo_columns[1]][1],
+            ds[geo_columns['lat_column']][0],
+            ds[geo_columns['lon_column']][0],
+            ds[geo_columns['lat_column']][1],
+            ds[geo_columns['lon_column']][1],
         )
 
     multiplier = ds_scale / scale_multi
 
-    new_0 = numpy.linspace(
-        ds[geo_columns[0]][0],
-        ds[geo_columns[0]][-1],
-        round(ds.dims[geo_columns[0]] * multiplier),
+    new_lat = numpy.linspace(
+        ds[geo_columns['lat_column']][0],
+        ds[geo_columns['lat_column']][-1],
+        round(ds.dims[geo_columns['lat_column']] * multiplier),
     )
-    new_1 = numpy.linspace(
-        ds[geo_columns[1]][0],
-        ds[geo_columns[1]][-1],
-        round(ds.dims[geo_columns[1]] * multiplier),
+    new_lon = numpy.linspace(
+        ds[geo_columns['lon_column']][0],
+        ds[geo_columns['lon_column']][-1],
+        round(ds.dims[geo_columns['lon_column']] * multiplier),
     )
 
-    interpolation = {geo_columns[0]: new_0, geo_columns[1]: new_1}
+    interpolation = {geo_columns['lat_column']: new_lat, geo_columns['lon_column']: new_lon}
 
     ds2 = ds.interp(**interpolation)
 
