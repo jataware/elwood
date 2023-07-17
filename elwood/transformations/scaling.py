@@ -2,7 +2,11 @@ import pandas
 
 
 def scale_time(
-    dataframe, time_column, time_bucket, aggregation_functions, geo_columns=None
+        dataframe: pandas.core.frame.DataFrame,
+        time_column: str,
+        time_bucket,
+        aggregation_functions,
+        geo_columns=None
 ):
     """Scales timestamp data in a dataframe to a less granular time frequency
 

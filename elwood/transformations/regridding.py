@@ -1,9 +1,15 @@
 import math
 import xarray
 import numpy
+import pandas as pd
+from typing import Dict, List
 
 
-def regrid_dataframe(dataframe, geo_columns, time_column, scale_multi, scale=None):
+def regrid_dataframe(dataframe: pd.core.frame.DataFrame,
+                     geo_columns: Dict[str, str],
+                     time_column: List[str],
+                     scale_multi: int,
+                     scale=None) -> pd.core.frame.DataFrame:
     """Uses xarray interpolation to regrid geography in a dataframe.
 
     Args:

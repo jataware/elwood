@@ -49,31 +49,25 @@ class TestGeoUtils(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures, if any."""
-
-        # turn off warnings unless refactoring.
-        # warnings.simplefilter("ignore")
+        pass
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
         gc.collect()
-        # Delete any output parquet files.
-        # try:
-        #     os.remove(output_path("unittests.parquet.gzip"))
-        # except FileNotFoundError as e:
-        #     pass
-
-        # try:
-        #     os.remove(output_path("unittests_str.parquet.gzip"))
-        # except FileNotFoundError as e:
-        #     pass
 
     def test_calculate_boundary_box__default(self):
-        """"""
+        """
+        """
 
-        # TODO
-        # input_path("filename")
-        # calculate_boundary_box()
-        assert 1 == 1
+        geo_columns = {'lat_column': 'latitude', 'lon_column': 'longitude'}
+
+        input_df = pd.read_csv(input_path("calculate_boundary_input.csv"))
+
+        actual = calculate_boundary_box(input_df, geo_columns)
+
+        expected = {'xmin': 42.0864, 'xmax': 43.2906, 'ymin': 10.5619, 'ymax': 12.595}
+
+        assert actual == expected
 
 
 class TestClipping(unittest.TestCase):
@@ -137,7 +131,6 @@ class TestClipping(unittest.TestCase):
         assert_series_equal(actual['longitude'], expected['longitude'])
         assert_series_equal(actual['value'], expected['value'])
         assert_series_equal(actual['color_hue'], expected['color_hue'])
-
 
 
 class TestRegridding(unittest.TestCase):
