@@ -5,3 +5,10 @@ services:
     build: ./
     volumes:
       - $PWD:/elwood
+  dev-elwood:
+    container_name: dev-elwood
+    build: .
+    volumes:
+      - $PWD:/elwood
+    command: tail -F anything
+    profiles: ["dev"]
