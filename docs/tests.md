@@ -14,3 +14,9 @@ docker run -it -w=/tests --entrypoint="python3" jataware/elwood:0.5.17 -m unitte
 ```
 
 > Note the `-w` flag changes the working directory within the container to `/tests`.
+
+You may also use `pytest`:
+
+```
+python -m pytest -vss tests/transformations_test.py::TestGeoUtils
+```
