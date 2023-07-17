@@ -211,22 +211,7 @@ def rescale_dataframe_time(
     )
 
 
-def regrid_dataframe_geo(dataframe, geo_columns, time_column, scale_multi, scale=None):
-    """Regrids a dataframe with detectable geo-resolution
-
-    Args:
-        dataframe (_type_): _description_
-        geo_columns (_type_): _description_
-        scale_multi (_type_): _description_
-    """
-
-    return regrid_dataframe(
-        dataframe=dataframe,
-        geo_columns=geo_columns,
-        time_column=time_column,
-        scale_multi=scale_multi,
-        scale=scale,
-    )
+regrid_dataframe_geo = regrid_dataframe
 
 
 def get_boundary_box(dataframe, geo_columns):
