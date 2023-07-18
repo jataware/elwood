@@ -23,8 +23,8 @@ def construct_multipolygon(polygons_list):
 
 
 def clip_dataframe(dataframe, geo_columns, mask):
-    x_geo = dataframe[geo_columns[0]]
-    y_geo = dataframe[geo_columns[1]]
+    x_geo = dataframe[geo_columns['lon_column']]
+    y_geo = dataframe[geo_columns['lat_column']]
     geo_dataframe = geopandas.GeoDataFrame(
         dataframe, geometry=geopandas.points_from_xy(x_geo, y_geo)
     )

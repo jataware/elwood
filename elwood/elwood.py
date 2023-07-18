@@ -159,7 +159,7 @@ def clip_geo(dataframe, geo_columns, polygons_list):
 
     Args:
         dataframe (pandas.Dataframe): A pandas dataframe containing geographical data.
-        geo_columns (list): A list containing the two column names for the lat/lon columns in the dataframe.
+        geo_columns (Dict): A dict containing the two column names for the lat/lon columns in the dataframe.
         polygons_list (list[list[obj]]): A list containing lists of objects that represent polygon shapes to clip to.
 
     Returns:
@@ -211,22 +211,7 @@ def rescale_dataframe_time(
     )
 
 
-def regrid_dataframe_geo(dataframe, geo_columns, time_column, scale_multi, scale=None):
-    """Regrids a dataframe with detectable geo-resolution
-
-    Args:
-        dataframe (_type_): _description_
-        geo_columns (_type_): _description_
-        scale_multi (_type_): _description_
-    """
-
-    return regrid_dataframe(
-        dataframe=dataframe,
-        geo_columns=geo_columns,
-        time_column=time_column,
-        scale_multi=scale_multi,
-        scale=scale,
-    )
+regrid_dataframe_geo = regrid_dataframe
 
 
 def get_boundary_box(dataframe, geo_columns):
@@ -234,7 +219,7 @@ def get_boundary_box(dataframe, geo_columns):
 
     Args:
         dataframe (pandas.Dataframe): Pandas dataframe with latitude and longitude
-        geo_columns (List[string]): A list of the two column names that represent latitude and longitude.
+        geo_columns (Dict[str,str]): A dict with the two column names that represent latitude and longitude.
 
     Returns:
         Dict: An object containing key value pairs for xmin, xmax,  ymin, and ymax.
