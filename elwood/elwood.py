@@ -1,6 +1,6 @@
 """Main module."""
 import json
-import logging
+import click
 import os
 import sys
 
@@ -9,32 +9,70 @@ import numpy as np
 import pandas as pd
 
 from . import constants
+from .feature_normalization import robust_normalization, zero_to_one_normalization
 from .file_processor import (
+    netcdf2df_processor,
     process_file_by_filetype,
     raster2df_processor,
-    netcdf2df_processor,
 )
 from .standardizer import standardizer
-from .feature_normalization import zero_to_one_normalization, robust_normalization
-from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
-from .transformations.scaling import scale_time
-from .transformations.regridding import regrid_dataframe
+from .transformations.clipping import clip_dataframe, clip_time, construct_multipolygon
 from .transformations.geo_utils import calculate_boundary_box
+from .transformations.regridding import regrid_dataframe
+from .transformations.scaling import scale_time
 from .transformations.temporal_utils import calculate_temporal_boundary
+from .utils import gadm_fuzzy_match
 
 if not sys.warnoptions:
     import warnings
 
     warnings.simplefilter("ignore")
 
-logger = logging.getLogger(__name__)
-
 
 # Standardization processor
 
 
+def dict_get(nested, path, fallback=None):
+    """
+    Receives a nested dictionary and a string describing a dictionary path,
+    and returns the corresponding value.
+    [Optional]`fallback` if path doesn't exists, defaults to None.
+    `path`: str describing the nested dictionary deep path.
+            Each key in the path is separated by a dot ('.').
+            eg for {'a': {'b': {'c': 42}}}, `path` 'a.b.c' returns 42.
+    """
+
+    if not type(nested) == dict:
+        return fallback
+
+    keys = path.split('.')
+    value = nested
+    try:
+        for key in keys:
+            value = value[key]
+        return value
+    except (KeyError, TypeError):
+        return fallback
+
+
+def get_only_key(my_dict, path):
+    """
+    Given a dict and a path, returns the only key if my_dict:
+    - is a dict
+    - only contains one key
+
+    else returns None
+
+    """
+    if not len(dict_get(my_dict, path, {})) == 1:
+        return None
+
+    return list(dict_get(my_dict, path).keys())[0]
+
+
 def process(
-    fp: str, mp: str, admin: str, output_file: str, write_output=True, gadm=None
+    fp: str, mp: str, admin: str,
+    output_file: str, write_output=True, gadm=None, overrides=None
 ):
     """
     Parameters
@@ -86,6 +124,14 @@ def process(
     # but not finding the entity (e.g. admin3 for United States).
     # Replace None with NaN for consistency.
     norm.fillna(value=np.nan, inplace=True)
+
+    # GADM Resolver - Apply manual user overrides to hardcoded countries for now.
+    if dict_get(overrides, "gadm"):
+        field_name = get_only_key(overrides, "gadm")
+        field_overrides = dict_get(overrides, f"gadm.{field_name}")
+        if field_overrides:
+            click.echo(f"Applying GADM country overrides provided by user:\n{overrides}")
+            norm["country"] = norm["country"].replace(field_overrides)
 
     if write_output:
         # If any qualify columns were added, the feature_type must be enforced
@@ -313,3 +359,43 @@ def optimize_df_types(df: pd.DataFrame):
     df[ints] = df[ints].apply(pd.to_numeric, downcast="integer")
 
     return df
+
+
+def get_gadm_matches(dataframe, geo_column, admin_level):
+    # Get geofeather object
+    cdir = os.path.expanduser("~")
+    download_data_folder = f"{cdir}/elwood_data"
+    gadm_fn = f"gadm36_2.feather"
+    gadmDir = f"{download_data_folder}/{gadm_fn}"
+    gadm = gf.from_geofeather(gadmDir)
+
+    gadm["country"] = gadm["NAME_0"]
+    gadm["state"] = gadm["NAME_1"]
+    gadm["admin1"] = gadm["NAME_1"]
+    gadm["admin2"] = gadm["NAME_2"]
+
+    # Run match
+    matches_object = gadm_fuzzy_match(dataframe, geo_column, gadm, admin_level)
+
+    # Add in dataframe column
+    matches_object["field"] = geo_column
+
+    print(matches_object)
+
+    return matches_object
+
+
+def gadm_list_all(admin_level):
+    # Get geofeather object
+    cdir = os.path.expanduser("~")
+    download_data_folder = f"{cdir}/elwood_data"
+    gadm_fn = f"gadm36_2.feather"
+    gadmDir = f"{download_data_folder}/{gadm_fn}"
+    gadm = gf.from_geofeather(gadmDir)
+
+    gadm["country"] = gadm["NAME_0"]
+    gadm["state"] = gadm["NAME_1"]
+    gadm["admin1"] = gadm["NAME_1"]
+    gadm["admin2"] = gadm["NAME_2"]
+
+    return gadm[admin_level].unique()
