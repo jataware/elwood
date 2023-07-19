@@ -1,6 +1,6 @@
 """Main module."""
 import json
-import logging
+import click
 import os
 import sys
 
@@ -28,14 +28,51 @@ if not sys.warnoptions:
 
     warnings.simplefilter("ignore")
 
-logger = logging.getLogger(__name__)
-
 
 # Standardization processor
 
 
+def dict_get(nested, path, fallback=None):
+    """
+    Receives a nested dictionary and a string describing a dictionary path,
+    and returns the corresponding value.
+    [Optional]`fallback` if path doesn't exists, defaults to None.
+    `path`: str describing the nested dictionary deep path.
+            Each key in the path is separated by a dot ('.').
+            eg for {'a': {'b': {'c': 42}}}, `path` 'a.b.c' returns 42.
+    """
+
+    if not type(nested) == dict:
+        return fallback
+
+    keys = path.split('.')
+    value = nested
+    try:
+        for key in keys:
+            value = value[key]
+        return value
+    except (KeyError, TypeError):
+        return fallback
+
+
+def get_only_key(my_dict, path):
+    """
+    Given a dict and a path, returns the only key if my_dict:
+    - is a dict
+    - only contains one key
+
+    else returns None
+
+    """
+    if not len(dict_get(my_dict, path, {})) == 1:
+        return None
+
+    return list(dict_get(my_dict, path).keys())[0]
+
+
 def process(
-    fp: str, mp: str, admin: str, output_file: str, write_output=True, gadm=None
+    fp: str, mp: str, admin: str,
+    output_file: str, write_output=True, gadm=None, overrides=None
 ):
     """
     Parameters
@@ -87,6 +124,14 @@ def process(
     # but not finding the entity (e.g. admin3 for United States).
     # Replace None with NaN for consistency.
     norm.fillna(value=np.nan, inplace=True)
+
+    # GADM Resolver - Apply manual user overrides to hardcoded countries for now.
+    if dict_get(overrides, "gadm"):
+        field_name = get_only_key(overrides, "gadm")
+        field_overrides = dict_get(overrides, f"gadm.{field_name}")
+        if field_overrides:
+            click.echo(f"Applying GADM country overrides provided by user:\n{overrides}")
+            norm["country"] = norm["country"].replace(field_overrides)
 
     if write_output:
         # If any qualify columns were added, the feature_type must be enforced
