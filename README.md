@@ -21,7 +21,9 @@ Now you are able to use any of the dataset transformation, standardization, or n
 ## Standardization
 `elwood.process(args)`
 
-#TODO STUB
+Given an arbitrary dataset containing geospatial data (with columns and rows) with arbitrary non-standard format, and given some annotations/dictionary about the dataset, Elwood can standardize. Standardization means creating an output dataset with stable and predictable columns. The data can be normalized, regridded, scaled, and resolved using GADM to standard country names, as well as resolve the latitude,longitude of the event/measurement. A usual standard output will contain the following columns: `timestamp`, `country`, `admin1`, `admin2`, `admin3`, `lat`, `lng`, alongside other measurements/events/features of interest (additional columns to the right of the standard ones) contained within the input dataset.
+
+#TODO document standardization further
 
 ## Transformation
 
@@ -31,7 +33,8 @@ The transformation functions include geographical extent clipping (latitude/long
 
 `elwood.clip_geo(dataframe, geo_columns, polygons_list)`
 
-This function takes a pandas dataframe, a geo_columns list of the column names for latitude and longitude, ex: `["lat", "lng"]`, and a list containing lists of objects representing the polygons to clip the data to. ex: 
+This function takes a pandas dataframe, a geo_columns dict of the column names for latitude and longitude, ex:
+`{'lat_column': 'latitude', 'lon_column': 'longitude'}`, and a list containing lists of objects representing the polygons to clip the data to. ex: 
 ```
 [
      [
@@ -59,7 +62,7 @@ This function takes a pandas dataframe, a geo_columns list of the column names f
 
 `elwood.regrid_dataframe_geo(dataframe, geo_columns, scale_multi)`
 
-This function takes a dataframe and regrids it's geography by some scale multiplier that is provided. This multiplier will be used to divide the current geographical scale in order to make a more coarse grained resolution dataset. The dataframe must have a detectable geographical scale, meaning each lat/lon represents a point in the middle of a gridded cell for the data provided. Lat and lon and determined by the geo_columns passed in: a list of the column names ex: `["lat", "lng"]`
+This function takes a dataframe and regrids it's geography by some scale multiplier that is provided. This multiplier will be used to divide the current geographical scale in order to make a more coarse grained resolution dataset. The dataframe must have a detectable geographical scale, meaning each lat/lon represents a point in the middle of a gridded cell for the data provided. Lat and lon and determined by the geo_columns passed in: a dict of the column names ex: `{'lat_column': 'my_latitude', 'lon_column': 'my_longitude'}`
 
 ### Temporal Clipping
 `elwood.clip_dataframe_time(dataframe, time_column, time_ranges)`

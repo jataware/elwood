@@ -29,14 +29,14 @@ def get_project_root() -> Path:
 
 
 def input_path(filename):
-    return path_join(get_project_root(), "tests", "inputs", filename)
+    return path_join(get_project_root(), "tests", "inputs_standardization", filename)
 
 
 def output_path(filename):
-    return path_join(get_project_root(), "tests", "outputs", filename)
+    return path_join(get_project_root(), "tests", "outputs_standardization", filename)
 
 
-class TestMixmaster(unittest.TestCase):
+class TestElwood(unittest.TestCase):
     """Tests for `elwood` package."""
 
     def setUp(self):
@@ -545,7 +545,7 @@ class TestMixmaster(unittest.TestCase):
         """
 
         # This file is missing `qualifies`, `associated_columns` on some fields:
-        mapper_file = input_path("optional_fields_test_input.json")
+        mapper_file = input_path("test9_optional_fields_test_input.json")
 
         data_file = input_path("test1_input.csv")
 

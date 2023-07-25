@@ -34,11 +34,11 @@ def get_project_root() -> Path:
 
 
 def input_path(filename):
-    return path_join(get_project_root(), "tests", "inputs", filename)
+    return path_join(get_project_root(), "tests", "inputs_transformations", filename)
 
 
 def output_path(filename):
-    return path_join(get_project_root(), "tests", "outputs", filename)
+    return path_join(get_project_root(), "tests", "outputs_transformations", filename)
 
 
 """
@@ -67,7 +67,7 @@ class TestGeoUtils(unittest.TestCase):
 
         geo_columns = {"lat_column": "latitude", "lon_column": "longitude"}
 
-        input_df = pd.read_csv(input_path("calculate_boundary_input.csv"))
+        input_df = pd.read_csv(input_path("test_calculate_boundary.csv"))
 
         actual = calculate_boundary_box(input_df, geo_columns)
 
@@ -106,7 +106,7 @@ class TestClipping(unittest.TestCase):
         mask = construct_multipolygon(polygons_list)
 
         # Input df with 100 rows
-        input_df = pd.read_csv(input_path("clip_dataframe_input.csv"))
+        input_df = pd.read_csv(input_path("test_clip_dataframe.csv"))
 
         # Clipping with mask above- should clip to 10 rows
         actual = clip_dataframe(input_df, geo_columns, mask)
@@ -116,7 +116,7 @@ class TestClipping(unittest.TestCase):
 
         # Loading the expected index uses numbers starting from 0,
         # hence why we reset the index for actual above.
-        expected = pd.read_csv(output_path("clip_dataframe_output.csv"))
+        expected = pd.read_csv(output_path("test_clip_dataframe_output.csv"))
         expected = expected.round(5)
 
         # compare the cols we care for, since asserting for full df causes
@@ -141,8 +141,8 @@ class TestRegridding(unittest.TestCase):
     def test_regrid_dataframe__default(self):
         """"""
 
-        input_csv_filepath = input_path("test_elwood_regridding.csv")
-        output_csv_filepath = output_path("test_elwood_regridding_transformed.csv")
+        input_csv_filepath = input_path("test_regrid.csv")
+        output_csv_filepath = output_path("test_regrid_output.csv")
 
         df = pd.read_csv(input_csv_filepath)
         geo_columns = ["latitude", "longitude"]
@@ -160,7 +160,7 @@ class TestRegridding(unittest.TestCase):
 
         target_df = pd.read_csv(output_csv_filepath)
 
-        assert_frame_equal(target_df["temperature"], regridded_output_df["temperature"])
+        assert_frame_equal(target_df, regridded_output_df)
 
 
 class TestScaling(unittest.TestCase):
@@ -181,13 +181,13 @@ class TestScaling(unittest.TestCase):
         time_bucket = "Y"
         aggregation_functions = ["std"]
         geo_columns = {"lat_column": "latitude", "lon_column": "longitude"}
-        input_df = pd.read_csv(input_path("scale_time_input.csv"))
+        input_df = pd.read_csv(input_path("test_scale_time.csv"))
 
         actual = scale_time(
             input_df, time_column, time_bucket, aggregation_functions, geo_columns
         )
 
-        expected = pd.read_csv(output_path("scale_time_output.csv"))
+        expected = pd.read_csv(output_path("test_scale_time_output.csv"))
 
         actual = actual.reindex(columns=sorted(actual.columns))
         expected = expected.reindex(columns=sorted(expected.columns))
