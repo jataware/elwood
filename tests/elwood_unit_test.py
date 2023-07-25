@@ -14,7 +14,11 @@ from pathlib import Path
 from os.path import join as path_join
 
 from elwood import elwood
-from pandas.util.testing import assert_frame_equal, assert_dict_equal
+from pandas.util.testing import (
+    assert_frame_equal,
+    assert_dict_equal,
+    assert_series_equal,
+)
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -23,8 +27,10 @@ logger = logging.getLogger(__name__)
 def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
+
 def input_path(filename):
     return path_join(get_project_root(), "tests", "inputs", filename)
+
 
 def output_path(filename):
     return path_join(get_project_root(), "tests", "outputs", filename)
@@ -57,7 +63,7 @@ class TestMixmaster(unittest.TestCase):
         """Test ISO2 primary_geo; build a date day, month, year; no primary_date; feature qualifies another feature."""
 
         # Define elwood inputs:
-        mp = input_path("test1_input.json") # mapper
+        mp = input_path("test1_input.json")  # mapper
         fp = input_path("test1_input.csv")  # file
         geo = "admin2"
         outf = output_path("unittests")
@@ -90,7 +96,6 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df)
 
-
     def test_002_process(self):
         """
         Test GeoTiff This tests that multi-band geotiff processing is the same. Uses the
@@ -102,7 +107,7 @@ class TestMixmaster(unittest.TestCase):
         mp = input_path("test2_assetwealth_input.json")
         fp = input_path("test2_assetwealth_input.tif")
         geo = "admin2"
-        outf = output_path("unittests") # out folder
+        outf = output_path("unittests")  # out folder
 
         # Process:
         df, dct = elwood.process(fp, mp, geo, outf)
@@ -533,7 +538,7 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df, check_categorical=False)
 
-    def test_optional_fields(self):
+    def test_009_optional_fields(self):
         """
         Before improvements, running this test would throw KeyError exceptions
         if associated_columns was not present(even if there was no need for it)
@@ -550,7 +555,32 @@ class TestMixmaster(unittest.TestCase):
         # Process:
         df, dct = elwood.process(data_file, mapper_file, geo, outf)
 
-        assert 'pandas.core.frame.DataFrame' in str(type(df))
+        assert "pandas.core.frame.DataFrame" in str(type(df))
+
+    def test_010_gadm_overrides_process(self):
+        """Test Gadm-Resolve-Overrides for country.
+        With fields: multi primary_geo, resolve_to_gadm"""
+
+        # Define elwood inputs:
+        mp = input_path("test6_hoa_conflict_input.json")
+        fp = input_path("test10_hoa_conflict_input.csv")
+        geo = "admin2"
+        outf = output_path("unittests")
+
+        overrides = {
+            "gadm": {"random_dataset_country_name": {"Djiboutiii": "DjiboutiMock"}}
+        }
+
+        # Process:
+        df, dct = elwood.process(fp, mp, geo, outf, overrides=overrides)
+
+        # Load expected output:
+        output_df = pd.read_csv(
+            output_path("test10_hoa_conflict_output.csv"), index_col=False
+        )
+        output_df = elwood.optimize_df_types(output_df)
+
+        assert_series_equal(df["country"], output_df["country"])
 
 
 if __name__ == "__main__":
