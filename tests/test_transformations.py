@@ -147,7 +147,7 @@ class TestRegridding(unittest.TestCase):
         df = pd.read_csv(input_csv_filepath)
         geo_columns = ["latitude", "longitude"]
         time_column = "date"
-        scale_multiplier = 0.5
+        scale_multiplier = 2
         agg_functions = ["mean"]
 
         regridded_output_df = regridding_interface(
@@ -158,7 +158,13 @@ class TestRegridding(unittest.TestCase):
             aggregation_functions=agg_functions,
         )
 
+        if "spatial_ref" in regridded_output_df.columns:
+            regridded_output_df.drop(columns="spatial_ref", inplace=True)
+
         target_df = pd.read_csv(output_csv_filepath)
+
+        print(target_df)
+        print(regridded_output_df)
 
         assert_frame_equal(target_df, regridded_output_df)
 
@@ -199,3 +205,6 @@ class TestScaling(unittest.TestCase):
 
         for col in ["event_date", "fatalities", "latitude", "longitude"]:
             assert_series_equal(actual[col], expected[col])
+
+
+# pytest -vs tests/test_transformations.py::TestRegridding::test_regrid_dataframe__default

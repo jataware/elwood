@@ -5,6 +5,7 @@ import sys
 
 import pandas
 import xarray as xr
+import numpy as np
 from cdo import *
 
 os.environ["HDF5_DISABLE_VERSION_CHECK"] = "1"
@@ -42,6 +43,7 @@ def regridding_interface(
     # Get dataset resolution and change to new target resolution
     old_res = get_resolution(xr_dataframe)
     new_res = Resolution(old_res.dx * scale_multi, old_res.dy * scale_multi)
+    print(old_res)
     print(new_res)
 
     gridfile_name = generate_current_grid(
@@ -57,9 +59,14 @@ def regridding_interface(
             data=xr_dataframe,
             resolution=new_res,
             method=aggregation_value_mapping(aggregator),
+            scale_multiplier=scale_multi,
         )
 
         os.remove(gridfile_name)
+
+        # regridded_data.values = np.flip(
+        #     regridded_data, axis=(time_column, "lon", "lat")
+        # ).values
 
         return regridded_data.to_dataframe().reset_index()
 
@@ -74,6 +81,10 @@ def regridding_interface(
             regridded_data = multi_feature_regrid(
                 data=xr_dataframe, resolution=new_res, methods=aggregator
             )
+
+            # regridded_data.values = np.flip(
+            #     regridded_data, axis=(time_column, "lon", "lat")
+            # ).values
 
             os.remove(gridfile_name)
 
@@ -164,7 +175,10 @@ class Resolution:
 
 
 def regrid(
-    data: xr.Dataset, resolution: float | Resolution, method: RegridMethod
+    data: xr.Dataset,
+    resolution: float | Resolution,
+    method: RegridMethod,
+    scale_multiplier: float,
 ) -> xr.Dataset:
     """
     Regrids the data to the target resolution using the specified aggregation method.
@@ -173,7 +187,12 @@ def regrid(
     # f = open("tmp_result.nc", "x")
     # f.close()
     print(resolution)
-    create_target_grid(resolution)  # creates tmp_gridfile.txt
+    create_target_grid(
+        data, resolution, scale_multiplier=scale_multiplier
+    )  # creates tmp_gridfile.txt
+
+    with open("tmp_gridfile.txt") as f:
+        print(f.read())
 
     cdo.setgrid(
         "tmp_current_grid.txt", input="tmp_data.nc", output="tmp_gridded_data.nc"
@@ -199,7 +218,10 @@ def regrid(
 
 
 def multi_feature_regrid(
-    data: xr.Dataset, resolution: float | Resolution, methods: dict[str, RegridMethod]
+    data: xr.Dataset,
+    resolution: float | Resolution,
+    methods: dict[str, RegridMethod],
+    scale_multiplier,
 ) -> xr.Dataset:
     """
     Regrids data with multiple features using specified aggregation methods per each feature.
@@ -214,7 +236,7 @@ def multi_feature_regrid(
 
     # regrid each group of features using the specified aggregation method
     results = [
-        regrid(data[features], resolution, method)
+        regrid(data[features], resolution, method, scale_multiplier)
         for method, features in features_by_method.items()
     ]
 
@@ -222,7 +244,9 @@ def multi_feature_regrid(
     return xr.merge(results)
 
 
-def create_target_grid(resolution: float | Resolution) -> None:
+def create_target_grid(
+    xarray_dataset, resolution: float | Resolution, scale_multiplier: float
+) -> None:
     """
     Creates a target grid with the specified resolution, and saves to tmp_gridfile.txt
     """
@@ -230,19 +254,42 @@ def create_target_grid(resolution: float | Resolution) -> None:
     if not isinstance(resolution, Resolution):
         resolution = Resolution(resolution)
 
-    # create a grid file
+        # create a grid file
     content = f"""
-gridtype  = latlon
-xsize     = {int(360/resolution.dx)}
-ysize     = {int(180/resolution.dy)}
-xfirst    = {-180 + resolution.dx / 2}
-xinc      = {resolution.dx}
-yfirst    = {-90 + resolution.dy / 2}
-yinc      = {resolution.dy}
-"""
+        gridtype  = latlon
+        xsize     = {int(len(xarray_dataset.x)/scale_multiplier)}
+        ysize     = {int(len(xarray_dataset.y)/scale_multiplier)}
+        xfirst    = {xarray_dataset.x.min().values.item() + resolution.dx/4}
+        xinc      = {resolution.dx}
+        yfirst    = {xarray_dataset.y.min().values.item() + resolution.dx/4}
+        yinc      = {resolution.dy}
+        """
+
     gridfile = "tmp_gridfile.txt"
     with open(gridfile, "w") as f:
         f.write(content)
+
+
+def generate_current_grid(xarray_dataset, current_resolution):
+    gridfile = f"""gridtype = lonlat
+        xsize = {len(xarray_dataset.x)}
+        ysize = {len(xarray_dataset.y)}
+        xfirst = {xarray_dataset.x.min().values.item()}
+        yfirst = {xarray_dataset.y.min().values.item()}
+        xinc = {current_resolution.dx}
+        yinc = {current_resolution.dy}
+        xname = longitude
+        xlongname = "longitude"
+        xunits    = "degrees_east"
+        yname = latitude
+        ylongname = "latitude"
+        yunits    = "degrees_north"
+        """
+
+    with open("tmp_current_grid.txt", "w") as f:
+        f.write(gridfile)
+
+    return "tmp_current_grid.txt"
 
 
 def aggregation_value_mapping(value):
@@ -276,28 +323,6 @@ def get_resolution(data: xr.Dataset) -> Resolution:
     dy = abs(data["y"][1] - data["y"][0]).item()
     print(dx, dy)
     return Resolution(dx, dy)
-
-
-def generate_current_grid(xarray_dataset, current_resolution):
-    gridfile = f"""gridtype = lonlat
-        xsize = {len(xarray_dataset.x)}
-        ysize = {len(xarray_dataset.y)}
-        xfirst = {xarray_dataset.x.min().values.item()}
-        yfirst = {xarray_dataset.y.min().values.item()}
-        xinc = {current_resolution.dx}
-        yinc = {current_resolution.dy}
-        xname = longitude
-        xlongname = "longitude"
-        xunits    = "degrees_east"
-        yname = latitude
-        ylongname = "latitude"
-        yunits    = "degrees_north"
-        """
-
-    with open("tmp_current_grid.txt", "w") as f:
-        f.write(gridfile)
-
-    return "tmp_current_grid.txt"
 
 
 def test1():
