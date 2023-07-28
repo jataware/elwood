@@ -176,6 +176,40 @@ class TestRegridding(unittest.TestCase):
 
         assert_frame_equal(target_df, regridded_output_df)
 
+    def test_regrid_dataframe_more_dates(self):
+        """Tests a regridding with a simple dataset with two dates."""
+        input_csv_filepath = input_path("test_regrid_more_dates.csv")
+        output_csv_filepath = output_path("test_regrid_output_more_dates.csv")
+
+        df = pd.read_csv(input_csv_filepath)
+        geo_columns = ["latitude", "longitude"]
+        time_column = "date"
+        scale_multiplier = 2
+        agg_functions = ["mean"]
+
+        regridded_output_df = regridding_interface(
+            df,
+            geo_columns=geo_columns,
+            time_column=time_column,
+            scale_multi=scale_multiplier,
+            aggregation_functions=agg_functions,
+        )
+
+        target_df = pd.read_csv(output_csv_filepath)
+
+        # Sort and reindex.
+        regridded_output_df.sort_index(axis=1, inplace=True)
+        regridded_output_df.reset_index(drop=True, inplace=True)
+
+        target_df.sort_index(axis=1, inplace=True)
+        target_df["date"] = pd.to_datetime(target_df["date"])
+        target_df.reset_index(drop=True, inplace=True)
+
+        print(target_df)
+        print(regridded_output_df)
+
+        assert_frame_equal(target_df, regridded_output_df)
+
 
 class TestScaling(unittest.TestCase):
     """Unit tests for `elwood` scaling transformation fn."""

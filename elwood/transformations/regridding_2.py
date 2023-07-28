@@ -330,6 +330,8 @@ def process_cdo_data(
     final_names_map = {"lon": geo_columns[1], "lat": geo_columns[0]}
     final_frame = reversed_data.to_dataframe().reset_index()
     final_frame = final_frame.rename(columns=final_names_map)
+    if "spatial_ref" in final_frame.columns:
+        final_frame.drop(columns="spatial_ref", inplace=True)
 
     final_frame[time_column] = pandas.to_datetime(final_frame[time_column])
 
