@@ -64,11 +64,9 @@ def regridding_interface(
 
         os.remove(gridfile_name)
 
-        # regridded_data.values = np.flip(
-        #     regridded_data, axis=(time_column, "lon", "lat")
-        # ).values
+        final_frame = process_cdo_data(regridded_data, geo_columns, time_column)
 
-        return regridded_data.to_dataframe().reset_index()
+        return final_frame
 
     else:
         # Get methods and convert to RegridMethod
@@ -82,13 +80,12 @@ def regridding_interface(
                 data=xr_dataframe, resolution=new_res, methods=aggregator
             )
 
-            # regridded_data.values = np.flip(
-            #     regridded_data, axis=(time_column, "lon", "lat")
-            # ).values
-
             os.remove(gridfile_name)
 
-            return regridded_data.to_dataframe().reset_index()
+            final_frame = process_cdo_data(regridded_data, geo_columns, time_column)
+
+            return final_frame
+
         except Exception as error:
             print(error)
 
@@ -278,12 +275,6 @@ def generate_current_grid(xarray_dataset, current_resolution):
         yfirst = {xarray_dataset.y.min().values.item()}
         xinc = {current_resolution.dx}
         yinc = {current_resolution.dy}
-        xname = longitude
-        xlongname = "longitude"
-        xunits    = "degrees_east"
-        yname = latitude
-        ylongname = "latitude"
-        yunits    = "degrees_north"
         """
 
     with open("tmp_current_grid.txt", "w") as f:
@@ -323,6 +314,26 @@ def get_resolution(data: xr.Dataset) -> Resolution:
     dy = abs(data["y"][1] - data["y"][0]).item()
     print(dx, dy)
     return Resolution(dx, dy)
+
+
+def process_cdo_data(
+    data: xr.Dataset, geo_columns: list, time_column: str
+) -> pandas.DataFrame:
+    # We are reversing the data here manually because it comes out of CDO reversed.
+    # TODO: Figure out why CDO is produced flipped data and remove this.
+    reversed_data = data.assign_coords(
+        lat=data["lat"].values[::-1],
+        lon=data["lon"].values[::-1],
+    )
+
+    # Reset Geo column names after regridding operation.
+    final_names_map = {"lon": geo_columns[1], "lat": geo_columns[0]}
+    final_frame = reversed_data.to_dataframe().reset_index()
+    final_frame = final_frame.rename(columns=final_names_map)
+
+    final_frame[time_column] = pandas.to_datetime(final_frame[time_column])
+
+    return final_frame
 
 
 def test1():

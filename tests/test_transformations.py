@@ -163,6 +163,14 @@ class TestRegridding(unittest.TestCase):
 
         target_df = pd.read_csv(output_csv_filepath)
 
+        # Sort and reindex.
+        regridded_output_df.sort_index(axis=1, inplace=True)
+        regridded_output_df.reset_index(drop=True, inplace=True)
+
+        target_df.sort_index(axis=1, inplace=True)
+        target_df["date"] = pd.to_datetime(target_df["date"])
+        target_df.reset_index(drop=True, inplace=True)
+
         print(target_df)
         print(regridded_output_df)
 
