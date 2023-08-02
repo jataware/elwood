@@ -8,6 +8,8 @@ import json
 import gc
 import os
 
+import xarray
+
 from pathlib import Path
 from os.path import join as path_join
 
@@ -209,6 +211,47 @@ class TestRegridding(unittest.TestCase):
         print(regridded_output_df)
 
         assert_frame_equal(target_df, regridded_output_df)
+
+    def test_regrid_dataframe_real_world_data(self):
+        """Tests a regridding with a simple dataset with two dates."""
+        input_filepath = input_path("cut_MERRA2_3D.20220101.nc4")
+        # output_csv_filepath = output_path("test_regrid_output_more_dates.csv")
+
+        ds = xarray.open_dataset(input_filepath, engine="netcdf4", decode_coords="all")
+        # df = ds.to_dataframe()
+
+        # df = df.reset_index()
+        geo_columns = ["lat", "lon"]
+        time_column = "time"
+        scale_multiplier = 10
+        agg_functions = {"SLP": "mean", "PHIS": "bilinear", "V": "max", "T": "mean"}
+
+        regridded_output_df = regridding_interface(
+            ds,
+            geo_columns=geo_columns,
+            time_column=time_column,
+            scale_multi=scale_multiplier,
+            aggregation_functions=agg_functions,
+            native_gridded=True,
+        )
+
+        # target_df = pd.read_csv(output_csv_filepath)
+
+        # Sort and reindex.
+        # regridded_output_df.sort_index(axis=1, inplace=True)
+        # regridded_output_df.reset_index(drop=True, inplace=True)
+
+        # target_df.sort_index(axis=1, inplace=True)
+        # target_df["date"] = pd.to_datetime(target_df["date"])
+        # target_df.reset_index(drop=True, inplace=True)
+
+        # print(target_df)
+        print(regridded_output_df)
+
+        regridded_output_df.to_csv("merra_multi_output.csv", index=False)
+
+        # TODO assertion
+        # assert_frame_equal(target_df, regridded_output_df)
 
 
 class TestScaling(unittest.TestCase):

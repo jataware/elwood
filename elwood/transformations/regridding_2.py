@@ -17,28 +17,36 @@ from enum import Enum
 
 
 def regridding_interface(
-    dataframe, geo_columns, time_column, scale_multi, aggregation_functions
+    dataframe,
+    geo_columns,
+    time_column,
+    scale_multi,
+    aggregation_functions,
+    native_gridded: bool = False,
 ):
-    # Construct renaming mapping for regridding:
-    renaming_map = {geo_columns[1]: "x", geo_columns[0]: "y"}
+    if native_gridded:
+        renaming_map = {geo_columns[1]: "x", geo_columns[0]: "y"}
+        xr_dataframe = dataframe.rename(renaming_map)
+    else:
+        # Construct renaming mapping for regridding:
+        renaming_map = {geo_columns[1]: "x", geo_columns[0]: "y"}
 
-    # Pandas dataframe to Xarray
-    dataframe = dataframe.rename(columns=renaming_map)
-    print(dataframe.head())
+        # Pandas dataframe to Xarray
+        dataframe = dataframe.rename(columns=renaming_map)
+        # print(dataframe.head())
+        # Convert the 'date' column to datetime
+        dataframe[time_column] = pandas.to_datetime(dataframe[time_column])
 
-    # Convert the 'date' column to datetime
-    dataframe[time_column] = pandas.to_datetime(dataframe[time_column])
+        # Set 'longitude', 'latitude', and 'date' as multi-index
+        dataframe.set_index([time_column, "x", "y"], inplace=True)
+        dataframe = dataframe[~dataframe.index.duplicated()]
 
-    # Set 'longitude', 'latitude', and 'date' as multi-index
-    dataframe.set_index([time_column, "x", "y"], inplace=True)
-    dataframe = dataframe[~dataframe.index.duplicated()]
+        print(dataframe)
+        print(dataframe.columns.value_counts())
 
-    print(dataframe)
-    print(dataframe.columns.value_counts())
-
-    xr_dataframe = dataframe.to_xarray()
-    # xr_dataframe = xr_dataframe.transpose(time_column, "x", "y")
-    print(xr_dataframe)
+        xr_dataframe = dataframe.to_xarray()
+        # xr_dataframe = xr_dataframe.transpose(time_column, "x", "y")
+        # print(xr_dataframe)
 
     # Get dataset resolution and change to new target resolution
     old_res = get_resolution(xr_dataframe)
@@ -64,7 +72,9 @@ def regridding_interface(
 
         os.remove(gridfile_name)
 
-        final_frame = process_cdo_data(regridded_data, geo_columns, time_column)
+        final_frame = process_cdo_data(
+            regridded_data, geo_columns, time_column, native_gridded
+        )
 
         return final_frame
 
@@ -77,12 +87,17 @@ def regridding_interface(
 
         try:
             regridded_data = multi_feature_regrid(
-                data=xr_dataframe, resolution=new_res, methods=aggregator
+                data=xr_dataframe,
+                resolution=new_res,
+                methods=aggregator,
+                scale_multiplier=scale_multi,
             )
 
             os.remove(gridfile_name)
 
-            final_frame = process_cdo_data(regridded_data, geo_columns, time_column)
+            final_frame = process_cdo_data(
+                regridded_data, geo_columns, time_column, native_gridded
+            )
 
             return final_frame
 
@@ -218,7 +233,7 @@ def multi_feature_regrid(
     data: xr.Dataset,
     resolution: float | Resolution,
     methods: dict[str, RegridMethod],
-    scale_multiplier,
+    scale_multiplier: float,
 ) -> xr.Dataset:
     """
     Regrids data with multiple features using specified aggregation methods per each feature.
@@ -317,14 +332,19 @@ def get_resolution(data: xr.Dataset) -> Resolution:
 
 
 def process_cdo_data(
-    data: xr.Dataset, geo_columns: list, time_column: str
+    data: xr.Dataset, geo_columns: list, time_column: str, native_gridded: bool
 ) -> pandas.DataFrame:
-    # We are reversing the data here manually because it comes out of CDO reversed.
-    # TODO: Figure out why CDO is produced flipped data and remove this.
-    reversed_data = data.assign_coords(
-        lat=data["lat"].values[::-1],
-        lon=data["lon"].values[::-1],
-    )
+    if native_gridded:
+        reversed_data = data
+
+    else:
+        # We are reversing the data here manually because it comes out of CDO reversed.
+        # This only happens in the case of the data coming in as a pandas dataframe first.
+        # TODO: Figure out why CDO is produced flipped data and remove this.
+        reversed_data = data.assign_coords(
+            lat=data["lat"].values[::-1],
+            lon=data["lon"].values[::-1],
+        )
 
     # Reset Geo column names after regridding operation.
     final_names_map = {"lon": geo_columns[1], "lat": geo_columns[0]}

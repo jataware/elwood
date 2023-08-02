@@ -299,11 +299,12 @@ def regrid_dataframe_geo_redux(
     time_column,
     scale_multi,
     aggregation_functions={},
+    native_gridded: bool = False,
 ):
     """Regrids a dataframe with detectable geo-resolution
 
     Args:
-        dataframe (_type_): _description_
+        dataframe (Pandas Dataframe or an Xarray Dataset): _description_
         geo_columns (_type_): _description_
         scale_multi (_type_): _description_
     """
@@ -314,6 +315,7 @@ def regrid_dataframe_geo_redux(
         time_column=time_column,
         scale_multi=scale_multi,
         aggregation_functions=aggregation_functions,
+        native_gridded=native_gridded,
     )
 
 
