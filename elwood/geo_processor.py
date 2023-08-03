@@ -12,6 +12,7 @@ from shapely import speedups
 from shapely.geometry import Point
 from time import time
 import timeit
+from sys import getsizeof
 
 from . import constants
 
@@ -87,6 +88,8 @@ def match_geo_names(
         gadm = gf.from_geofeather(gadmDir)
 
         time_end("Loading the geofeather file", start_time)
+
+        logging.info(f"###***### gadm lib var size: {getsizeof(gadm)} bytes!")
 
         gadm["country"] = gadm["NAME_0"]
         gadm["state"] = gadm["NAME_1"]
