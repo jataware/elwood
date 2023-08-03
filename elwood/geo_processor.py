@@ -10,10 +10,22 @@ from pathlib import Path
 import pkg_resources
 from shapely import speedups
 from shapely.geometry import Point
+from time import time
 import timeit
 
 from . import constants
 
+
+logging.info(f"Loaded geo_processor with root level: {logging.root.level}")
+logging.info(f"\nAll logging dir: {dir(logging)}")
+# TODO try logging.getLevelName(myLogger.level)
+
+
+# Use like start_time = time(), then
+#    pass into this one to log after running intermediary code:
+def time_end(name, start_time):
+    took = time() - start_time
+    logging.info(f"{name} took {took} seconds")
 
 def match_geo_names(
     admin: str,
@@ -44,28 +56,37 @@ def match_geo_names(
     A pandas.Dataframe produced by modifying the parameter df.
 
     """
-    print("geocoding ...")
+    logging.info("Geocoding ...")
     flag = speedups.available
     if flag == True:
         speedups.enable()
+
+    logging.info("joel debugging log info")
 
     cdir = os.path.expanduser("~")
     download_data_folder = f"{cdir}/elwood_data"
 
     # only load GADM if it wasn't explicitly passed to the function.
     if gadm is not None:
-        # logging.info("GADM geo dataframe has been provided.")
+        logging.info("GADM geo dataframe has been provided.")
         pass
     else:
         logging.info("GADM has not been provided; loading now.")
 
         if admin == "admin2":
+            logging.info("== Loading admin2 geofeather file")
             gadm_fn = f"gadm36_2.feather"
         else:
+            logging.info("== Loading admin3 geofeather file")
             gadm_fn = f"gadm36_3.feather"
 
         gadmDir = f"{download_data_folder}/{gadm_fn}"
+
+        start_time = time()
+
         gadm = gf.from_geofeather(gadmDir)
+
+        time_end("Loading the geofeather file", start_time)
 
         gadm["country"] = gadm["NAME_0"]
         gadm["state"] = gadm["NAME_1"]
@@ -210,6 +231,9 @@ def geocode(
     else:
         logging.info("GADM has not been provided; loading now.")
 
+        start_time_basic = time.time()
+        logging.info(f"Start time basic: {start_time_basic}")
+
         if admin in ["admin0", "country"]:
             gadm_fn = f"gadm36_2.feather"
             gadmDir = f"{download_data_folder}/{gadm_fn}"
@@ -251,6 +275,8 @@ def geocode(
             gadm = gadm[["geometry", "country", "admin1", "admin2", "admin3"]]
 
     start_time = timeit.default_timer()
+
+    logging.info(f"Start time timeit: {start_time}")
 
     # 1) Drop x,y duplicates from data frame.
     df_drop_dup_geo = df[[x, y]].drop_duplicates(subset=[x, y])
@@ -295,6 +321,9 @@ def geocode(
 
     # 6) Merge df and df_geocode on x,y
     gdf = df.merge(df_geocode, how="left", on=[x, y])
+
+    took = time.time() - start_time
+    logging.info(f"---Took {took} seconds ---")
 
     return pandas.DataFrame(gdf)
 
