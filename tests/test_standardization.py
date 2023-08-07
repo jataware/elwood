@@ -14,7 +14,11 @@ from pathlib import Path
 from os.path import join as path_join
 
 from elwood import elwood
-from pandas.util.testing import assert_frame_equal, assert_dict_equal, assert_series_equal
+from pandas.util.testing import (
+    assert_frame_equal,
+    assert_dict_equal,
+    assert_series_equal,
+)
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -23,14 +27,16 @@ logger = logging.getLogger(__name__)
 def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
+
 def input_path(filename):
-    return path_join(get_project_root(), "tests", "inputs", filename)
+    return path_join(get_project_root(), "tests", "inputs_standardization", filename)
+
 
 def output_path(filename):
-    return path_join(get_project_root(), "tests", "outputs", filename)
+    return path_join(get_project_root(), "tests", "outputs_standardization", filename)
 
 
-class TestMixmaster(unittest.TestCase):
+class TestElwood(unittest.TestCase):
     """Tests for `elwood` package."""
 
     def setUp(self):
@@ -57,7 +63,7 @@ class TestMixmaster(unittest.TestCase):
         """Test ISO2 primary_geo; build a date day, month, year; no primary_date; feature qualifies another feature."""
 
         # Define elwood inputs:
-        mp = input_path("test1_input.json") # mapper
+        mp = input_path("test1_input.json")  # mapper
         fp = input_path("test1_input.csv")  # file
         geo = "admin2"
         outf = output_path("unittests")
@@ -90,7 +96,6 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df)
 
-
     def test_002_process(self):
         """
         Test GeoTiff This tests that multi-band geotiff processing is the same. Uses the
@@ -102,7 +107,7 @@ class TestMixmaster(unittest.TestCase):
         mp = input_path("test2_assetwealth_input.json")
         fp = input_path("test2_assetwealth_input.tif")
         geo = "admin2"
-        outf = output_path("unittests") # out folder
+        outf = output_path("unittests")  # out folder
 
         # Process:
         df, dct = elwood.process(fp, mp, geo, outf)
@@ -533,14 +538,14 @@ class TestMixmaster(unittest.TestCase):
         # Assertions
         assert_frame_equal(df, output_df, check_categorical=False)
 
-    def test_optional_fields_009(self):
+    def test_009_optional_fields(self):
         """
         Before improvements, running this test would throw KeyError exceptions
         if associated_columns was not present(even if there was no need for it)
         """
 
         # This file is missing `qualifies`, `associated_columns` on some fields:
-        mapper_file = input_path("optional_fields_test_input.json")
+        mapper_file = input_path("test9_optional_fields_test_input.json")
 
         data_file = input_path("test1_input.csv")
 
@@ -550,9 +555,9 @@ class TestMixmaster(unittest.TestCase):
         # Process:
         df, dct = elwood.process(data_file, mapper_file, geo, outf)
 
-        assert 'pandas.core.frame.DataFrame' in str(type(df))
+        assert "pandas.core.frame.DataFrame" in str(type(df))
 
-    def test_gadm_overrides_process_010(self):
+    def test_010_gadm_overrides_process(self):
         """Test Gadm-Resolve-Overrides for country.
         With fields: multi primary_geo, resolve_to_gadm"""
 
@@ -563,11 +568,7 @@ class TestMixmaster(unittest.TestCase):
         outf = output_path("unittests")
 
         overrides = {
-            "gadm": {
-                "random_dataset_country_name": {
-                    "Djiboutiii": "DjiboutiMock"
-                }
-            }
+            "gadm": {"random_dataset_country_name": {"Djiboutiii": "DjiboutiMock"}}
         }
 
         # Process:

@@ -1,6 +1,15 @@
 # Elwood
 An open source dataset transformation, standardization, and normalization python library.
 
+# Requirements
+
+This package requires the GDAL dev binaries to be installed as well as the CDO binaries. The version requirements are below:
+
+```
+cdo = 2.2.0
+gdal = 3.4.3
+```
+
 # Usage
 
 To use start using Elwood, simply run:
@@ -72,3 +81,16 @@ This function will produce a dataframe who's rows are the aggregated data based 
 This function expects a dataframe with a "feature" column and a "value" column, or long data. Each entry for a feature has its own feature/value row.
 This function returns a dataframe in which all numerical values under the "value" column for each "feature" have been 0 to 1 scaled.
 Optionally you may specify an `output_file` name to generate a parquet file of the dataframe.
+
+
+# Testing
+
+The easiest way to test Elwood is to build the docker container and run the unit tests inside of it. This method makes sure that all the libraries and system dependencies are installed. To start the container use `docker compose up`. Next, run:
+```
+$ python3 -m pip install pytest; pytest -vs
+``` 
+This command installs the pytest library on the container and runs all the of the available unit tests.
+
+There available categories of unit tests are:
+* Standardization tests: these tests are unit tests for different variations of the standardization flow, accessed from the entrypoint `elwood.process`
+* Transformation tests: these tests represent unit tests for each of the different data transformations available in elwood.

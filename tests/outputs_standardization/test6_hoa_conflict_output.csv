@@ -815,12 +815,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1612137600000,Somalia,Sanaag,Ceerigaabo,,,,Day,4
 1612137600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1612137600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,10
+1612137600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,4
 1612137600000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1612137600000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,1
+1612137600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,7
 1612137600000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1612137600000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,4
 1612137600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1612137600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,7
+1612137600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,10
+1612137600000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,1
+1612137600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,4
+1612137600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,7
+1612137600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1612137600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,10
 1612137600000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1612137600000,Somalia,Sool,Caynaba,,,,Day,7
 1612137600000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -837,26 +851,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1612137600000,Somalia,Togdheer,Oodweyne,,,,Day,1
 1612137600000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1612137600000,Somalia,Togdheer,Sheekh,,,,Day,4
-1612137600000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,4
-1612137600000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,7
 1612137600000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1612137600000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,7
 1612137600000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1612137600000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,10
 1612137600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1612137600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,1
-1612137600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,10
-1612137600000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Marka,,,,Day,1
-1612137600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,4
-1612137600000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,7
-1612137600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1612137600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,10
 1612137600000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1612137600000,South Sudan,Central Equatoria,Juba,,,,Day,4
 1612137600000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -2163,12 +2163,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1614556800000,Somalia,Sanaag,Ceerigaabo,,,,Day,5
 1614556800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1614556800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,11
+1614556800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,5
 1614556800000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1614556800000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,2
+1614556800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,8
 1614556800000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1614556800000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,5
 1614556800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1614556800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,8
+1614556800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,11
+1614556800000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,2
+1614556800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,5
+1614556800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,8
+1614556800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1614556800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,11
 1614556800000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1614556800000,Somalia,Sool,Caynaba,,,,Day,8
 1614556800000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -2185,26 +2199,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1614556800000,Somalia,Togdheer,Oodweyne,,,,Day,2
 1614556800000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1614556800000,Somalia,Togdheer,Sheekh,,,,Day,5
-1614556800000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,5
-1614556800000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,8
 1614556800000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1614556800000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,8
 1614556800000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1614556800000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,11
 1614556800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1614556800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,2
-1614556800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,11
-1614556800000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Marka,,,,Day,2
-1614556800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,5
-1614556800000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,8
-1614556800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1614556800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,11
 1614556800000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1614556800000,South Sudan,Central Equatoria,Juba,,,,Day,5
 1614556800000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -3511,12 +3511,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1617235200000,Somalia,Sanaag,Ceerigaabo,,,,Day,6
 1617235200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1617235200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,12
+1617235200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,6
 1617235200000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1617235200000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,3
+1617235200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,9
 1617235200000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1617235200000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,6
 1617235200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1617235200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,9
+1617235200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,12
+1617235200000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,3
+1617235200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,6
+1617235200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,9
+1617235200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1617235200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,12
 1617235200000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1617235200000,Somalia,Sool,Caynaba,,,,Day,9
 1617235200000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -3533,26 +3547,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1617235200000,Somalia,Togdheer,Oodweyne,,,,Day,3
 1617235200000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1617235200000,Somalia,Togdheer,Sheekh,,,,Day,6
-1617235200000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,6
-1617235200000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,9
 1617235200000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1617235200000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,9
 1617235200000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1617235200000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,12
 1617235200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1617235200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,3
-1617235200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,12
-1617235200000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Marka,,,,Day,3
-1617235200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,6
-1617235200000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,9
-1617235200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1617235200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,12
 1617235200000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1617235200000,South Sudan,Central Equatoria,Juba,,,,Day,6
 1617235200000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -4859,12 +4859,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1619827200000,Somalia,Sanaag,Ceerigaabo,,,,Day,7
 1619827200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1619827200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,1
+1619827200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,7
 1619827200000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1619827200000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,4
+1619827200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,10
 1619827200000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1619827200000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,7
 1619827200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1619827200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,10
+1619827200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,1
+1619827200000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,4
+1619827200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,7
+1619827200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,10
+1619827200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1619827200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,1
 1619827200000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1619827200000,Somalia,Sool,Caynaba,,,,Day,10
 1619827200000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -4881,26 +4895,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1619827200000,Somalia,Togdheer,Oodweyne,,,,Day,4
 1619827200000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1619827200000,Somalia,Togdheer,Sheekh,,,,Day,7
-1619827200000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,7
-1619827200000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,10
 1619827200000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1619827200000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,10
 1619827200000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1619827200000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,1
 1619827200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1619827200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,4
-1619827200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,1
-1619827200000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Marka,,,,Day,4
-1619827200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,7
-1619827200000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,10
-1619827200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1619827200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,1
 1619827200000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1619827200000,South Sudan,Central Equatoria,Juba,,,,Day,7
 1619827200000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -6207,12 +6207,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1622505600000,Somalia,Sanaag,Ceerigaabo,,,,Day,8
 1622505600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1622505600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,2
+1622505600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,8
 1622505600000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1622505600000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,5
+1622505600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,11
 1622505600000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1622505600000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,8
 1622505600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1622505600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,11
+1622505600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,2
+1622505600000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,5
+1622505600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,8
+1622505600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,11
+1622505600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1622505600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,2
 1622505600000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1622505600000,Somalia,Sool,Caynaba,,,,Day,11
 1622505600000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -6229,26 +6243,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1622505600000,Somalia,Togdheer,Oodweyne,,,,Day,5
 1622505600000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1622505600000,Somalia,Togdheer,Sheekh,,,,Day,8
-1622505600000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,8
-1622505600000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,11
 1622505600000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1622505600000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,11
 1622505600000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1622505600000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,2
 1622505600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1622505600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,5
-1622505600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,2
-1622505600000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Marka,,,,Day,5
-1622505600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,8
-1622505600000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,11
-1622505600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1622505600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,2
 1622505600000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1622505600000,South Sudan,Central Equatoria,Juba,,,,Day,8
 1622505600000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -7555,12 +7555,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1625097600000,Somalia,Sanaag,Ceerigaabo,,,,Day,9
 1625097600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1625097600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,3
+1625097600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,9
 1625097600000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1625097600000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,6
+1625097600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,12
 1625097600000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1625097600000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,9
 1625097600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1625097600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,12
+1625097600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,3
+1625097600000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,6
+1625097600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,9
+1625097600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,12
+1625097600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1625097600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,3
 1625097600000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1625097600000,Somalia,Sool,Caynaba,,,,Day,12
 1625097600000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -7577,26 +7591,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1625097600000,Somalia,Togdheer,Oodweyne,,,,Day,6
 1625097600000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1625097600000,Somalia,Togdheer,Sheekh,,,,Day,9
-1625097600000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,9
-1625097600000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,12
 1625097600000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1625097600000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,12
 1625097600000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1625097600000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,3
 1625097600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1625097600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,6
-1625097600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,3
-1625097600000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Marka,,,,Day,6
-1625097600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,9
-1625097600000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,12
-1625097600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1625097600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,3
 1625097600000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1625097600000,South Sudan,Central Equatoria,Juba,,,,Day,9
 1625097600000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -8903,12 +8903,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1627776000000,Somalia,Sanaag,Ceerigaabo,,,,Day,10
 1627776000000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1627776000000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,4
+1627776000000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,10
 1627776000000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1627776000000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,7
+1627776000000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,1
 1627776000000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1627776000000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,10
 1627776000000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1627776000000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,1
+1627776000000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,4
+1627776000000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,7
+1627776000000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,10
+1627776000000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,1
+1627776000000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1627776000000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,4
 1627776000000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1627776000000,Somalia,Sool,Caynaba,,,,Day,1
 1627776000000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -8925,26 +8939,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1627776000000,Somalia,Togdheer,Oodweyne,,,,Day,7
 1627776000000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1627776000000,Somalia,Togdheer,Sheekh,,,,Day,10
-1627776000000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,10
-1627776000000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,1
 1627776000000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1627776000000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,1
 1627776000000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1627776000000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,4
 1627776000000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1627776000000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,7
-1627776000000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,4
-1627776000000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Marka,,,,Day,7
-1627776000000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,10
-1627776000000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,1
-1627776000000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1627776000000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,4
 1627776000000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1627776000000,South Sudan,Central Equatoria,Juba,,,,Day,10
 1627776000000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -10251,12 +10251,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1630454400000,Somalia,Sanaag,Ceerigaabo,,,,Day,11
 1630454400000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1630454400000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,5
+1630454400000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,11
 1630454400000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1630454400000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,8
+1630454400000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,2
 1630454400000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1630454400000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,11
 1630454400000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1630454400000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,2
+1630454400000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,5
+1630454400000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,8
+1630454400000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,11
+1630454400000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,2
+1630454400000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1630454400000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,5
 1630454400000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1630454400000,Somalia,Sool,Caynaba,,,,Day,2
 1630454400000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -10273,26 +10287,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1630454400000,Somalia,Togdheer,Oodweyne,,,,Day,8
 1630454400000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1630454400000,Somalia,Togdheer,Sheekh,,,,Day,11
-1630454400000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,11
-1630454400000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,2
 1630454400000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1630454400000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,2
 1630454400000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1630454400000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,5
 1630454400000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1630454400000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,8
-1630454400000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,5
-1630454400000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Marka,,,,Day,8
-1630454400000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,11
-1630454400000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,2
-1630454400000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1630454400000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,5
 1630454400000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1630454400000,South Sudan,Central Equatoria,Juba,,,,Day,11
 1630454400000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -11599,12 +11599,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1633046400000,Somalia,Sanaag,Ceerigaabo,,,,Day,12
 1633046400000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1633046400000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,6
+1633046400000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,12
 1633046400000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1633046400000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,9
+1633046400000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,3
 1633046400000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1633046400000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,12
 1633046400000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1633046400000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,3
+1633046400000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,6
+1633046400000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,9
+1633046400000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,12
+1633046400000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,3
+1633046400000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1633046400000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,6
 1633046400000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1633046400000,Somalia,Sool,Caynaba,,,,Day,3
 1633046400000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -11621,26 +11635,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1633046400000,Somalia,Togdheer,Oodweyne,,,,Day,9
 1633046400000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1633046400000,Somalia,Togdheer,Sheekh,,,,Day,12
-1633046400000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,12
-1633046400000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,3
 1633046400000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1633046400000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,3
 1633046400000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1633046400000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,6
 1633046400000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1633046400000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,9
-1633046400000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,6
-1633046400000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Marka,,,,Day,9
-1633046400000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,12
-1633046400000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,3
-1633046400000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1633046400000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,6
 1633046400000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1633046400000,South Sudan,Central Equatoria,Juba,,,,Day,12
 1633046400000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -12947,12 +12947,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1635724800000,Somalia,Sanaag,Ceerigaabo,,,,Day,1
 1635724800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1635724800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,7
+1635724800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,1
 1635724800000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1635724800000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,10
+1635724800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,4
 1635724800000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1635724800000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,1
 1635724800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1635724800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,4
+1635724800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,7
+1635724800000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,10
+1635724800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,1
+1635724800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,4
+1635724800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1635724800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,7
 1635724800000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1635724800000,Somalia,Sool,Caynaba,,,,Day,4
 1635724800000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -12969,26 +12983,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1635724800000,Somalia,Togdheer,Oodweyne,,,,Day,10
 1635724800000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1635724800000,Somalia,Togdheer,Sheekh,,,,Day,1
-1635724800000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,1
-1635724800000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,4
 1635724800000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1635724800000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,4
 1635724800000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1635724800000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,7
 1635724800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1635724800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,10
-1635724800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,7
-1635724800000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Marka,,,,Day,10
-1635724800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,1
-1635724800000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,4
-1635724800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1635724800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,7
 1635724800000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1635724800000,South Sudan,Central Equatoria,Juba,,,,Day,1
 1635724800000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -14295,12 +14295,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1638316800000,Somalia,Sanaag,Ceerigaabo,,,,Day,2
 1638316800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1638316800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,8
+1638316800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,2
 1638316800000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1638316800000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,11
+1638316800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,5
 1638316800000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1638316800000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,2
 1638316800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1638316800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,5
+1638316800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,8
+1638316800000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,11
+1638316800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,2
+1638316800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,5
+1638316800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1638316800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,8
 1638316800000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1638316800000,Somalia,Sool,Caynaba,,,,Day,5
 1638316800000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -14317,26 +14331,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1638316800000,Somalia,Togdheer,Oodweyne,,,,Day,11
 1638316800000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1638316800000,Somalia,Togdheer,Sheekh,,,,Day,2
-1638316800000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,2
-1638316800000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,5
 1638316800000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1638316800000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,5
 1638316800000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1638316800000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,8
 1638316800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1638316800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,11
-1638316800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,8
-1638316800000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Marka,,,,Day,11
-1638316800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,2
-1638316800000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,5
-1638316800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1638316800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,8
 1638316800000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1638316800000,South Sudan,Central Equatoria,Juba,,,,Day,2
 1638316800000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -15643,12 +15643,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1640995200000,Somalia,Sanaag,Ceerigaabo,,,,Day,3
 1640995200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1640995200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,9
+1640995200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,3
 1640995200000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1640995200000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,12
+1640995200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,6
 1640995200000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1640995200000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,3
 1640995200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1640995200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,6
+1640995200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,9
+1640995200000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,12
+1640995200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,3
+1640995200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,6
+1640995200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1640995200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,9
 1640995200000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1640995200000,Somalia,Sool,Caynaba,,,,Day,6
 1640995200000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -15665,26 +15679,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1640995200000,Somalia,Togdheer,Oodweyne,,,,Day,12
 1640995200000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1640995200000,Somalia,Togdheer,Sheekh,,,,Day,3
-1640995200000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,3
-1640995200000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,6
 1640995200000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1640995200000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,6
 1640995200000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1640995200000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,9
 1640995200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1640995200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,12
-1640995200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,9
-1640995200000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Marka,,,,Day,12
-1640995200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,3
-1640995200000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,6
-1640995200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1640995200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,9
 1640995200000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1640995200000,South Sudan,Central Equatoria,Juba,,,,Day,3
 1640995200000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -16991,12 +16991,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1643673600000,Somalia,Sanaag,Ceerigaabo,,,,Day,4
 1643673600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1643673600000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,10
+1643673600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,4
 1643673600000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1643673600000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,1
+1643673600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,7
 1643673600000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1643673600000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,4
 1643673600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1643673600000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,7
+1643673600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,10
+1643673600000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,1
+1643673600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,4
+1643673600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,7
+1643673600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1643673600000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,10
 1643673600000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1643673600000,Somalia,Sool,Caynaba,,,,Day,7
 1643673600000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -17013,26 +17027,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1643673600000,Somalia,Togdheer,Oodweyne,,,,Day,1
 1643673600000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1643673600000,Somalia,Togdheer,Sheekh,,,,Day,4
-1643673600000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,4
-1643673600000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,7
 1643673600000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1643673600000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,7
 1643673600000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1643673600000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,10
 1643673600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1643673600000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,1
-1643673600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,10
-1643673600000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Marka,,,,Day,1
-1643673600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,4
-1643673600000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,7
-1643673600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1643673600000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,10
 1643673600000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1643673600000,South Sudan,Central Equatoria,Juba,,,,Day,4
 1643673600000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -18339,12 +18339,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1646092800000,Somalia,Sanaag,Ceerigaabo,,,,Day,5
 1646092800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1646092800000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,11
+1646092800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,5
 1646092800000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1646092800000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,2
+1646092800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,8
 1646092800000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1646092800000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,5
 1646092800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1646092800000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,8
+1646092800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,11
+1646092800000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,2
+1646092800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,5
+1646092800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,8
+1646092800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1646092800000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,11
 1646092800000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1646092800000,Somalia,Sool,Caynaba,,,,Day,8
 1646092800000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -18361,26 +18375,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1646092800000,Somalia,Togdheer,Oodweyne,,,,Day,2
 1646092800000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1646092800000,Somalia,Togdheer,Sheekh,,,,Day,5
-1646092800000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,5
-1646092800000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,8
 1646092800000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1646092800000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,8
 1646092800000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1646092800000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,11
 1646092800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1646092800000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,2
-1646092800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,11
-1646092800000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Marka,,,,Day,2
-1646092800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,5
-1646092800000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,8
-1646092800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1646092800000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,11
 1646092800000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1646092800000,South Sudan,Central Equatoria,Juba,,,,Day,5
 1646092800000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua
@@ -19687,12 +19687,26 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1648771200000,Somalia,Sanaag,Ceerigaabo,,,,Day,6
 1648771200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,CountryOfAsylum,North Darfur
 1648771200000,Somalia,Shabeellaha Dhexe,Aadan Yabaal,,,,Day,12
+1648771200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Afgooye,,,,Day,6
 1648771200000,Somalia,Shabeellaha Dhexe,Balcad,,,,CountryOfAsylum,North Kordofan
 1648771200000,Somalia,Shabeellaha Dhexe,Balcad,,,,Day,3
+1648771200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Baraawe,,,,Day,9
 1648771200000,Somalia,Shabeellaha Dhexe,Cadale,,,,CountryOfAsylum,North Kordofan
 1648771200000,Somalia,Shabeellaha Dhexe,Cadale,,,,Day,6
 1648771200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,CountryOfAsylum,North Kordofan
 1648771200000,Somalia,Shabeellaha Dhexe,Jowhar,,,,Day,9
+1648771200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Kurtunwaarey,,,,Day,12
+1648771200000,Somalia,Shabeellaha Dhexe,Marka,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Marka,,,,Day,3
+1648771200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Qoryooley,,,,Day,6
+1648771200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Sablaale,,,,Day,9
+1648771200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,CountryOfAsylum,North Darfur
+1648771200000,Somalia,Shabeellaha Dhexe,Wanla Weyn,,,,Day,12
 1648771200000,Somalia,Sool,Caynaba,,,,CountryOfAsylum,Northern Bahr el Ghazal
 1648771200000,Somalia,Sool,Caynaba,,,,Day,9
 1648771200000,Somalia,Sool,Laas Caanood,,,,CountryOfAsylum,Northern Bahr el Ghazal
@@ -19709,26 +19723,12 @@ timestamp,country,admin1,admin2,admin3,lat,lng,feature,value
 1648771200000,Somalia,Togdheer,Oodweyne,,,,Day,3
 1648771200000,Somalia,Togdheer,Sheekh,,,,CountryOfAsylum,Nyamira
 1648771200000,Somalia,Togdheer,Sheekh,,,,Day,6
-1648771200000,Somalia,Woqooyi Galbeed,Afgooye,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Afgooye,,,,Day,6
-1648771200000,Somalia,Woqooyi Galbeed,Baraawe,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Baraawe,,,,Day,9
 1648771200000,Somalia,Woqooyi Galbeed,Berbera,,,,CountryOfAsylum,Nyamira
 1648771200000,Somalia,Woqooyi Galbeed,Berbera,,,,Day,9
 1648771200000,Somalia,Woqooyi Galbeed,Gabiley,,,,CountryOfAsylum,Nyamira
 1648771200000,Somalia,Woqooyi Galbeed,Gabiley,,,,Day,12
 1648771200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,CountryOfAsylum,Nyandarua
 1648771200000,Somalia,Woqooyi Galbeed,Hargeysa,,,,Day,3
-1648771200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Kurtunwaarey,,,,Day,12
-1648771200000,Somalia,Woqooyi Galbeed,Marka,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Marka,,,,Day,3
-1648771200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Qoryooley,,,,Day,6
-1648771200000,Somalia,Woqooyi Galbeed,Sablaale,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Sablaale,,,,Day,9
-1648771200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,CountryOfAsylum,North Darfur
-1648771200000,Somalia,Woqooyi Galbeed,Wanla Weyn,,,,Day,12
 1648771200000,South Sudan,Central Equatoria,Juba,,,,CountryOfAsylum,Nyandarua
 1648771200000,South Sudan,Central Equatoria,Juba,,,,Day,6
 1648771200000,South Sudan,Central Equatoria,Kajo-Keji,,,,CountryOfAsylum,Nyandarua

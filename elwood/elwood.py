@@ -16,7 +16,11 @@ from .file_processor import (
     raster2df_processor,
 )
 from .standardizer import standardizer
-from .transformations.clipping import clip_dataframe, clip_time, construct_multipolygon
+from .feature_normalization import zero_to_one_normalization, robust_normalization
+from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
+from .transformations.scaling import scale_time
+from .transformations.regridding import regrid_dataframe
+from .transformations.regridding_2 import regridding_interface
 from .transformations.geo_utils import calculate_boundary_box
 from .transformations.regridding import regrid_dataframe
 from .transformations.scaling import scale_time
@@ -45,7 +49,7 @@ def dict_get(nested, path, fallback=None):
     if not type(nested) == dict:
         return fallback
 
-    keys = path.split('.')
+    keys = path.split(".")
     value = nested
     try:
         for key in keys:
@@ -71,8 +75,13 @@ def get_only_key(my_dict, path):
 
 
 def process(
-    fp: str, mp: str, admin: str,
-    output_file: str, write_output=True, gadm=None, overrides=None
+    fp: str,
+    mp: str,
+    admin: str,
+    output_file: str,
+    write_output=True,
+    gadm=None,
+    overrides=None,
 ):
     """
     Parameters
@@ -130,7 +139,9 @@ def process(
         field_name = get_only_key(overrides, "gadm")
         field_overrides = dict_get(overrides, f"gadm.{field_name}")
         if field_overrides:
-            click.echo(f"Applying GADM country overrides provided by user:\n{overrides}")
+            click.echo(
+                f"Applying GADM country overrides provided by user:\n{overrides}"
+            )
             norm["country"] = norm["country"].replace(field_overrides)
 
     if write_output:
@@ -257,7 +268,56 @@ def rescale_dataframe_time(
     )
 
 
-regrid_dataframe_geo = regrid_dataframe
+def regrid_dataframe_geo(
+    dataframe,
+    geo_columns,
+    time_column,
+    scale_multi,
+    aggregation_functions,
+    scale=None,
+):
+    """Regrids a dataframe with detectable geo-resolution
+
+    Args:
+        dataframe (_type_): _description_
+        geo_columns (_type_): _description_
+        scale_multi (_type_): _description_
+    """
+
+    return regrid_dataframe(
+        dataframe=dataframe,
+        geo_columns=geo_columns,
+        time_column=time_column,
+        scale_multi=scale_multi,
+        aggregation_functions=aggregation_functions,
+        scale=scale,
+    )
+
+
+def regrid_dataframe_geo_redux(
+    dataframe,
+    geo_columns,
+    time_column,
+    scale_multi,
+    aggregation_functions={},
+    native_gridded: bool = False,
+):
+    """Regrids a dataframe with detectable geo-resolution. Will
+
+    Args:
+        dataframe (Pandas Dataframe or an Xarray Dataset): _description_
+        geo_columns (_type_): _description_
+        scale_multi (_type_): _description_
+    """
+
+    return regridding_interface(
+        dataframe=dataframe,
+        geo_columns=geo_columns,
+        time_column=time_column,
+        scale_multi=scale_multi,
+        aggregation_functions=aggregation_functions,
+        native_gridded=native_gridded,
+    )
 
 
 def get_boundary_box(dataframe, geo_columns):

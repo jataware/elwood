@@ -1,90 +1,126 @@
 import math
-import xarray
 import numpy
 import pandas as pd
 from typing import Dict, List
 
+import sys
 
-def regrid_dataframe(dataframe: pd.core.frame.DataFrame,
-                     geo_columns: Dict[str, str],
-                     time_column: List[str],
-                     scale_multi: int,
-                     scale=None) -> pd.core.frame.DataFrame:
-    """Uses xarray interpolation to regrid geography in a dataframe.
+
+def regrid_dataframe(
+    dataframe: pd.core.frame.DataFrame,
+    geo_columns: Dict[str, str],
+    time_column: List[str],
+    scale_multi: float,
+    aggregation_functions: Dict[str, str],
+    scale: float = None,
+) -> pd.core.frame.DataFrame:
+    """Uses nump digitize and pandas functions to regrid geography in a dataframe.
 
     Args:
         dataframe (pandas.Dataframe): Dataframe of a dataset that has detectable gridden geographical resolution ie. points that represent 1sqkm areas
         geo_columns (Dict[str]): A dictionary containing the geo_columns for the latitude and longitude pairs, with keys 'lat_column' and 'lon_column'.
         time_column (List[str]): A list containing the name of the datetime column(s) in the dataset.
-        scale_multi (int): The number by which to divide to geographical scale to regrid larger.
+        scale_multi (float): The number by which to divide to geographical scale to regrid larger.
+        aggregation_functions (Dict[str, str]): Example: {"T": "sum", "EPV": "sum", "SLP": "mean", "H": "mean"}
+        scale (float): Overwrites automatic scale detection with a user input scale. Defaults to None.
 
     Returns:
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
 
-    geo_columns_list = [geo_columns['lat_column'], geo_columns['lon_column']]
-    geo_columns_list.extend(time_column)
-    ds = None
+    # Create arrays for latitude and longitude
+    df_lats = dataframe[geo_columns["lat_column"]]
+    df_lons = dataframe[geo_columns["lon_column"]]
 
-    try:
-
-        ds = xarray.Dataset.from_dataframe(dataframe.set_index(geo_columns_list))
-
-    except KeyError as error:
-        print(error)
-
-    ds_scale = 0
+    # Automatic scale detection, or user provided scale overwrite.
+    dataframe_scale = 0
     if scale:
-        ds_scale = scale
+        lat_scale = scale
+        lon_scale = scale
     else:
-        ds_scale = getScale(
-            ds[geo_columns['lat_column']][0],
-            ds[geo_columns['lon_column']][0],
-            ds[geo_columns['lat_column']][1],
-            ds[geo_columns['lon_column']][1],
+        # TODO check that this is how the scale multi is being used in the frontend.
+        lat_scale = abs((df_lats.unique()[1] - df_lats.unique()[0]) * scale_multi)
+        lon_scale = abs((df_lons.unique()[1] - df_lons.unique()[0]) * scale_multi)
+
+    lat = numpy.arange(df_lats.min(), df_lats.max() + 1, lat_scale)
+    lon = numpy.arange(df_lons.min(), df_lons.max() + 1, lon_scale)
+
+    # calculate the indices of the bins to which each value in input array belongs
+    dataframe["lon_bin"] = numpy.digitize(dataframe[geo_columns["lon_column"]], lon) - 1
+    dataframe["lat_bin"] = numpy.digitize(dataframe[geo_columns["lat_column"]], lat) - 1
+
+    # use bin indices to create bin labels (which are the actual bin values)
+    dataframe["lon_bin_label"] = lon[dataframe["lon_bin"]]
+    dataframe["lat_bin_label"] = lat[dataframe["lat_bin"]]
+
+    # mapper = {"T": "sum", "EPV": "sum", "SLP": "mean", "H": "mean"}
+    mapper = aggregation_functions
+
+    aggregation_indices = [time_column, "lon_bin_label", "lat_bin_label"]
+    column_drop = {
+        "lon_bin_label",
+        "lon_bin",
+        "lat_bin_label",
+        "lat_bin",
+    }
+
+    # Instance for one aggregation function.
+    if isinstance(mapper, list):
+        agg_func = mapper[0]
+
+        result_frame = getattr(
+            dataframe.groupby(aggregation_indices), agg_func
+        )().reset_index()
+
+        result = result_frame.drop(columns=column_drop)
+        result[time_column] = pd.to_datetime(result[time_column])
+
+        return result
+
+    # Take agg functions and do aggregation on respective slices of the dataset.
+    aggregation_processing = {}
+
+    for key, value in mapper.items():
+        if value in aggregation_processing:
+            aggregation_processing[value].append(key)
+        else:
+            aggregation_processing[value] = [key]
+
+    print(f"AGG PROCESS: {aggregation_processing}")
+
+    # Process all dataframe slices with correct aggregation function and store all the result slices for merging.
+    all_result_frames = []
+    for agg_func, columns_list in aggregation_processing.items():
+        frame_selector = aggregation_indices + columns_list
+
+        target_frame = dataframe[frame_selector]
+
+        # group by bins (i.e., group by 1-degree grid cells) and calculate aggregation in each grid cell
+        result_frame = getattr(
+            target_frame.groupby(aggregation_indices), agg_func
+        )().reset_index()
+
+        all_result_frames.append(result_frame)
+
+    # Combine all result frames
+    result = None
+    for frame in all_result_frames:
+        if result == None:
+            result = frame
+        result = pd.merge(
+            result,
+            frame,
+            how="left",
+            left_on=aggregation_indices,
+            right_on=aggregation_indices,
         )
 
-    multiplier = ds_scale / scale_multi
+    result[time_column] = pd.to_datetime(result[time_column])
+    try:
+        result = result.drop(columns=column_drop)
+    except KeyError:
+        column_drop.remove("lon_bin")
+        column_drop.remove("lat_bin")
+        result = result.drop(columns=column_drop)
 
-    new_lat = numpy.linspace(
-        ds[geo_columns['lat_column']][0],
-        ds[geo_columns['lat_column']][-1],
-        round(ds.dims[geo_columns['lat_column']] * multiplier),
-    )
-    new_lon = numpy.linspace(
-        ds[geo_columns['lon_column']][0],
-        ds[geo_columns['lon_column']][-1],
-        round(ds.dims[geo_columns['lon_column']] * multiplier),
-    )
-
-    interpolation = {geo_columns['lat_column']: new_lat, geo_columns['lon_column']: new_lon}
-
-    ds2 = ds.interp(**interpolation)
-
-    final_dataframe = ds2.to_dataframe()
-    final_dataframe.reset_index(inplace=True)
-
-    return final_dataframe
-
-
-def getScale(lat0, lon0, lat1, lon1):
-    """
-    Description
-    -----------
-    Return an estimation of the scale in km of a netcdf dataset.
-    The estimate is based on the first two data points, and returns
-    the scale distance at that lat/lon.
-
-    """
-    r = 6371  # Radius of the earth in km
-    dLat = numpy.radians(lat1 - lat0)
-    dLon = numpy.radians(lon1 - lon0)
-
-    a = math.sin(dLat / 2) * math.sin(dLat / 2) + math.cos(
-        numpy.radians(lat0)
-    ) * math.cos(numpy.radians(lat1)) * math.sin(dLon / 2) * math.sin(dLon / 2)
-
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    d = r * c
-    # Distance in km
-    return d
+    return result
