@@ -147,12 +147,12 @@ class TestRegridding(unittest.TestCase):
         output_csv_filepath = output_path("test_regrid_output.csv")
 
         df = pd.read_csv(input_csv_filepath)
-        geo_columns = ["latitude", "longitude"]
+        geo_columns = {"lat_column": "latitude", "lon_column": "longitude"}
         time_column = "date"
         scale_multiplier = 2
         agg_functions = ["mean"]
 
-        regridded_output_df = regridding_interface(
+        regridded_output_df = regrid_dataframe(
             df,
             geo_columns=geo_columns,
             time_column=time_column,
@@ -184,12 +184,12 @@ class TestRegridding(unittest.TestCase):
         output_csv_filepath = output_path("test_regrid_output_more_dates.csv")
 
         df = pd.read_csv(input_csv_filepath)
-        geo_columns = ["latitude", "longitude"]
+        geo_columns = {"lat_column": "latitude", "lon_column": "longitude"}
         time_column = "date"
         scale_multiplier = 2
         agg_functions = ["mean"]
 
-        regridded_output_df = regridding_interface(
+        regridded_output_df = regrid_dataframe(
             df,
             geo_columns=geo_columns,
             time_column=time_column,
@@ -218,21 +218,20 @@ class TestRegridding(unittest.TestCase):
         # output_csv_filepath = output_path("test_regrid_output_more_dates.csv")
 
         ds = xarray.open_dataset(input_filepath, engine="netcdf4", decode_coords="all")
-        # df = ds.to_dataframe()
+        df = ds.to_dataframe()
 
-        # df = df.reset_index()
-        geo_columns = ["lat", "lon"]
+        df = df.reset_index()
+        geo_columns = {"lat_column": "lat", "lon_column": "lon"}
         time_column = "time"
-        scale_multiplier = 10
-        agg_functions = {"SLP": "mean", "PHIS": "bilinear", "V": "max", "T": "mean"}
+        scale_multiplier = 2
+        agg_functions = {"SLP": "sum", "PHIS": "sum", "V": "sum", "T": "sum"}
 
-        regridded_output_df = regridding_interface(
-            ds,
+        regridded_output_df = regrid_dataframe(
+            df,
             geo_columns=geo_columns,
             time_column=time_column,
             scale_multi=scale_multiplier,
             aggregation_functions=agg_functions,
-            native_gridded=True,
         )
 
         # target_df = pd.read_csv(output_csv_filepath)

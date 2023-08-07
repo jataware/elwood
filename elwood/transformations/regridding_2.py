@@ -268,12 +268,12 @@ def create_target_grid(
 
         # create a grid file
     content = f"""
-        gridtype  = latlon
-        xsize     = {int(len(xarray_dataset.x)/scale_multiplier)}
-        ysize     = {int(len(xarray_dataset.y)/scale_multiplier)}
-        xfirst    = {xarray_dataset.x.min().values.item() + resolution.dx/4}
+        gridtype  = lonlat
+        xsize     = {int((len(xarray_dataset.x)/scale_multiplier) + resolution.dx/4)}
+        ysize     = {int((len(xarray_dataset.y)/scale_multiplier) + resolution.dy/4)}
+        xfirst    = {xarray_dataset.x.min().values.item()}
         xinc      = {resolution.dx}
-        yfirst    = {xarray_dataset.y.min().values.item() + resolution.dx/4}
+        yfirst    = {xarray_dataset.y.min().values.item()}
         yinc      = {resolution.dy}
         """
 

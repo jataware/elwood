@@ -273,8 +273,8 @@ def regrid_dataframe_geo(
     geo_columns,
     time_column,
     scale_multi,
+    aggregation_functions,
     scale=None,
-    aggregation_functions={},
 ):
     """Regrids a dataframe with detectable geo-resolution
 
@@ -289,6 +289,7 @@ def regrid_dataframe_geo(
         geo_columns=geo_columns,
         time_column=time_column,
         scale_multi=scale_multi,
+        aggregation_functions=aggregation_functions,
         scale=scale,
     )
 
@@ -301,7 +302,7 @@ def regrid_dataframe_geo_redux(
     aggregation_functions={},
     native_gridded: bool = False,
 ):
-    """Regrids a dataframe with detectable geo-resolution
+    """Regrids a dataframe with detectable geo-resolution. Will
 
     Args:
         dataframe (Pandas Dataframe or an Xarray Dataset): _description_
