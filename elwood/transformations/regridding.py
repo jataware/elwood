@@ -27,7 +27,6 @@ def regrid_dataframe(
     Returns:
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
-
     # Create arrays for latitude and longitude
     df_lats = dataframe[geo_columns["lat_column"]]
     df_lons = dataframe[geo_columns["lon_column"]]
@@ -38,7 +37,6 @@ def regrid_dataframe(
         lat_scale = scale
         lon_scale = scale
     else:
-        # TODO check that this is how the scale multi is being used in the frontend.
         lat_scale = abs((df_lats.unique()[1] - df_lats.unique()[0]) * scale_multi)
         lon_scale = abs((df_lons.unique()[1] - df_lons.unique()[0]) * scale_multi)
 
@@ -85,8 +83,6 @@ def regrid_dataframe(
             aggregation_processing[value].append(key)
         else:
             aggregation_processing[value] = [key]
-
-    print(f"AGG PROCESS: {aggregation_processing}")
 
     # Process all dataframe slices with correct aggregation function and store all the result slices for merging.
     all_result_frames = []

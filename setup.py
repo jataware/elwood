@@ -50,5 +50,5 @@ setup(
     packages=find_packages(include=["elwood", "elwood.*"]),
     test_suite="tests",
     url="https://github.com/jataware/elwood",
-    version="0.1.3",
+    version="0.1.4",
 )
