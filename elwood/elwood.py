@@ -16,11 +16,7 @@ from .file_processor import (
     raster2df_processor,
 )
 from .standardizer import standardizer
-from .feature_normalization import zero_to_one_normalization, robust_normalization
-from .transformations.clipping import construct_multipolygon, clip_dataframe, clip_time
-from .transformations.scaling import scale_time
-from .transformations.regridding import regrid_dataframe
-from .transformations.regridding_2 import regridding_interface
+from .transformations.clipping import clip_dataframe, clip_time, construct_multipolygon
 from .transformations.geo_utils import calculate_boundary_box
 from .transformations.regridding import regrid_dataframe
 from .transformations.scaling import scale_time
@@ -294,30 +290,31 @@ def regrid_dataframe_geo(
     )
 
 
-def regrid_dataframe_geo_redux(
-    dataframe,
-    geo_columns,
-    time_column,
-    scale_multi,
-    aggregation_functions={},
-    native_gridded: bool = False,
-):
-    """Regrids a dataframe with detectable geo-resolution. Will
+# Not ready currently
+# def regrid_dataframe_geo_redux(
+#     dataframe,
+#     geo_columns,
+#     time_column,
+#     scale_multi,
+#     aggregation_functions={},
+#     native_gridded: bool = False,
+# ):
+#     """Regrids a dataframe with detectable geo-resolution. Will
 
-    Args:
-        dataframe (Pandas Dataframe or an Xarray Dataset): _description_
-        geo_columns (_type_): _description_
-        scale_multi (_type_): _description_
-    """
+#     Args:
+#         dataframe (Pandas Dataframe or an Xarray Dataset): _description_
+#         geo_columns (_type_): _description_
+#         scale_multi (_type_): _description_
+#     """
 
-    return regridding_interface(
-        dataframe=dataframe,
-        geo_columns=geo_columns,
-        time_column=time_column,
-        scale_multi=scale_multi,
-        aggregation_functions=aggregation_functions,
-        native_gridded=native_gridded,
-    )
+#     return regridding_interface(
+#         dataframe=dataframe,
+#         geo_columns=geo_columns,
+#         time_column=time_column,
+#         scale_multi=scale_multi,
+#         aggregation_functions=aggregation_functions,
+#         native_gridded=native_gridded,
+#     )
 
 
 def get_boundary_box(dataframe, geo_columns):
