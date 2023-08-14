@@ -24,8 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
+          sudo apt-get update
+          sudo apt-get install gdal-bin libgdal-dev
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # If you have requirements file
+          pip install -r requirements.txt
 
       - name: Run pytest
         run: |
