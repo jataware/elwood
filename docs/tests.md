@@ -1,22 +1,30 @@
+---
+layout: default
+title: Tests
+nav_order: 5
+has_toc: true
+---
+
 # Testing Elwood
 
 Tests are available in the `tests` directory. They can be run with:
 
 ```
 cd tests
-python3 -m unittest test_mixmasta.py -v
+python3 -m unittest tests/test_standardization.py -v
+python3 -m unittest tests/test_transformations.py -v
 ```
 
-If you have built the Docker container, you can run tests in your container with:
+It is suggested to run these tests in the Elwood docker container so that all dependencies are installed correctly.
+
+You may also use `pytest`. To run all tests, from the root directory, use:
 
 ```
-docker run -it -w=/tests --entrypoint="python3" jataware/elwood:0.5.17 -m unittest test_mixmasta.py -v
+pytest -vs
 ```
 
-> Note the `-w` flag changes the working directory within the container to `/tests`.
-
-You may also use `pytest`:
+To run specific tests with pytest, use:
 
 ```
-python -m pytest -vss tests/transformations_test.py::TestGeoUtils
+pytest -vs tests/test_transformations.py::TestRegridding::test_regrid_dataframe__default
 ```

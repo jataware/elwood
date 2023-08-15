@@ -585,21 +585,3 @@ class TestElwood(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
-"""
-Test by: > /usr/bin/python3.8 -m unittest /workspaces/elwood/tests/test_mixmasta.py -v
-
-============
-
-Or using pytest:
-
-$ python3 -m pip install pytest
-
-Run all tests (even on root dir):
-$ pytest -vs
-
-Run a specific test case:
-$ pytest -vs tests/elwood_unit_test.py::TestMixmaster::test_optional_fields
-
-"""

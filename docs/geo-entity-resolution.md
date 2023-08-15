@@ -1,5 +1,5 @@
 
-## elwood Geo Entity Resolution
+# Elwood Geo Entity Resolution
 
 ## Example Cases
 - [Latitude / Longitude](#latitude-/-longitude)
