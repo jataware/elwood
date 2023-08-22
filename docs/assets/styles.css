@@ -1,0 +1,7 @@
+/* styles.css */
+.padded-image {
+    padding-right: 20px;
+    /* Adjust the padding value as needed */
+    display: flex;
+    align-items: center;
+}

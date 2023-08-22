@@ -5,9 +5,13 @@ nav_order: 1
 has_toc: true
 ---
 
+<link rel="stylesheet" href="./assets/styles.css" type="text/css" />
+
 # Elwood
 
-<!-- <img src="./assets/elwood-logo.png" width="175px" align="left"/> -->
+<div class="padded-image">
+    <img src="./assets/elwood_logo.png" width="175px" align="left" padding="10px"/>
+</div>
 
 Elwood is an open source geo-temporal dataset transformation, standardization, and normalization python library. 
 
