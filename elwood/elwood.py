@@ -332,6 +332,15 @@ def get_boundary_box(dataframe, geo_columns):
 
 
 def get_temporal_boundary(dataframe, time_column):
+    """Returns the minimum and maximum time values in a dataframe. The return is a dictionary object with a 'min' key and a 'max' key.
+
+    Args:
+       dataframe (pandas.Dataframe): Pandas dataframe with time column
+       time_column (string): The column name to be operated on.
+
+    Returns:
+        Dict: An object containing a 'min' key for the minimum time value, and a 'max' key for the maximum time value.
+    """
     return calculate_temporal_boundary(dataframe=dataframe, time_column=time_column)
 
 
