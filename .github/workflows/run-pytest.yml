@@ -56,7 +56,7 @@ jobs:
           pip install wheel==0.33.6
           pip install setuptools==57.5.0
           pip install numpy==1.22
-          pip install coverage fastparquet pytest
+          pip install coverage fastparquet pytest pytest-cov
           pip install pyproj --no-binary pyproj==3.4
           pip install --no-binary :all: pydantic==1.10.8
           pip install --no-binary :all: pyarrow==12.0.0
@@ -68,8 +68,7 @@ jobs:
       - name: Run pytest
         run: |
           source pytest-env/bin/activate
-          coverage run -m pytest
-          coverage report -m
+          pytest --cov=your_package_or_directory --cov-report=xml > coverage.xml
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v3
