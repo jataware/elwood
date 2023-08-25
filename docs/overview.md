@@ -94,7 +94,6 @@ clipped_frame = elwood.clip_dataframe_time(
 # Returns a dataframe with all columns removed outside of the specified time ranges.
 ```
 - `rescale_dataframe_time`: Rescales a dataframe's time periodicity using aggregation functions. The `dataframe` input is a `pandas.DataFrame` containing a column of time values to be rescaled. The `time_column` input is a string representing the name of the target time column. The `time_bucket` input is a `DateOffset`, `Timedelta`, or string representing a time bucketing rule (e.g., 'M', 'A', '2H') used to aggregate the time. The `aggregation_functions` input is a list of strings containing aggregation functions to apply to the data (e.g., ['sum']). The optional `geo_columns` input can be used for specifying geo columns.
-
 ```python
 scaled_frame = elwood.rescale_dataframe_time(
     dataframe=df,
@@ -106,7 +105,6 @@ scaled_frame = elwood.rescale_dataframe_time(
 # Returns a dataframe with rescaled time periodicity using specified aggregation functions.
 ```
 - `regrid_dataframe_geo`: Regrids a dataframe with detectable geo-resolution. The `dataframe` input is of type `pandas.DataFrame` and represents the dataframe to be regridded. The `geo_columns` input is of type `Dict` and contains the columns representing geo information. The `time_column` input is of type `String` and is the name of the target time column. The `scale_multi` input is of type `Float` and represents the scaling factor for geo-resolution. The `aggregation_functions` input is of type `Dict[str, str]` and is a Dict of column names and aggregation functions to apply to that column. The optional `scale` input, if provided, is of type `float` and represents a user override for initial scale of the data. The function will auto assess data scale if not provided.
-
 ```python
 regridded_frame = regrid_dataframe_geo(
     dataframe=df,
@@ -126,7 +124,6 @@ boundary_box = elwood.get_boundary_box(
 # Returns an object containing xmin, xmax, ymin, and ymax coordinates.
 ```
 - `get_temporal_boundary`: Returns the minimum and maximum time values in a dataframe. The return is a dictionary object with a 'min' key and a 'max' key.
-
 ```python
 temporal_boundary = elwood.get_temporal_boundary(
     dataframe=df,
@@ -141,7 +138,6 @@ temporal_boundary = elwood.get_temporal_boundary(
 Elwood includes functions to process raster and NetCDF files:
 
 - `raster2df`: Converts a raster file to a dataframe. The `InRaster` input is a string representing the path to the input raster file. The optional `feature_name` input is a string that specifies the name of the feature column in the resulting dataframe. The optional `band` input is an integer representing the band number to extract from the raster. The optional `nodataval` input is an integer representing the nodata value in the raster. The optional `date` input is a string representing a date associated with the raster data. The optional `band_name` input is a string specifying the name of the band column in the resulting dataframe. The optional `bands` input is a dictionary specifying additional bands to extract with their corresponding names. The optional `band_type` input is a string indicating the type of data in the band column.
-
 ```python
 df_result = elwood.raster2df(
     InRaster="path/to/raster/file.tif",
@@ -156,7 +152,6 @@ df_result = elwood.raster2df(
 # Returns a dataframe converted from the raster file.
 ```
 - `netcdf2df`: Converts a NetCDF file to a dataframe. The `netcdf` input is a string representing the path to the NetCDF file.
-
 ```python
 df_result = elwood.netcdf2df("path/to/netcdf/file.nc")
 # Returns a dataframe converted from the NetCDF file.
