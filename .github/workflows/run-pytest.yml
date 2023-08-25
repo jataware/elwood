@@ -68,7 +68,7 @@ jobs:
       - name: Run pytest
         run: |
           source pytest-env/bin/activate
-          pytest --cov=your_package_or_directory --cov-report=xml > coverage.xml
+          pytest --cov=tests --cov-report=xml > coverage.xml
 
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v3
