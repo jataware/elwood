@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/github/jataware/elwood/graph/badge.svg?token=5F2QK26ZBA)](https://codecov.io/github/jataware/elwood)
+
 # Elwood
 An open source dataset transformation, standardization, and normalization python library.
 
