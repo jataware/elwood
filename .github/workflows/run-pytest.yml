@@ -1,4 +1,6 @@
 name: Python Test
+env:
+  CMAKE_PREFIX_PATH: $ARROW_HOME
 
 on:
   push:
@@ -11,7 +13,7 @@ on:
 jobs:
   test:
     name: Run pytest
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout code
@@ -26,19 +28,46 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ubuntugis/ppa -y
           sudo apt-get update -q
-          sudo apt-get install -y libgdal-dev gdal-bin libspatialindex-dev
+          sudo apt-get install -y build-essential cmake libgdal-dev gdal-bin libspatialindex-dev proj-bin libnetcdf-dev
+          sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+      - name: Install Pyarrow dependencies
+        run: |
+          sudo apt install -y -V ca-certificates lsb-release wget
+          wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+          sudo apt install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+          sudo apt update
+          sudo apt install -y -V libarrow-dev
+
+      - name: Get GADM Files
+        run: |
+          wget https://jataware-world-modelers.s3.amazonaws.com/gadm/gadm36_2.feather.zip && \
+          wget https://jataware-world-modelers.s3.amazonaws.com/gadm/gadm36_3.feather.zip && \
+          mkdir ~/elwood_data && \
+          unzip gadm36_2.feather.zip -d ~/elwood_data/ && \
+          unzip gadm36_3.feather.zip -d ~/elwood_data/ && \
+          rm gadm36_?.feather.zip
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m venv pytest-env
+          source pytest-env/bin/activate
+          pip install --upgrade pip
           pip install wheel==0.33.6
-          pip install setuptools<=58
+          pip install setuptools==57.5.0
           pip install numpy==1.22
-          pip install coverage pytest
+          pip install coverage fastparquet pytest
+          pip install pyproj --no-binary pyproj==3.4
+          pip install --no-binary :all: pydantic==1.10.8
+          pip install --no-binary :all: pyarrow==12.0.0
+          pip install --no-binary :all: python-Levenshtein==0.21.1
+          pip install --no-binary :all: netCDF4==1.5.3
           pip install --global-option="build_ext" --global-option="-I/usr/include/gdal" gdal==$(gdal-config --version) -r requirements.txt
+          python setup.py install
 
       - name: Run pytest
         run: |
+          source pytest-env/bin/activate
           coverage run -m pytest
           coverage report -m
 

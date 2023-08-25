@@ -24,7 +24,6 @@ import pandas as pd
 from elwood.transformations.clipping import clip_dataframe, construct_multipolygon
 from elwood.transformations.geo_utils import calculate_boundary_box
 from elwood.transformations.regridding import regrid_dataframe
-from elwood.transformations.regridding_2 import regridding_interface
 from elwood.transformations.scaling import scale_time
 
 # Unused, but MultiPolygon is what our util fn returns when clipping

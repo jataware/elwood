@@ -527,6 +527,7 @@ class TestElwood(unittest.TestCase):
         df1 = pd.read_parquet(output_path("unittests.1.parquet.gzip"))
         df2 = pd.read_parquet(output_path("unittests_str.1.parquet.gzip"))
         df = df1.append(df2)
+        df.reset_index(drop=True, inplace=True)
 
         output_df_1 = pd.read_parquet(output_path("test8_aliases.parquet.gzip"))
         output_df_2 = pd.read_parquet(output_path("test8_aliases_str.parquet.gzip"))
