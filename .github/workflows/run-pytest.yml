@@ -69,7 +69,7 @@ jobs:
       - name: Run pytest
         run: |
           source pytest-env/bin/activate
-          pytest --cov=tests --cov-report=xml
+          pytest --cov=elwood --cov-report=xml
       - name: Upload coverage to codecov
         uses: codecov/codecov-action@v3
         with:
