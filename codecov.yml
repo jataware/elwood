@@ -1,0 +1,5 @@
+ignore: #Ignoring files that are not yet in usable states.
+  - "elwood/transformations/regridding_2.py"
+  - "elwood/transformations/outlier_scaling.py"
+  - "elwood/cli.py"
+  - "elwood/download.py"
