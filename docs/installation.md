@@ -19,3 +19,5 @@ git clone git@github.com:jataware/elwood.git
 cd elwood
 pip install .
 ```
+
+Elwood currently requires `GDAL 3.3.2`. Please see [GDAL installation resources](https://pypi.org/project/GDAL/) for information on installing GDAL to your system. [GDAL Download](https://gdal.org/download.html#)
