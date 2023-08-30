@@ -14,6 +14,7 @@ from pathlib import Path
 from os.path import join as path_join
 
 from elwood import elwood
+from elwood.feature_normalization import zero_to_one_normalization
 from pandas.util.testing import (
     assert_frame_equal,
     assert_dict_equal,
@@ -582,6 +583,21 @@ class TestElwood(unittest.TestCase):
         output_df = elwood.optimize_df_types(output_df)
 
         assert_series_equal(df["country"], output_df["country"])
+
+    def test_011_feature_normalization(self):
+        """Default test of elwood feature normalization."""
+
+        # Testing this with numerical output of test4 as this is designed to run on the output of the standardization process
+        input_df = pd.read_csv(output_path("test4_rainfall_error_output.csv"))
+
+        normalized_df = zero_to_one_normalization(dataframe=input_df)
+
+        expected_df = pd.read_csv(output_path("test11_normalization_output.csv"))
+
+        normalized_df = normalized_df.reset_index(drop=True)
+        expected_df = expected_df.reset_index(drop=True)
+
+        assert_frame_equal(normalized_df, expected_df)
 
 
 if __name__ == "__main__":

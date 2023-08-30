@@ -271,6 +271,7 @@ def regrid_dataframe_geo(
     scale_multi,
     aggregation_functions,
     scale=None,
+    xarray_return=False,
 ):
     """Regrids a dataframe with detectable geo-resolution
 
@@ -287,6 +288,7 @@ def regrid_dataframe_geo(
         scale_multi=scale_multi,
         aggregation_functions=aggregation_functions,
         scale=scale,
+        xarray_return=xarray_return,
     )
 
 
