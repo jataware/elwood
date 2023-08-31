@@ -2,17 +2,20 @@ import math
 import numpy
 import pandas as pd
 from typing import Dict, List
+import xarray
+from datetime import datetime
 
 import sys
 
 
 def regrid_dataframe(
-    dataframe: pd.core.frame.DataFrame,
+    dataframe,  # Can now be a pandas DF or an xarray Dataset
     geo_columns: Dict[str, str],
     time_column: List[str],
     scale_multi: float,
     aggregation_functions: Dict[str, str],
-    scale: float = None,
+    scale=None,  # Can either be a float or a dict with two keys, one for "lat_scale" and one for "lon_scale".
+    xarray_return=False,
 ) -> pd.core.frame.DataFrame:
     """Uses nump digitize and pandas functions to regrid geography in a dataframe.
 
@@ -27,6 +30,19 @@ def regrid_dataframe(
     Returns:
         pandas.Dataframe: Dataframe with geographical extend regridded to
     """
+
+    if isinstance(dataframe, xarray.Dataset):
+        print("Xarray Dataset input")
+        if xarray_return:
+            xarray_dataset_indices = list(dataframe.dims)
+        dataframe = (
+            dataframe.to_dataframe()
+        )  # Loses indices, hence why we persist them above.
+
+        dataframe = dataframe.reset_index()
+
+        print(dataframe)
+
     # Create arrays for latitude and longitude
     df_lats = dataframe[geo_columns["lat_column"]]
     df_lons = dataframe[geo_columns["lon_column"]]
@@ -34,8 +50,13 @@ def regrid_dataframe(
     # Automatic scale detection, or user provided scale overwrite.
     dataframe_scale = 0
     if scale:
-        lat_scale = scale
-        lon_scale = scale
+        if isinstance(scale, dict):
+            # Allows user to provide separate scales for lat and lon
+            lat_scale = scale["lat_scale"]
+            lon_scale = scale["lon_scale"]
+        else:
+            lat_scale = scale
+            lon_scale = scale
     else:
         lat_scale = abs((df_lats.unique()[1] - df_lats.unique()[0]) * scale_multi)
         lon_scale = abs((df_lons.unique()[1] - df_lons.unique()[0]) * scale_multi)
@@ -50,6 +71,8 @@ def regrid_dataframe(
     # use bin indices to create bin labels (which are the actual bin values)
     dataframe["lon_bin_label"] = lon[dataframe["lon_bin"]]
     dataframe["lat_bin_label"] = lat[dataframe["lat_bin"]]
+
+    print(dataframe)
 
     # mapper = {"T": "sum", "EPV": "sum", "SLP": "mean", "H": "mean"}
     mapper = aggregation_functions
@@ -66,13 +89,29 @@ def regrid_dataframe(
     if isinstance(mapper, list):
         agg_func = mapper[0]
 
-        result_frame = getattr(
-            dataframe.groupby(aggregation_indices), agg_func
-        )().reset_index()
+        result_frame = (
+            dataframe.groupby(aggregation_indices)
+            .agg(lambda x: aggregation_by_type(x, agg_func))
+            .reset_index()
+        )
 
+        print(f"FRAME AFTER GROUPING: {result_frame}")
+
+        #  dataframe.groupby(aggregation_indices).sum().reset_index()
         result = result_frame.drop(columns=column_drop)
-        result[time_column] = pd.to_datetime(result[time_column])
+        try:
+            result[time_column] = pd.to_datetime(result[time_column])
+        except TypeError:
+            result[time_column] = result[time_column].apply(
+                lambda x: datetime.strptime(str(x), "%Y-%m-%d %H:%M:%S")
+            )
+        if xarray_return:
+            print(f"RESULTING DATA: {result}")
+            result.set_index(xarray_dataset_indices, inplace=True)
+            result = result[~result.index.duplicated()]
 
+            xr_dataframe = result.to_xarray()
+            return xr_dataframe
         return result
 
     # Take agg functions and do aggregation on respective slices of the dataset.
@@ -92,9 +131,11 @@ def regrid_dataframe(
         target_frame = dataframe[frame_selector]
 
         # group by bins (i.e., group by 1-degree grid cells) and calculate aggregation in each grid cell
-        result_frame = getattr(
-            target_frame.groupby(aggregation_indices), agg_func
-        )().reset_index()
+        result_frame = (
+            dataframe.groupby(aggregation_indices)
+            .agg(lambda x: aggregation_by_type(x, agg_func))
+            .reset_index()
+        )
 
         all_result_frames.append(result_frame)
 
@@ -111,7 +152,12 @@ def regrid_dataframe(
             right_on=aggregation_indices,
         )
 
-    result[time_column] = pd.to_datetime(result[time_column])
+    try:
+        result[time_column] = pd.to_datetime(result[time_column])
+    except TypeError:
+        result[time_column] = result[time_column].apply(
+            lambda x: datetime.strptime(str(x), "%Y-%m-%d %H:%M:%S")
+        )
     try:
         result = result.drop(columns=column_drop)
     except KeyError:
@@ -119,4 +165,17 @@ def regrid_dataframe(
         column_drop.remove("lat_bin")
         result = result.drop(columns=column_drop)
 
+    if xarray_return:
+        result.set_index(xarray_dataset_indices, inplace=True)
+        result = result[~result.index.duplicated()]
+
+        xr_dataframe = result.to_xarray()
+        return xr_dataframe
     return result
+
+
+def aggregation_by_type(series, aggregation_method):
+    if pd.api.types.is_numeric_dtype(series):
+        return getattr(series, aggregation_method)()
+    else:
+        return series.mode().iloc[0]

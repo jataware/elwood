@@ -1,16 +1,25 @@
+[![codecov](https://codecov.io/github/jataware/elwood/graph/badge.svg?token=5F2QK26ZBA)](https://codecov.io/github/jataware/elwood)
+
 # Elwood
+https://jataware.github.io/elwood/
+
 An open source dataset transformation, standardization, and normalization python library.
 
 # Requirements
 
-This package requires the GDAL dev binaries to be installed as well as the CDO binaries. The version requirements are below:
+This package requires the GDAL dev binaries to be installed. The version requirements are below:
 
 ```
-cdo = 2.2.0
-gdal = 3.4.3
+gdal = 3.3.2
 ```
 
 # Usage
+
+Refer to the docs for more complete usage instructions: 
+
+- https://jataware.github.io/elwood/installation.html
+- https://jataware.github.io/elwood/usage.html
+- https://jataware.github.io/elwood/overview.html
 
 To use start using Elwood, simply run:
 

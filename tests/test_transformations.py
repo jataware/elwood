@@ -21,10 +21,14 @@ from pandas.util.testing import (
 )
 import pandas as pd
 
-from elwood.transformations.clipping import clip_dataframe, construct_multipolygon
+from elwood.transformations.clipping import (
+    clip_dataframe,
+    clip_time,
+    construct_multipolygon,
+)
 from elwood.transformations.geo_utils import calculate_boundary_box
+from elwood.transformations.temporal_utils import calculate_temporal_boundary
 from elwood.transformations.regridding import regrid_dataframe
-from elwood.transformations.regridding_2 import regridding_interface
 from elwood.transformations.scaling import scale_time
 
 # Unused, but MultiPolygon is what our util fn returns when clipping
@@ -53,8 +57,8 @@ Install pytest if necessary.
 """
 
 
-class TestGeoUtils(unittest.TestCase):
-    """Unit tests for `elwood` geo utils."""
+class TestUtils(unittest.TestCase):
+    """Unit tests for `elwood` geo and temporal utils."""
 
     def setUp(self):
         """Set up test fixtures, if any."""
@@ -76,6 +80,21 @@ class TestGeoUtils(unittest.TestCase):
         expected = {"xmin": 42.0864, "xmax": 43.2906, "ymin": 10.5619, "ymax": 12.595}
 
         assert actual == expected
+
+    def test_calculate_temporal_boundary__default(self):
+        """Calculates temporal boundary with elwood utility"""
+
+        time_column = "date"
+
+        input_df = pd.read_csv(input_path("test_clip_dataframe.csv"))
+
+        result_boundary = calculate_temporal_boundary(
+            dataframe=input_df, time_column=time_column
+        )
+
+        expected_boundary = {"min": "1970-03-20", "max": "2021-08-03"}
+
+        assert_dict_equal(result_boundary, expected_boundary)
 
 
 class TestClipping(unittest.TestCase):
@@ -127,6 +146,28 @@ class TestClipping(unittest.TestCase):
         assert_series_equal(actual["longitude"], expected["longitude"])
         assert_series_equal(actual["value"], expected["value"])
         assert_series_equal(actual["color_hue"], expected["color_hue"])
+
+    def test_clip_time__default(self):
+        """Clip time data transformation test"""
+
+        time_column = "date"
+
+        time_ranges = [{"start": "1990-01-01", "end": "2019-12-01"}]
+
+        input_df = pd.read_csv(input_path("test_clip_dataframe.csv"))
+
+        result_df = clip_time(
+            dataframe=input_df, time_column=time_column, time_ranges=time_ranges
+        )
+
+        expected_df = pd.read_csv(output_path("test_clip_time_output.csv"))
+
+        result_df.reset_index(drop=True, inplace=True)
+        expected_df.reset_index(drop=True, inplace=True)
+
+        expected_df["date"] = pd.to_datetime(expected_df["date"])
+
+        assert_frame_equal(result_df, expected_df)
 
 
 class TestRegridding(unittest.TestCase):

@@ -14,6 +14,7 @@ from pathlib import Path
 from os.path import join as path_join
 
 from elwood import elwood
+from elwood.feature_normalization import zero_to_one_normalization
 from pandas.util.testing import (
     assert_frame_equal,
     assert_dict_equal,
@@ -527,6 +528,7 @@ class TestElwood(unittest.TestCase):
         df1 = pd.read_parquet(output_path("unittests.1.parquet.gzip"))
         df2 = pd.read_parquet(output_path("unittests_str.1.parquet.gzip"))
         df = df1.append(df2)
+        df.reset_index(drop=True, inplace=True)
 
         output_df_1 = pd.read_parquet(output_path("test8_aliases.parquet.gzip"))
         output_df_2 = pd.read_parquet(output_path("test8_aliases_str.parquet.gzip"))
@@ -582,24 +584,21 @@ class TestElwood(unittest.TestCase):
 
         assert_series_equal(df["country"], output_df["country"])
 
+    def test_011_feature_normalization(self):
+        """Default test of elwood feature normalization."""
+
+        # Testing this with numerical output of test4 as this is designed to run on the output of the standardization process
+        input_df = pd.read_csv(output_path("test4_rainfall_error_output.csv"))
+
+        normalized_df = zero_to_one_normalization(dataframe=input_df)
+
+        expected_df = pd.read_csv(output_path("test11_normalization_output.csv"))
+
+        normalized_df = normalized_df.reset_index(drop=True)
+        expected_df = expected_df.reset_index(drop=True)
+
+        assert_frame_equal(normalized_df, expected_df)
+
 
 if __name__ == "__main__":
     unittest.main()
-
-
-"""
-Test by: > /usr/bin/python3.8 -m unittest /workspaces/elwood/tests/test_mixmasta.py -v
-
-============
-
-Or using pytest:
-
-$ python3 -m pip install pytest
-
-Run all tests (even on root dir):
-$ pytest -vs
-
-Run a specific test case:
-$ pytest -vs tests/elwood_unit_test.py::TestMixmaster::test_optional_fields
-
-"""
