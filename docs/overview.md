@@ -104,7 +104,13 @@ scaled_frame = elwood.rescale_dataframe_time(
 )
 # Returns a dataframe with rescaled time periodicity using specified aggregation functions.
 ```
-- `regrid_dataframe_geo`: Regrids a dataframe with detectable geo-resolution. The `dataframe` input is of type `pandas.DataFrame` and represents the dataframe to be regridded. The `geo_columns` input is of type `Dict` and contains the columns representing geo information. The `time_column` input is of type `String` and is the name of the target time column. The `scale_multi` input is of type `Float` and represents the scaling factor for geo-resolution. The `aggregation_functions` input is of type `Dict[str, str]` and is a Dict of column names and aggregation functions to apply to that column. The optional `scale` input, if provided, is of type `float` and represents a user override for initial scale of the data. The function will auto assess data scale if not provided.
+`regrid_dataframe_geo`: Regrids a dataframe with detectable geo-resolution. 
+- The `dataframe` input is of type `pandas.DataFrame` or of type `xarray.Dataset` and represents the dataframe to be regridded. 
+- The `geo_columns` input is of type `Dict` and contains the columns representing geo information. 
+- The `time_column` input is of type `String` and is the name of the target time column. 
+- The `scale_multi` input is of type `Float` and represents the scaling factor for geo-resolution. The `aggregation_functions` input is of type `Dict[str, str]` and is a Dict of column names and aggregation functions to apply to that column. 
+- The optional `scale` input, if provided, is of type `float` or `dict`. It represents a user override for initial scale of the data. If the desired latitude and longitude scales are different, pass a dict with `{"lat_scale":  <Desired Latitude Scale>, "lon_scale": <Desired Longitude Scale>}` The function will auto assess data scale if not provided. 
+- The optional `xarray_return` input, if provided, expects a boolean value. This argument determines if the function should return the data in `xarray.Dataset` format. If `True`, the regridded data will be returned as an `xarray.Dataset` object.
 ```python
 regridded_frame = regrid_dataframe_geo(
     dataframe=df,
