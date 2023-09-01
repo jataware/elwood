@@ -32,8 +32,6 @@ Now you are able to use any of the dataset transformation, standardization, or n
 
 Given an arbitrary dataset containing geospatial data (with columns and rows) with arbitrary non-standard format, and given some annotations/dictionary about the dataset, Elwood can standardize. Standardization means creating an output dataset with stable and predictable columns. The data can be normalized, regridded, scaled, and resolved using GADM to standard country names, as well as resolve the latitude,longitude of the event/measurement. A usual standard output will contain the following columns: `timestamp`, `country`, `admin1`, `admin2`, `admin3`, `lat`, `lng`, alongside other measurements/events/features of interest (additional columns to the right of the standard ones) contained within the input dataset.
 
-#TODO document standardization further
-
 ## Transformation
 
 The transformation functions include geographical extent clipping (latitude/longitude), geographical regridding (gridded data such as NetCDF or GeoTIFF), temporal clipping, and temporal scaling. 
